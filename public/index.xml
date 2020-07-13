@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Science Notes</title>
+    <link>https://billwarker.com/</link>
+    <description>Recent content on Data Science Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 12 Jul 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The Standard Error of the Mean</title>
+      <link>https://billwarker.com/posts/standard-error-of-the-mean/standard-error-of-the-mean/</link>
+      <pubDate>Sun, 12 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/standard-error-of-the-mean/standard-error-of-the-mean/</guid>
+      <description>&lt;h2 id=&#34;the-standard-error-of-the-mean&#34;&gt;The Standard Error of the Mean&lt;/h2&gt;
+&lt;p&gt;The Standard Error of the Mean ($SE$) is the &lt;strong&gt;standard deviation&lt;/strong&gt; of the &lt;strong&gt;sample distribution&lt;/strong&gt; of the &lt;strong&gt;sample mean&lt;/strong&gt;. To understand what this means, let&amp;rsquo;s break that sentence down in reverse order (i.e. chronologically):&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample Mean&lt;/strong&gt;: we have some probability density function $P$ for a population. We take a sample of $N$ instances from it and calculate our statistic of interest - in this case the mean, $\bar{x}$. We have to take samples because it is hard/impossible to look at every instance in an entire population to calculate the true mean $\mu$ hidden to us in nature (i.e. say we were interested in the average weight of all monkeys on the planet).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample Distribution&lt;/strong&gt;: we take many samples (the number of which denoted by $M$) from the population&amp;rsquo;s probability density function $P$ and calculate the sample mean $\bar{x}$ for each one. All of these sample means can be lumped together into a distribution $S$, which approximates a normal distribution the higher $M$ is due to the &lt;strong&gt;Central Limit Theorum&lt;/strong&gt;. We want to create a sampling distribution because it allows us to reason about the likelihood of different values the sample mean can be. By doing so, we can look at the mean of this distribution and conclude that its the most likely value for $\mu$ given the data we&amp;rsquo;ve used.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Standard Deviation&lt;/strong&gt;: The standard deviation is a metric that describes the dispersion of a dataset/distribution in relation to its mean. It speaks to how close/far the density of the distribution is spread in relation to its mean. The standard deviation of a sample distribution - our standard error $SE$ - is an indication of how representative the distribution is of our true mean $\mu$. The smaller it is, the more representative it can be said to be; the larger it is, the harder it is to trust.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TLDR: The Standard Error matters because it allows us to better understand how representative our sampling distribution is (i.e. our model of the true mean).&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://billwarker.com/about/</link>
+      <pubDate>Tue, 07 Jul 2020 03:48:07 -0400</pubDate>
+      
+      <guid>https://billwarker.com/about/</guid>
+      <description>Written in Go, Hugo is an open source static site generator available under the Apache Licence 2.0. Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
+Hugo makes use of a variety of open source projects including:
+https://github.com/yuin/goldmark https://github.com/alecthomas/chroma https://github.com/muesli/smartcrop https://github.com/spf13/cobra https://github.com/spf13/viper Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.
+Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.</description>
+    </item>
+    
+    <item>
+      <title>Permutations and Combinations</title>
+      <link>https://billwarker.com/posts/permutations-and-combinations/</link>
+      <pubDate>Tue, 07 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/permutations-and-combinations/</guid>
+      <description>&lt;h1 id=&#34;permutations-of-a-set&#34;&gt;Permutations of a Set&lt;/h1&gt;
+&lt;p&gt;Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:&lt;/p&gt;
+&lt;p&gt;$$N(n, k) = \frac{n!}{(n-k)!}$$&lt;/p&gt;
+&lt;p&gt;$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&amp;rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
