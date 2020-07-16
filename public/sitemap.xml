@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://billwarker.com/about/</loc>
+    <lastmod>2020-07-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://billwarker.com/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
@@ -18,13 +23,8 @@
   </url>
   
   <url>
-    <loc>https://billwarker.com/posts/standard-error-of-the-mean/standard-error-of-the-mean/</loc>
+    <loc>https://billwarker.com/posts/standard-error-of-the-mean/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://billwarker.com/about/</loc>
-    <lastmod>2020-07-07T03:48:07-04:00</lastmod>
   </url>
   
   <url>
