@@ -3,37 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://billwarker.com/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/</loc>
+    <loc>/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/posts/</loc>
+    <loc>/posts/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/tags/statistics/</loc>
+    <loc>/tags/statistics/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/posts/standard-error-of-the-mean/</loc>
+    <loc>/posts/standard-error-of-the-mean/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/posts/permutations-and-combinations/</loc>
+    <loc>/posts/permutations-and-combinations/</loc>
     <lastmod>2020-07-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://billwarker.com/archives/</loc>
+    <loc>/archives/</loc>
   </url>
   
 </urlset>
