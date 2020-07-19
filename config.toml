@@ -134,3 +134,8 @@ paginate = 10
   #  name = "bilibili"
   #  url = "https://space.bilibili.com/19767474"
   #  weight = 3
+
+[deployment]
+[[deployment.targets]]
+name = "gcs-deploy"
+URL = "gs://billwarker.com"

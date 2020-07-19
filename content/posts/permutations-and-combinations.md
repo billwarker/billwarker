@@ -3,7 +3,6 @@ title: "Permutations and Combinations"
 author: "Will Barker"
 date: 2020-07-07
 tags: ["statistics"]
-draft: false
 ---
 
 # Permutations of a Set
