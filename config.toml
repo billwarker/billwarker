@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = ""
 title = "Data Science Notes"
 
 theme = "fuji"
