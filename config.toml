@@ -1,4 +1,4 @@
-baseURL = "https://billwarker.com/"
+baseURL = "https://billwarker.com"
 title = "Data Science Notes"
 
 theme = "fuji"
