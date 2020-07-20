@@ -9,4 +9,4 @@ A place to upload notes as I study data science/products, machine learning, math
 
 # About Me, Not You
 
-Just some guy, will add more later.
+Just some guy, will add more later...
