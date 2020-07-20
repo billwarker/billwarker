@@ -5,12 +5,8 @@ date: 2020-07-12
 tags: []
 type: about
 ---
-This site is a repository for me to place notes as I study data science, machine learning, and data products.
-
-As I progress through these studies, experience has shown me that I need a thoughtful approach to how I spend my time.
-
-WIP
+A place to upload notes as I study data science/products, machine learning, math in general (lots of catching up to do). By publishing these notes online they'll be easier for me to revisit and reference, plus I can show them to **you** (assuming you are not me).
 
 # About Me
 
-WIP
+Just some guy, will add more later.
