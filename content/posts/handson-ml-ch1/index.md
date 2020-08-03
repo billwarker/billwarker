@@ -118,7 +118,7 @@ Difference between a model parameter and a hyperparameter?
 - A model parameter is the coefficient determined by the algorithm to apply to a attribute/feature in the data when making predictions, a hyperparameter is an aspect of the model that you can adjust to change how it is trained
 
 What do model-based learning algorithms search for? What is the most common strategy they use to succeed? How do they make predictions?
-- These algo's look to fit the model to the data (i.e. represent the problem with some simplified version of it). The strategy is to improve performance in respect to some cost/utility function. They make new predictions by applying the policy/parameters determined through training on the new data's features
+- These algos look to fit the model to the data (i.e. represent the problem with some simplified version of it). The strategy is to improve performance in respect to some cost/utility function. They make new predictions by applying the policy/parameters determined through training on the new data's features
 
 Four main challenges in ML?
 - Not enough data
