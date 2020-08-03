@@ -4,17 +4,18 @@ author: "Will Barker"
 date: 2020-08-02
 tags: ["handson-ml", "ml"]
 ---
+<!--more--> 
 
 ## Notes
 
 Types of ML
 - ML: algorithms learning from data and improving performance on a task
-- Advantage over rule based systems is that machine can update parameters/logic with new/more data (refreshing the model)
-- Applying ML to discover/understand patterns in the data: data mining
+- advantage over rule based systems is that machine can update parameters/logic with new/more data (refreshing the model)
+- applying ML to discover/understand patterns in the data: data mining
 
 - Supervised learning: training a model with labelled examples. can be used for classification tasks (predict a discrete category) or regression (predict a continuous number)
 
-- unsupervised learning algos: clustering unlabelled data, visualizing and dimensionality reduction, association rule learning
+- Unsupervised learning algos: clustering unlabelled data, visualizing and dimensionality reduction, association rule learning
 - hierarchical clustering: sub-dividing clusters into smaller groups
 - dimensionality reduction: simplify data without losing too much information. i.e. merging correlated features. can help performance, takes up less disk and memory space
 - anomoly detection
