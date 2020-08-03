@@ -2,7 +2,7 @@
 title: "The Standard Error of the Mean"
 author: "Will Barker"
 date: 2020-07-12
-tags: ["statistics"]
+tags: ["stats"]
 ---
 
 ## The Standard Error of the Mean

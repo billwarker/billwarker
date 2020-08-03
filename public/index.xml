@@ -6,10 +6,26 @@
     <description>Recent content on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 12 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hands on Machine Learning - Chapter 1 Notes</title>
+      <link>https://billwarker.com/posts/handson-ml-ch1/</link>
+      <pubDate>Sun, 02 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/handson-ml-ch1/</guid>
+      <description>Notes Types of ML
+  ML: algorithms learning from data and improving performance on a task
+  Advantage over rule based systems is that machine can update parameters/logic with new/more data (refreshing the model)
+  Applying ML to discover/understand patterns in the data: data mining
+  Supervised learning: training a model with labelled examples. can be used for classification tasks (predict a discrete category) or regression (predict a continuous number)
+  unsupervised learning algos: clustering unlabelled data, visualizing and dimensionality reduction, association rule learning
+  hierarchical clustering: sub-dividing clusters into smaller groups
+  dimensionality reduction: simplify data without losing too much information.</description>
+    </item>
     
     <item>
       <title>About</title>

@@ -15,7 +15,7 @@
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
 
 
-<title>The Standard Error of the Mean - Data Science Notes</title>
+<title>stats - Data Science Notes</title>
 
 
 <meta name="author" content="Will Barker" />
@@ -24,31 +24,18 @@
 <meta name="description" content="A minimal Hugo theme with nice theme color." />
 
 
-<meta name="keywords" content="stats" />
-
-<meta property="og:title" content="The Standard Error of the Mean" />
-<meta property="og:description" content="The Standard Error of the Mean
-The Standard Error of the Mean ($SE$) is the standard deviation of the sample distribution of the sample mean. To understand what this means, let&rsquo;s break that sentence down in reverse order (i.e. chronologically):
-Sample Mean: we have some probability density function $P$ for a population. We take a sample of $N$ instances from it and calculate our statistic of interest - in this case the mean, $\bar{x}$. We have to take samples because it is hard/impossible to look at every instance in an entire population to calculate the true mean $\mu$ hidden to us in nature (i.e. say we were interested in the average weight of all monkeys on the planet).
-Sample Distribution: we take many samples (the number of which denoted by $M$) from the population&rsquo;s probability density function $P$ and calculate the sample mean $\bar{x}$ for each one. All of these sample means can be lumped together into a distribution $S$, which approximates a normal distribution the higher $M$ is due to the Central Limit Theorum. We want to create a sampling distribution because it allows us to reason about the likelihood of different values the sample mean can be. By doing so, we can look at the mean of this distribution and conclude that its the most likely value for $\mu$ given the data we&rsquo;ve used.
-Standard Deviation: The standard deviation is a metric that describes the dispersion of a dataset/distribution in relation to its mean. It speaks to how close/far the density of the distribution is spread in relation to its mean. The standard deviation of a sample distribution - our standard error $SE$ - is an indication of how representative the distribution is of our true mean $\mu$. The smaller it is, the more representative it can be said to be; the larger it is, the harder it is to trust.
-TLDR: The Standard Error matters because it allows us to better understand how representative our sampling distribution is (i.e. our model of the true mean)." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://billwarker.com/posts/standard-error-of-the-mean/" />
+<meta property="og:title" content="stats" />
+<meta property="og:description" content="A minimal Hugo theme with nice theme color." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://billwarker.com/tags/stats/" />
 <meta property="og:image" content="https://billwarker.com/img/og.png"/>
-<meta property="article:published_time" content="2020-07-12T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-12T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-07-12T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
 
-<meta name="twitter:title" content="The Standard Error of the Mean"/>
-<meta name="twitter:description" content="The Standard Error of the Mean
-The Standard Error of the Mean ($SE$) is the standard deviation of the sample distribution of the sample mean. To understand what this means, let&rsquo;s break that sentence down in reverse order (i.e. chronologically):
-Sample Mean: we have some probability density function $P$ for a population. We take a sample of $N$ instances from it and calculate our statistic of interest - in this case the mean, $\bar{x}$. We have to take samples because it is hard/impossible to look at every instance in an entire population to calculate the true mean $\mu$ hidden to us in nature (i.e. say we were interested in the average weight of all monkeys on the planet).
-Sample Distribution: we take many samples (the number of which denoted by $M$) from the population&rsquo;s probability density function $P$ and calculate the sample mean $\bar{x}$ for each one. All of these sample means can be lumped together into a distribution $S$, which approximates a normal distribution the higher $M$ is due to the Central Limit Theorum. We want to create a sampling distribution because it allows us to reason about the likelihood of different values the sample mean can be. By doing so, we can look at the mean of this distribution and conclude that its the most likely value for $\mu$ given the data we&rsquo;ve used.
-Standard Deviation: The standard deviation is a metric that describes the dispersion of a dataset/distribution in relation to its mean. It speaks to how close/far the density of the distribution is spread in relation to its mean. The standard deviation of a sample distribution - our standard error $SE$ - is an indication of how representative the distribution is of our true mean $\mu$. The smaller it is, the more representative it can be said to be; the larger it is, the harder it is to trust.
-TLDR: The Standard Error matters because it allows us to better understand how representative our sampling distribution is (i.e. our model of the true mean)."/>
+<meta name="twitter:title" content="stats"/>
+<meta name="twitter:description" content="A minimal Hugo theme with nice theme color."/>
 
 
 
@@ -120,91 +107,56 @@ TLDR: The Standard Error matters because it allows us to better understand how r
             
             <div class="col-12 col-md-9 float-left content">
                 
-<article>
-    
+
+<div class="page-info">
+    <span>Posts with the tag stats: </span>
+</div>
+
+
+
+<div class="post">
     <h2 class="post-item post-title">
         <a href="https://billwarker.com/posts/standard-error-of-the-mean/">The Standard Error of the Mean</a>
     </h2>
     <div class="post-item post-meta">
         <span><ion-icon name="today"></ion-icon>&nbsp;2020-07-12</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
     </div>
-    
-    
-    <div class="post-content markdown-body">
+    <div class="post-item post-summary markdown-body">
         <h2 id="the-standard-error-of-the-mean">The Standard Error of the Mean</h2>
 <p>The Standard Error of the Mean ($SE$) is the <strong>standard deviation</strong> of the <strong>sample distribution</strong> of the <strong>sample mean</strong>. To understand what this means, let&rsquo;s break that sentence down in reverse order (i.e. chronologically):</p>
 <p><strong>Sample Mean</strong>: we have some probability density function $P$ for a population. We take a sample of $N$ instances from it and calculate our statistic of interest - in this case the mean, $\bar{x}$. We have to take samples because it is hard/impossible to look at every instance in an entire population to calculate the true mean $\mu$ hidden to us in nature (i.e. say we were interested in the average weight of all monkeys on the planet).</p>
 <p><strong>Sample Distribution</strong>: we take many samples (the number of which denoted by $M$) from the population&rsquo;s probability density function $P$ and calculate the sample mean $\bar{x}$ for each one. All of these sample means can be lumped together into a distribution $S$, which approximates a normal distribution the higher $M$ is due to the <strong>Central Limit Theorum</strong>. We want to create a sampling distribution because it allows us to reason about the likelihood of different values the sample mean can be. By doing so, we can look at the mean of this distribution and conclude that its the most likely value for $\mu$ given the data we&rsquo;ve used.</p>
 <p><strong>Standard Deviation</strong>: The standard deviation is a metric that describes the dispersion of a dataset/distribution in relation to its mean. It speaks to how close/far the density of the distribution is spread in relation to its mean. The standard deviation of a sample distribution - our standard error $SE$ - is an indication of how representative the distribution is of our true mean $\mu$. The smaller it is, the more representative it can be said to be; the larger it is, the harder it is to trust.</p>
 <p><strong>TLDR: The Standard Error matters because it allows us to better understand how representative our sampling distribution is (i.e. our model of the true mean).</strong></p>
-<p>$SE$ can be calculated with this formula:</p>
-<p>$$SE = \frac{\sigma}{\sqrt{N}}$$</p>
-<p>where ${\sigma}$ is the standard deviation of the population&rsquo;s probability density function $P$ and $N$ is the number of instances in a sample.</p>
-<h2 id="understanding-the-standard-error-through-simulation">Understanding the Standard Error through Simulation</h2>
-<pre><code class="language-python">import numpy as np
-import scipy as sp
-import pandas as pd
-import matplotlib.pyplot as plt
-</code></pre>
-<pre><code class="language-python"># create a random probability distribution function to model our population
-# in this case a Maxwell continuous random variable (picked randomly)
-
-x = np.linspace(sp.stats.maxwell.ppf(0.01),
-                sp.stats.maxwell.ppf(0.99), 100)
-plt.plot(x, sp.stats.maxwell.pdf(x), 'b-', lw=5, alpha=0.6, label='maxwell pdf')
-plt.show()
-
-mean, var, skew, kurt = sp.stats.maxwell.stats(moments='mvsk')
-
-print(f'The true mean of the population is {mean} and its standard deviation is {var**(1/2)}')
-</code></pre>
-<p><img class="img-zoomable" src="images/output_3_0.png" alt="png" />
-</p>
-<pre><code>The true mean of the population is 1.5957691216057308 and its standard deviation is 0.6734396116428514
-</code></pre>
-<pre><code class="language-python"># to create our sampling distribution S we take M samples of N instances each
-# we calculate the mean of each sample and add it to a list, which we can make a histogram with
-
-m_samples = 5000
-n_instances = 250
-
-sample_means = []
-
-for m in range(m_samples):
-    sample = sp.stats.maxwell.rvs(size=n_instances) # draw a sample from the population
-    sample_means.append(sample.mean()) # add it to our sampling distribution
-    
-sample_dist = pd.Series(sample_means) # our sample distribution as a pandas series
-</code></pre>
-<pre><code class="language-python">sample_dist.hist(bins=30) # visualizing our sample distribution of the sample mean
-</code></pre>
-<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1341e8fd0&gt;
-</code></pre>
-<p><img class="img-zoomable" src="images/output_5_1.png" alt="png" />
-</p>
-<pre><code class="language-python">print(f&quot;The mean of our sample distribution is {sample_dist.mean()}&quot;)
-print(f&quot;Its standard deviation (The Standard Error) is {sample_dist.std()}&quot;)
-</code></pre>
-<pre><code>The mean of our sample distribution is 1.5960355829136528
-Its standard deviation (The Standard Error) is 0.04222284486122923
-</code></pre>
-<pre><code class="language-python"># calculating the same SE from the formula above
-
-se = np.sqrt(var)/np.sqrt(n_instances)
-print(f&quot;The standard error calculated with the formula is: {se}&quot;)
-</code></pre>
-<pre><code>The standard error calculated with the formula is: 0.042592060787413163
-</code></pre>
     </div>
-</article>
+</div>
+
+<div class="post">
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/permutations-and-combinations/">Permutations and Combinations</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-07-07</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+    </div>
+    <div class="post-item post-summary markdown-body">
+        <h1 id="permutations-of-a-set">Permutations of a Set</h1>
+<p>Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:</p>
+<p>$$N(n, k) = \frac{n!}{(n-k)!}$$</p>
+<p>$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations.</p>
+    </div>
+</div>
+
+
+
+
+
+
 
 
 
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
-    
-    
     
     
     
