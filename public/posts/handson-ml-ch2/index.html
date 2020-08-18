@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>Hands on Machine Learning - Chapter 2 Notes - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="handson-ml, ml" />
+
+<meta property="og:title" content="Hands on Machine Learning - Chapter 2 Notes" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/handson-ml-ch2/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2020-08-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-17T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="Hands on Machine Learning - Chapter 2 Notes"/>
+<meta name="twitter:description" content=""/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/handson-ml-ch2/">Hands on Machine Learning - Chapter 2 Notes</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-08-17</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/handson-ml">handson-ml</a>&nbsp;<a href="/tags/ml">ml</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <h2 id="notes">Notes</h2>
+<p>Main Steps:</p>
+<ol>
+<li>Frame the problem</li>
+<li>Get data</li>
+<li>EDA (exploratory data analysis)</li>
+<li>Prepare the data for ML</li>
+<li>Model Selection</li>
+<li>Tune the model</li>
+<li>Present solution</li>
+<li>Launch, monitor, iterate</li>
+</ol>
+<h3 id="look-at-the-big-picture">Look at the big picture</h3>
+<ul>
+<li>predict the median housing price for a district in CA</li>
+<li>what&rsquo;s the business objective (not building a model for fun)</li>
+<li>ask: what is the current, non-ML solution? why can&rsquo;t we use that</li>
+<li>start thinking about/designing the system</li>
+</ul>
+<p>Pipelines</p>
+<ul>
+<li>sequence of data processing components</li>
+<li>typically runs asynchronously:</li>
+<li>When you execute something synchronously, you wait for it to finish before moving on to another task. When you execute something asynchronously, you can move on to another task before it finishes.</li>
+<li>components are self contained, downstream components can keep working for a while by just using the last output from the broken component (async)</li>
+</ul>
+<p>Types of Regression</p>
+<ul>
+<li>multiple regression: multiple features to make a prediction</li>
+<li>univariate regression: only trying to predict a single value</li>
+</ul>
+<p>Selecting a performance measure</p>
+<ul>
+<li>Root Mean Square Error (RMSE):</li>
+</ul>
+<p>$$ RMSE(X,h) = \sqrt{\frac{1}{m} \sum_{i=1}^{m} (h(x^{(i)}) - y^{(i)})^{2}} $$</p>
+<ul>
+<li>gives higher weight to larger errors</li>
+<li>lowercase italic font for scalars, lowercase bold for vectors, uppercase bold for matrices</li>
+<li>if there are many outliers, then Mean Absolute Error (MAE) might be a better cost function:</li>
+</ul>
+<p>$$ MAE(X,h) = \frac{1}{m} \sum_{i=1}^{m} \lvert h(x^{(i)}) - y^{(i)}\rvert$$</p>
+<ul>
+<li>different ways to measure difference between vectors</li>
+<li>RMSE is euclidian distance, $l_2$ norm</li>
+<li>computing sum of absolutes is $l_1$ norm, measures the distance between two points if you can only travel along orthogonal (perpendicular) lines</li>
+<li>$l_0$ just gives the number of non-zero elements in vector</li>
+<li>higher the norm index, the more it focuses on large values and neglects smaller ones. this is why RMSE is more sensitive to outliers than MAE</li>
+</ul>
+<p>Verify Assumptions</p>
+<ul>
+<li>list and verify assumptions</li>
+<li>e.g. what does the output exactly need to be, what do we think is true about the problem/solution we&rsquo;ve proposed</li>
+</ul>
+<h3 id="get-the-data">Get the Data</h3>
+<ul>
+<li>usually data is in DBs or spread across many files, so common first step is jumping through the hoops of access, getting used to schemas, legal precautions, etc.</li>
+<li>best to automate process of fetching data, future proof against changes</li>
+</ul>
+<pre><code class="language-python">import os
+import tarfile
+from six.moves import urllib
+</code></pre>
+<pre><code class="language-python">DOWNLOAD_ROOT = &quot;https://raw.githubusercontent.com/ageron/handson-ml/master/&quot;
+HOUSING_PATH = os.path.join(&quot;datasets&quot;, &quot;housing&quot;)
+HOUSING_URL = DOWNLOAD_ROOT + &quot;datasets/housing/housing.tgz&quot;
+
+def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
+    if not os.path.isdir(housing_path):
+        os.makedirs(housing_path)
+    tgz_path = os.path.join(housing_path, &quot;housing.tgz&quot;)
+    urllib.request.urlretrieve(housing_url, tgz_path)
+    housing_tgz = tarfile.open(tgz_path)
+    housing_tgz.extractall(path=housing_path)
+    housing_tgz.close()
+</code></pre>
+<pre><code class="language-python">fetch_housing_data()
+</code></pre>
+<pre><code class="language-python">import pandas as pd
+</code></pre>
+<pre><code class="language-python">def load_housing_data(housing_path=HOUSING_PATH):
+    csv_path = os.path.join(HOUSING_PATH, &quot;housing.csv&quot;)
+    return pd.read_csv(csv_path)
+</code></pre>
+<pre><code class="language-python">housing = load_housing_data()
+housing.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-122.24</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1467.0</td>
+      <td>190.0</td>
+      <td>496.0</td>
+      <td>177.0</td>
+      <td>7.2574</td>
+      <td>352100.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre><code class="language-python">housing.info()
+</code></pre>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 20640 entries, 0 to 20639
+Data columns (total 10 columns):
+longitude             20640 non-null float64
+latitude              20640 non-null float64
+housing_median_age    20640 non-null float64
+total_rooms           20640 non-null float64
+total_bedrooms        20433 non-null float64
+population            20640 non-null float64
+households            20640 non-null float64
+median_income         20640 non-null float64
+median_house_value    20640 non-null float64
+ocean_proximity       20640 non-null object
+dtypes: float64(9), object(1)
+memory usage: 1.6+ MB
+</code></pre>
+<pre><code class="language-python">housing[&quot;ocean_proximity&quot;].value_counts()
+</code></pre>
+<pre><code>&lt;1H OCEAN     9136
+INLAND        6551
+NEAR OCEAN    2658
+NEAR BAY      2290
+ISLAND           5
+Name: ocean_proximity, dtype: int64
+</code></pre>
+<pre><code class="language-python">housing.describe()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+      <td>20433.000000</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+      <td>20640.000000</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>-119.569704</td>
+      <td>35.631861</td>
+      <td>28.639486</td>
+      <td>2635.763081</td>
+      <td>537.870553</td>
+      <td>1425.476744</td>
+      <td>499.539680</td>
+      <td>3.870671</td>
+      <td>206855.816909</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>2.003532</td>
+      <td>2.135952</td>
+      <td>12.585558</td>
+      <td>2181.615252</td>
+      <td>421.385070</td>
+      <td>1132.462122</td>
+      <td>382.329753</td>
+      <td>1.899822</td>
+      <td>115395.615874</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>-124.350000</td>
+      <td>32.540000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>0.499900</td>
+      <td>14999.000000</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>-121.800000</td>
+      <td>33.930000</td>
+      <td>18.000000</td>
+      <td>1447.750000</td>
+      <td>296.000000</td>
+      <td>787.000000</td>
+      <td>280.000000</td>
+      <td>2.563400</td>
+      <td>119600.000000</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>-118.490000</td>
+      <td>34.260000</td>
+      <td>29.000000</td>
+      <td>2127.000000</td>
+      <td>435.000000</td>
+      <td>1166.000000</td>
+      <td>409.000000</td>
+      <td>3.534800</td>
+      <td>179700.000000</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>-118.010000</td>
+      <td>37.710000</td>
+      <td>37.000000</td>
+      <td>3148.000000</td>
+      <td>647.000000</td>
+      <td>1725.000000</td>
+      <td>605.000000</td>
+      <td>4.743250</td>
+      <td>264725.000000</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>-114.310000</td>
+      <td>41.950000</td>
+      <td>52.000000</td>
+      <td>39320.000000</td>
+      <td>6445.000000</td>
+      <td>35682.000000</td>
+      <td>6082.000000</td>
+      <td>15.000100</td>
+      <td>500001.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<ul>
+<li>percentiles: what percentage of the data falls beneath this point. i.e. if 50th percentile is 100 for an attribute that means half of all the samples have a value less than 100 for that attribute</li>
+<li>if mean varies a lot from median that speaks to the presence of outliers pulling it up/down</li>
+</ul>
+<pre><code class="language-python">%matplotlib inline
+import matplotlib.pyplot as plt
+</code></pre>
+<pre><code class="language-python">housing.hist(bins=50, figsize=(20,15))
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_18_0.png" alt="png" />
+</p>
+<ul>
+<li>Median income doesn&rsquo;t seem to be expressed as USD</li>
+<li>Median house value and age seem to be capped</li>
+<li>features have different scales (needs feature scaling)</li>
+</ul>
+<p>Create a test set</p>
+<ul>
+<li>before anything else, set aside test set</li>
+<li>this will avoid data snooping bias; i.e. fitting the model to better generalize on the test set</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+</code></pre>
+<pre><code class="language-python">def split_train_test(data, test_ratio):
+    shuffled_indices = np.random.permutation(len(data))
+    test_set_size = int(len(data) * test_ratio)
+    test_indices = shuffled_indices[:test_set_size]
+    train_indices = shuffled_indices[test_set_size:]
+    return data.iloc[train_indices], data.iloc[test_indices]
+</code></pre>
+<pre><code class="language-python">train_set, test_set = split_train_test(housing, 0.2)
+</code></pre>
+<pre><code class="language-python">len(train_set)
+</code></pre>
+<pre><code>16512
+</code></pre>
+<pre><code class="language-python">len(test_set)
+</code></pre>
+<pre><code>4128
+</code></pre>
+<ul>
+<li>this function will regenerate different sets on each run</li>
+<li>you can seed the random number generator, but this breaks if you add new data to the dataset (regenerates new train/test)</li>
+<li>eventually data you&rsquo;ve trained on before will make it into the test set on multiple reruns with this pipeline</li>
+<li>can use each instance&rsquo;s indentifier (assuming unique and immutable) to decide whether or not it should go in the test set</li>
+<li>code below computes a hash of each instance&rsquo;s indentifier and puts that instance in the test set if hash is lower or equal to 20% of the maximum hash value. ensures consistency across multiple runs, and the test set will always contain 20% of the new data, but never any instance that was previously in the training set</li>
+</ul>
+<pre><code class="language-python">from zlib import crc32
+
+def test_set_check(identifier, test_ratio):
+    return crc32(np.int64(identifier)) &amp; 0xffffffff &lt; test_ratio * 2**32
+
+def split_train_test_by_id(data, test_ratio, id_column):
+    ids = data[id_column]
+    in_test_set = ids.apply(lambda id_: test_set_check(id_, test_ratio))
+    return data.loc[~in_test_set], data.loc[in_test_set]
+</code></pre>
+<pre><code class="language-python">housing_with_id = housing.reset_index()
+train_set, test_set = split_train_test_by_id(housing_with_id, 0.2, &quot;index&quot;)
+</code></pre>
+<pre><code class="language-python">train_set
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>-122.23</td>
+      <td>37.88</td>
+      <td>41.0</td>
+      <td>880.0</td>
+      <td>129.0</td>
+      <td>322.0</td>
+      <td>126.0</td>
+      <td>8.3252</td>
+      <td>452600.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>-122.22</td>
+      <td>37.86</td>
+      <td>21.0</td>
+      <td>7099.0</td>
+      <td>1106.0</td>
+      <td>2401.0</td>
+      <td>1138.0</td>
+      <td>8.3014</td>
+      <td>358500.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3</td>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1274.0</td>
+      <td>235.0</td>
+      <td>558.0</td>
+      <td>219.0</td>
+      <td>5.6431</td>
+      <td>341300.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>4</td>
+      <td>-122.25</td>
+      <td>37.85</td>
+      <td>52.0</td>
+      <td>1627.0</td>
+      <td>280.0</td>
+      <td>565.0</td>
+      <td>259.0</td>
+      <td>3.8462</td>
+      <td>342200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>6</td>
+      <td>-122.25</td>
+      <td>37.84</td>
+      <td>52.0</td>
+      <td>2535.0</td>
+      <td>489.0</td>
+      <td>1094.0</td>
+      <td>514.0</td>
+      <td>3.6591</td>
+      <td>299200.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>20635</td>
+      <td>20635</td>
+      <td>-121.09</td>
+      <td>39.48</td>
+      <td>25.0</td>
+      <td>1665.0</td>
+      <td>374.0</td>
+      <td>845.0</td>
+      <td>330.0</td>
+      <td>1.5603</td>
+      <td>78100.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>20636</td>
+      <td>20636</td>
+      <td>-121.21</td>
+      <td>39.49</td>
+      <td>18.0</td>
+      <td>697.0</td>
+      <td>150.0</td>
+      <td>356.0</td>
+      <td>114.0</td>
+      <td>2.5568</td>
+      <td>77100.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>20637</td>
+      <td>20637</td>
+      <td>-121.22</td>
+      <td>39.43</td>
+      <td>17.0</td>
+      <td>2254.0</td>
+      <td>485.0</td>
+      <td>1007.0</td>
+      <td>433.0</td>
+      <td>1.7000</td>
+      <td>92300.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>20638</td>
+      <td>20638</td>
+      <td>-121.32</td>
+      <td>39.43</td>
+      <td>18.0</td>
+      <td>1860.0</td>
+      <td>409.0</td>
+      <td>741.0</td>
+      <td>349.0</td>
+      <td>1.8672</td>
+      <td>84700.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>20639</td>
+      <td>20639</td>
+      <td>-121.24</td>
+      <td>39.37</td>
+      <td>16.0</td>
+      <td>2785.0</td>
+      <td>616.0</td>
+      <td>1387.0</td>
+      <td>530.0</td>
+      <td>2.3886</td>
+      <td>89400.0</td>
+      <td>INLAND</td>
+    </tr>
+  </tbody>
+</table>
+<p>16512 rows × 11 columns</p>
+</div>
+<ul>
+<li>
+<p>note: this approach looks fugazi, indices aren&rsquo;t shuffled</p>
+</li>
+<li>
+<p>the problem still exists but would need a better implementation than what&rsquo;s here</p>
+</li>
+<li>
+<p>if you use row index as a unique identifier, you must make sure that new data always gets appended to the end of the dataset and a row is never deleted</p>
+</li>
+<li>
+<p>instead, you can try to engineer a unique ID for each row by combining some of the (ideally most stable/constant) features</p>
+</li>
+<li>
+<p>e.g. a district&rsquo;s latitude/longitude is guaranteed to be stable for a few million years lol:</p>
+</li>
+</ul>
+<pre><code class="language-python">housing_with_id['id'] = housing[&quot;longitude&quot;] * 1000 + housing[&quot;latitude&quot;]
+train_set, test_set = split_train_test_by_id(housing_with_id, 0.2, &quot;id&quot;)
+</code></pre>
+<pre><code class="language-python">len(housing_with_id)
+</code></pre>
+<pre><code>20640
+</code></pre>
+<pre><code class="language-python">len(housing_with_id[&quot;id&quot;].unique()) # also fugazi
+</code></pre>
+<pre><code>12590
+</code></pre>
+<ul>
+<li>the approach above in the book obviously doesn&rsquo;t work haha</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import train_test_split
+</code></pre>
+<pre><code class="language-python">train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
+</code></pre>
+<pre><code class="language-python">train_set
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+      <th>ocean_proximity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>14196</td>
+      <td>-117.03</td>
+      <td>32.71</td>
+      <td>33.0</td>
+      <td>3126.0</td>
+      <td>627.0</td>
+      <td>2300.0</td>
+      <td>623.0</td>
+      <td>3.2596</td>
+      <td>103000.0</td>
+      <td>NEAR OCEAN</td>
+    </tr>
+    <tr>
+      <td>8267</td>
+      <td>-118.16</td>
+      <td>33.77</td>
+      <td>49.0</td>
+      <td>3382.0</td>
+      <td>787.0</td>
+      <td>1314.0</td>
+      <td>756.0</td>
+      <td>3.8125</td>
+      <td>382100.0</td>
+      <td>NEAR OCEAN</td>
+    </tr>
+    <tr>
+      <td>17445</td>
+      <td>-120.48</td>
+      <td>34.66</td>
+      <td>4.0</td>
+      <td>1897.0</td>
+      <td>331.0</td>
+      <td>915.0</td>
+      <td>336.0</td>
+      <td>4.1563</td>
+      <td>172600.0</td>
+      <td>NEAR OCEAN</td>
+    </tr>
+    <tr>
+      <td>14265</td>
+      <td>-117.11</td>
+      <td>32.69</td>
+      <td>36.0</td>
+      <td>1421.0</td>
+      <td>367.0</td>
+      <td>1418.0</td>
+      <td>355.0</td>
+      <td>1.9425</td>
+      <td>93400.0</td>
+      <td>NEAR OCEAN</td>
+    </tr>
+    <tr>
+      <td>2271</td>
+      <td>-119.80</td>
+      <td>36.78</td>
+      <td>43.0</td>
+      <td>2382.0</td>
+      <td>431.0</td>
+      <td>874.0</td>
+      <td>380.0</td>
+      <td>3.5542</td>
+      <td>96500.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>11284</td>
+      <td>-117.96</td>
+      <td>33.78</td>
+      <td>35.0</td>
+      <td>1330.0</td>
+      <td>201.0</td>
+      <td>658.0</td>
+      <td>217.0</td>
+      <td>6.3700</td>
+      <td>229200.0</td>
+      <td>&lt;1H OCEAN</td>
+    </tr>
+    <tr>
+      <td>11964</td>
+      <td>-117.43</td>
+      <td>34.02</td>
+      <td>33.0</td>
+      <td>3084.0</td>
+      <td>570.0</td>
+      <td>1753.0</td>
+      <td>449.0</td>
+      <td>3.0500</td>
+      <td>97800.0</td>
+      <td>INLAND</td>
+    </tr>
+    <tr>
+      <td>5390</td>
+      <td>-118.38</td>
+      <td>34.03</td>
+      <td>36.0</td>
+      <td>2101.0</td>
+      <td>569.0</td>
+      <td>1756.0</td>
+      <td>527.0</td>
+      <td>2.9344</td>
+      <td>222100.0</td>
+      <td>&lt;1H OCEAN</td>
+    </tr>
+    <tr>
+      <td>860</td>
+      <td>-121.96</td>
+      <td>37.58</td>
+      <td>15.0</td>
+      <td>3575.0</td>
+      <td>597.0</td>
+      <td>1777.0</td>
+      <td>559.0</td>
+      <td>5.7192</td>
+      <td>283500.0</td>
+      <td>&lt;1H OCEAN</td>
+    </tr>
+    <tr>
+      <td>15795</td>
+      <td>-122.42</td>
+      <td>37.77</td>
+      <td>52.0</td>
+      <td>4226.0</td>
+      <td>1315.0</td>
+      <td>2619.0</td>
+      <td>1242.0</td>
+      <td>2.5755</td>
+      <td>325000.0</td>
+      <td>NEAR BAY</td>
+    </tr>
+  </tbody>
+</table>
+<p>16512 rows × 10 columns</p>
+</div>
+<ul>
+<li>the above are random sampling methods which work well enough on a large dataset</li>
+<li>if the dataset is small then you should do stratified sampling (i.e. take steps to ensure that the sample is representative of the whole pop.)</li>
+<li>divide the data into different groups (strata) and randomly sample from those in a way which is representative</li>
+<li>e.g. stratify by median income:</li>
+</ul>
+<pre><code class="language-python"># use pd.cut to bin the median income into categories
+housing['income_cat'] = pd.cut(housing['median_income'],
+                               bins=[0., 1.5, 3., 4.5, 6., np.inf],
+                               labels=[1, 2, 3, 4, 5])
+</code></pre>
+<pre><code class="language-python">housing['income_cat'].hist()
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcc82c0cf90&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_41_1.png" alt="png" />
+</p>
+<pre><code class="language-python">from sklearn.model_selection import StratifiedShuffleSplit
+</code></pre>
+<pre><code class="language-python">split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+for train_index, test_index in split.split(housing, housing['income_cat']):
+    strat_train_set = housing.loc[train_index]
+    strat_test_set = housing.loc[test_index]
+</code></pre>
+<pre><code class="language-python"># checking to see if it worked as expected
+strat_test_set[&quot;income_cat&quot;].value_counts()/len(strat_test_set)
+</code></pre>
+<pre><code>3    0.350533
+2    0.318798
+4    0.176357
+5    0.114583
+1    0.039729
+Name: income_cat, dtype: float64
+</code></pre>
+<ul>
+<li>the stratified sampling matches the proportions seen in the histogram; the test set in this instance is representative of the income_cat distribution found in the whole dataset</li>
+<li>now remove income_cat attribute to restore data to original form</li>
+</ul>
+<pre><code class="language-python">for set_ in (strat_train_set, strat_test_set):
+    set_.drop(&quot;income_cat&quot;, axis=1, inplace=True)
+</code></pre>
+<h3 id="discover-and-visualize-the-data-to-gain-insights-eda">Discover and Visualize the Data to Gain Insights (EDA)</h3>
+<ul>
+<li>only explore the training set, pust the test set aside</li>
+<li>if training set is large, you might want to just explore a sample to make manipulations faster</li>
+<li>create a copy of the training set so you can play around without harming it</li>
+</ul>
+<p>Visualizing Geographical Data:</p>
+<pre><code class="language-python">housing = strat_train_set.copy()
+</code></pre>
+<pre><code class="language-python">housing.plot(kind='scatter', x='longitude', y='latitude', alpha=0.1)
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcc822c8990&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_49_1.png" alt="png" />
+</p>
+<ul>
+<li>Can visualize density in the geographical viz with lower alpha</li>
+</ul>
+<pre><code class="language-python">housing.plot(kind='scatter', x='longitude', y='latitude', alpha=0.4,
+             s=housing['population']/100, label='population', figsize=(10,7),
+             c='median_house_value', cmap=plt.get_cmap('jet'), colorbar=True)
+plt.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fcc80e608d0&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_51_1.png" alt="png" />
+</p>
+<ul>
+<li>prices are higher along the coast (duh), with some hotspots in the bay area and around LA</li>
+<li>could use a clustering algo to find many clusters, and then create features that measure proximity to the cluster centers</li>
+<li>Ocean proxmity is useful feature</li>
+</ul>
+<p>Look for correlations:</p>
+<ul>
+<li>standard correlation coefficient only measures linear relationships, misses any other kinds</li>
+</ul>
+<pre><code class="language-python">corr_matrix = housing.corr()
+</code></pre>
+<pre><code class="language-python">corr_matrix['median_house_value'].sort_values(ascending=False)
+</code></pre>
+<pre><code>median_house_value    1.000000
+median_income         0.687160
+total_rooms           0.135097
+housing_median_age    0.114110
+households            0.064506
+total_bedrooms        0.047689
+population           -0.026920
+longitude            -0.047432
+latitude             -0.142724
+Name: median_house_value, dtype: float64
+</code></pre>
+<pre><code class="language-python">from pandas.plotting import scatter_matrix
+</code></pre>
+<pre><code class="language-python">attributes = ['median_house_value', 'median_income', 'total_rooms', 'housing_median_age']
+scatter_matrix(housing[attributes], figsize=(12,8))
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_57_0.png" alt="png" />
+</p>
+<ul>
+<li>diagonal lines are histograms of attributes</li>
+</ul>
+<pre><code class="language-python"># focus on median income
+housing.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1)
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcc83a74110&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch2_59_1.png" alt="png" />
+</p>
+<ul>
+<li>clear correlation</li>
+<li>can also see the cap at $500k quite clearly</li>
+<li>other less visible lines at \$350K, $450K; might want to remove from data to stop model from picking up on quirks</li>
+</ul>
+<p>Experimenting with Attribute Combinations</p>
+<ul>
+<li>EDA shows some interesting correlations so far</li>
+<li>some attributes are tail heavy, so could transform to normal distribution by taking their log</li>
+<li>can take combinations of features to get relationships; some attributes make less sense when considered independently</li>
+<li>e.g. compute avg. rooms per household as rooms/households</li>
+</ul>
+<pre><code class="language-python">housing['rooms_per_household'] = housing['total_rooms']/housing['households']
+housing['bedrooms_per_room'] = housing['total_bedrooms']/housing['total_rooms']
+housing['population_per_household'] = housing['population']/housing['households']
+</code></pre>
+<pre><code class="language-python"># check corr matrix again
+corr_matrix = housing.corr()
+corr_matrix['median_house_value'].sort_values(ascending=False)
+</code></pre>
+<pre><code>median_house_value          1.000000
+median_income               0.687160
+rooms_per_household         0.146285
+total_rooms                 0.135097
+housing_median_age          0.114110
+households                  0.064506
+total_bedrooms              0.047689
+population_per_household   -0.021985
+population                 -0.026920
+longitude                  -0.047432
+latitude                   -0.142724
+bedrooms_per_room          -0.259984
+Name: median_house_value, dtype: float64
+</code></pre>
+<ul>
+<li>bedrooms per room is much more correlated (negatively) to median house value than total rooms/bedrooms</li>
+<li>houses with a lower bedroom/room ratio seem to be more expensive</li>
+<li>EDA doesn&rsquo;t need to be completely thorough, point is to get insights that will get you a reasonably decent prototype</li>
+<li>iterative process</li>
+</ul>
+<h3 id="prepare-the-data-for-machine-learning-algorithms">Prepare the Data for Machine Learning Algorithms</h3>
+<p>write functions to prepare data because:</p>
+<ul>
+<li>can reproduce on fresh data</li>
+<li>build a library of transformation functions</li>
+<li>can use in live system</li>
+<li>easier experimentation</li>
+</ul>
+<pre><code class="language-python">housing = strat_train_set.drop(&quot;median_house_value&quot;, axis=1)
+housing_labels = strat_train_set[&quot;median_house_value&quot;].copy()
+</code></pre>
+<p>Handling Missing Values</p>
+<ul>
+<li>3 options:</li>
+<li>get rid of of corresponding samples</li>
+<li>get rid of the entire attribute</li>
+<li>impute values to (mean, median, etc)</li>
+</ul>
+<pre><code class="language-python">from sklearn.impute import SimpleImputer
+</code></pre>
+<pre><code class="language-python">imputer = SimpleImputer(strategy=&quot;median&quot;)
+</code></pre>
+<pre><code class="language-python"># create copy of numerical features
+housing_num = housing.drop(&quot;ocean_proximity&quot;, axis=1)
+</code></pre>
+<pre><code class="language-python">imputer.fit(housing_num)
+imputer.statistics_
+</code></pre>
+<pre><code>array([-118.51  ,   34.26  ,   29.    , 2119.5   ,  433.    , 1164.    ,
+        408.    ,    3.5409])
+</code></pre>
+<pre><code class="language-python">X = imputer.transform(housing_num)
+</code></pre>
+<pre><code class="language-python">housing_tr = pd.DataFrame(X, columns=housing_num.columns)
+</code></pre>
+<p>Handling Text and Categorical Attributes</p>
+<ul>
+<li>encode to numerical values</li>
+</ul>
+<pre><code class="language-python">housing_cat = housing[[&quot;ocean_proximity&quot;]]
+</code></pre>
+<pre><code class="language-python">from sklearn.preprocessing import OrdinalEncoder
+</code></pre>
+<pre><code class="language-python">ordinal_encoder = OrdinalEncoder()
+housing_cat_encoded = ordinal_encoder.fit_transform(housing_cat)
+</code></pre>
+<pre><code class="language-python">housing_cat_encoded[:5]
+</code></pre>
+<pre><code>array([[0.],
+       [0.],
+       [4.],
+       [1.],
+       [0.]])
+</code></pre>
+<pre><code class="language-python">ordinal_encoder.categories_
+</code></pre>
+<pre><code>[array(['&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],
+       dtype=object)]
+</code></pre>
+<ul>
+<li>ordinal encoding places ranking on the attributes, so some algos might interpret nearby values as similar (4&amp;3 are more similar than 1&amp;7, although these are all just arbitrary indices)</li>
+<li>for nominal categories its better to one-hot encode them; create a binary attribute per category</li>
+<li>also known as creating dummy variables</li>
+</ul>
+<pre><code class="language-python">from sklearn.preprocessing import OneHotEncoder
+</code></pre>
+<pre><code class="language-python">cat_encoder = OneHotEncoder()
+housing_cat_1hot = cat_encoder.fit_transform(housing_cat)
+</code></pre>
+<pre><code class="language-python">housing_cat_1hot
+</code></pre>
+<pre><code>&lt;16512x5 sparse matrix of type '&lt;class 'numpy.float64'&gt;'
+    with 16512 stored elements in Compressed Sparse Row format&gt;
+</code></pre>
+<ul>
+<li>sparse matrices don&rsquo;t use memory to store zero elements</li>
+</ul>
+<pre><code class="language-python">cat_encoder.categories_
+</code></pre>
+<pre><code>[array(['&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],
+       dtype=object)]
+</code></pre>
+<ul>
+<li>if a categorical attribute has a large number of categories, one hot encoding will create a large number of input features and may hurt performance. in this case embeddings are useful (denser representations)</li>
+</ul>
+<p>Custom Transformers</p>
+<ul>
+<li>write to align with Scikit-Learn so you can use pipelines</li>
+<li>add hyperparameters to gate any data preparation steps you aren&rsquo;t sure about</li>
+</ul>
+<pre><code class="language-python">from sklearn.base import BaseEstimator, TransformerMixin
+</code></pre>
+<pre><code class="language-python">rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+</code></pre>
+<pre><code class="language-python">class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+    def __init__(self, add_bedrooms_per_room = True): # no *args or **kargs
+        self.add_bedrooms_per_room = add_bedrooms_per_room
+    def fit(self, X, y=None):
+        return self # nothing else to do
+    def transform(self, X, y=None):
+        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+        population_per_household = X[:, population_ix] / X[:, households_ix]
+        if self.add_bedrooms_per_room:
+            bedrooms_per_room = X[:, population_ix] / X[:, rooms_ix]
+            return np.c_[X, rooms_per_household, population_per_household, bedrooms_per_room]
+        else:
+            return np.c_[X, rooms_per_household, population_per_household]
+</code></pre>
+<pre><code class="language-python">attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=False)
+housing_extra_attribs = attr_adder.transform(housing.values)
+</code></pre>
+<p><code>np.c_</code> stacks arrays on their last axis (turns column vectors into a matrix)</p>
+<pre><code class="language-python">np.c_[np.array([1,2,3]), np.array([4,5,6])]
+</code></pre>
+<pre><code>array([[1, 4],
+       [2, 5],
+       [3, 6]])
+</code></pre>
+<p>Feature Scaling:</p>
+<ul>
+<li>
+<p>ML algos don&rsquo;t perform well when features have different scales</p>
+</li>
+<li>
+<p>Two ways to feature scale:</p>
+</li>
+<li>
+<p>min-max scaling: attributes are shifted and rescaled so they range from 0-1.
+$$x_{scaled} = \frac{x_n - x_{min}}{x_{max} - x_{min}}$$</p>
+</li>
+<li>
+<p>standardization: subtract the mean and divide by standard deviation</p>
+</li>
+<li>
+<p>standardization is less affected by outliers in the data
+$$x_{scaled} = \frac{x_n - {\bar{x}}}{\sigma}$$</p>
+</li>
+<li>
+<p>fit all transformers to the training set, then use them on the test</p>
+</li>
+</ul>
+<p>Transformation Pipelines</p>
+<pre><code class="language-python">from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+</code></pre>
+<pre><code class="language-python">num_pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy=&quot;median&quot;)),
+    ('attribs_adder', CombinedAttributesAdder()),
+    ('std_scaler', StandardScaler())
+])
+</code></pre>
+<pre><code class="language-python">housing_num_tr = num_pipeline.fit_transform(housing_num)
+</code></pre>
+<ul>
+<li>calls <code>fit_transform()</code> on all of the transformers sequentially</li>
+</ul>
+<pre><code class="language-python">from sklearn.compose import ColumnTransformer
+</code></pre>
+<pre><code class="language-python">num_attribs = list(housing_num)
+cat_attribs = [&quot;ocean_proximity&quot;]
+
+full_pipeline = ColumnTransformer([
+  (&quot;num&quot;, num_pipeline, num_attribs),
+  (&quot;cat&quot;, OneHotEncoder(), cat_attribs),  
+])
+</code></pre>
+<pre><code class="language-python">housing_prepared = full_pipeline.fit_transform(housing)
+</code></pre>
+<h3 id="select-and-train-a-model">Select and Train a Model</h3>
+<p>Training and Evaluating on the Training Set</p>
+<ul>
+<li>preprocessing steps make training models simple</li>
+</ul>
+<pre><code class="language-python">from sklearn.linear_model import LinearRegression
+</code></pre>
+<pre><code class="language-python">lin_reg = LinearRegression()
+lin_reg.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
+</code></pre>
+<pre><code class="language-python">some_data = housing.iloc[:5]
+some_labels = housing_labels.iloc[:5]
+
+some_data_prepared = full_pipeline.transform(some_data)
+
+print(f&quot;Predictions: {lin_reg.predict(some_data_prepared)}&quot;)
+print(f&quot;Labels: {list(some_labels)}&quot;)
+</code></pre>
+<pre><code>Predictions: [211944.80589799 321295.84907457 210851.33029021  62359.51850965
+ 194954.19182968]
+Labels: [286600.0, 340600.0, 196900.0, 46300.0, 254500.0]
+</code></pre>
+<pre><code class="language-python">from sklearn.metrics import mean_squared_error
+</code></pre>
+<pre><code class="language-python">housing_predictions = lin_reg.predict(housing_prepared)
+lin_mse = mean_squared_error(housing_labels, housing_predictions)
+lin_rmse = np.sqrt(lin_mse)
+print(lin_rmse)
+</code></pre>
+<pre><code>68898.54780411992
+</code></pre>
+<ul>
+<li>error of \$68K here isn&rsquo;t very satisfying (housing prices range from \$120K to \$265K)</li>
+<li>if a model is underfitting the data it means that the features don&rsquo;t provide enough information to make good decisions, or model is too weak</li>
+</ul>
+<pre><code class="language-python">from sklearn.tree import DecisionTreeRegressor
+</code></pre>
+<pre><code class="language-python">tree_reg = DecisionTreeRegressor()
+tree_reg.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>DecisionTreeRegressor(criterion='mse', max_depth=None, max_features=None,
+                      max_leaf_nodes=None, min_impurity_decrease=0.0,
+                      min_impurity_split=None, min_samples_leaf=1,
+                      min_samples_split=2, min_weight_fraction_leaf=0.0,
+                      presort=False, random_state=None, splitter='best')
+</code></pre>
+<pre><code class="language-python">housing_predictions = tree_reg.predict(housing_prepared)
+tree_mse = mean_squared_error(housing_labels, housing_predictions)
+tree_rmse = np.sqrt(tree_mse)
+tree_rmse
+</code></pre>
+<pre><code>0.0
+</code></pre>
+<p>Better Evaluation with Cross Validation</p>
+<ul>
+<li>K-fold Cross Validation splits the training set into K folds, training the model K times by testing on one of the folds and composing the training set on the remaining K-1</li>
+<li>Sklearns CV feature expects a utility function (greater is better) as opposed to a cost function (lower is better), so the scoring function is actually opposite of MSE, which is why the following code uses <code>-scores</code> in the square root</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import cross_val_score
+</code></pre>
+<pre><code class="language-python">scores = cross_val_score(tree_reg, housing_prepared, housing_labels,
+                         scoring=&quot;neg_mean_squared_error&quot;, cv=10)
+tree_rmse_scores = np.sqrt(-scores)
+</code></pre>
+<pre><code class="language-python">def display_scores(scores):
+    print(&quot;Scores:&quot;, scores)
+    print(&quot;Mean:&quot;, scores.mean())
+    print(&quot;Standard Deviation&quot;, scores.std())
+</code></pre>
+<pre><code class="language-python">display_scores(tree_rmse_scores)
+</code></pre>
+<pre><code>Scores: [67971.85204287 67101.92229431 69341.35567834 66956.22248918
+ 69739.80377843 72468.59865874 66736.84144169 67241.24548885
+ 72220.02744352 70187.38922156]
+Mean: 68996.52585375118
+Standard Deviation 2037.77518366374
+</code></pre>
+<ul>
+<li>CV not only allows you to get an averaged estimate of model&rsquo;s performance, but allows you to get an idea of how precise this estimate is through the standard deviation</li>
+</ul>
+<pre><code class="language-python">lin_scores = cross_val_score(lin_reg, housing_prepared, housing_labels,
+                            scoring=&quot;neg_mean_squared_error&quot;, cv=10)
+lin_rmse_scores = np.sqrt(-lin_scores)
+display_scores(lin_rmse_scores)
+</code></pre>
+<pre><code>Scores: [67500.31361237 68404.48325957 68239.95757613 74813.56736728
+ 68419.88576794 71632.92651865 65216.31837467 68702.06708289
+ 71793.11060978 68131.30099374]
+Mean: 69285.3931163006
+Standard Deviation 2576.7108344336184
+</code></pre>
+<pre><code class="language-python">from sklearn.ensemble import RandomForestRegressor
+</code></pre>
+<pre><code class="language-python">forest_reg = RandomForestRegressor()
+forest_reg.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>/Users/willbarker/anaconda3/lib/python3.7/site-packages/sklearn/ensemble/forest.py:245: FutureWarning: The default value of n_estimators will change from 10 in version 0.20 to 100 in 0.22.
+  &quot;10 in version 0.20 to 100 in 0.22.&quot;, FutureWarning)
+
+
+
+
+
+RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+                      max_features='auto', max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=1, min_samples_split=2,
+                      min_weight_fraction_leaf=0.0, n_estimators=10,
+                      n_jobs=None, oob_score=False, random_state=None,
+                      verbose=0, warm_start=False)
+</code></pre>
+<pre><code class="language-python">forest_mse = mean_squared_error(housing_labels, forest_reg.predict(housing_prepared))
+forest_rmse = np.sqrt(forest_mse)
+print(forest_rmse)
+</code></pre>
+<pre><code>21923.44698175341
+</code></pre>
+<pre><code class="language-python">forest_scores = cross_val_score(forest_reg, housing_prepared,
+                                housing_labels,
+                                scoring=&quot;neg_mean_squared_error&quot;, cv=10)
+forest_rmse_scores = np.sqrt(-forest_scores)
+</code></pre>
+<pre><code class="language-python">display_scores(forest_rmse_scores)
+</code></pre>
+<pre><code>Scores: [50985.57169248 49600.72682606 50759.78939086 54557.52337524
+ 51089.83837069 55891.91762608 51010.98084994 50261.62522741
+ 55934.1764328  52825.16027951]
+Mean: 52291.73100710661
+Standard Deviation 2239.368467655192
+</code></pre>
+<ul>
+<li>Forest looks more promising (lower RMSE), but the sizeable difference between CV performance and training set performance indicates overfitting on the training set</li>
+<li>Could simplify it, regularize it, or get more training data</li>
+<li>Ideally you want to shortlist 2-5 models promising models total</li>
+<li>can use <code>joblib</code> library to save promising models for experimentation/later iterations</li>
+</ul>
+<h3 id="fine-tune-your-model">Fine-Tune Your Model</h3>
+<ul>
+<li>fine tune the shortlist of models</li>
+</ul>
+<p>Grid Search</p>
+<ul>
+<li>grid search will automate cross-validation on all combinations of hyperparameters specified</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import GridSearchCV
+</code></pre>
+<pre><code class="language-python">param_grid = [
+    {'n_estimators': [3,10,30], 'max_features': [2, 4, 6, 8]},
+    {'bootstrap': [False], 'n_estimators': [3,10], 'max_features': [2,3,4]},
+]
+</code></pre>
+<pre><code class="language-python">forest_reg = RandomForestRegressor()
+
+grid_search = GridSearchCV(forest_reg, param_grid,
+                           scoring='neg_mean_squared_error',
+                           return_train_score=True)
+
+grid_search.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>/Users/willbarker/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:1978: FutureWarning: The default value of cv will change from 3 to 5 in version 0.22. Specify it explicitly to silence this warning.
+  warnings.warn(CV_WARNING, FutureWarning)
+
+
+
+
+
+GridSearchCV(cv='warn', error_score='raise-deprecating',
+             estimator=RandomForestRegressor(bootstrap=True, criterion='mse',
+                                             max_depth=None,
+                                             max_features='auto',
+                                             max_leaf_nodes=None,
+                                             min_impurity_decrease=0.0,
+                                             min_impurity_split=None,
+                                             min_samples_leaf=1,
+                                             min_samples_split=2,
+                                             min_weight_fraction_leaf=0.0,
+                                             n_estimators='warn', n_jobs=None,
+                                             oob_score=False, random_state=None,
+                                             verbose=0, warm_start=False),
+             iid='warn', n_jobs=None,
+             param_grid=[{'max_features': [2, 4, 6, 8],
+                          'n_estimators': [3, 10, 30]},
+                         {'bootstrap': [False], 'max_features': [2, 3, 4],
+                          'n_estimators': [3, 10]}],
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=True,
+             scoring='neg_mean_squared_error', verbose=0)
+</code></pre>
+<ul>
+<li>try powers of 10 if you have no clue what a hyperparameter should have</li>
+<li>different dictionaries in <code>param_grid</code> specify separate grid searches</li>
+</ul>
+<pre><code class="language-python">grid_search.best_params_
+</code></pre>
+<pre><code>{'max_features': 8, 'n_estimators': 30}
+</code></pre>
+<pre><code class="language-python">grid_search.best_estimator_
+</code></pre>
+<pre><code>RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+                      max_features=8, max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=1, min_samples_split=2,
+                      min_weight_fraction_leaf=0.0, n_estimators=30,
+                      n_jobs=None, oob_score=False, random_state=None,
+                      verbose=0, warm_start=False)
+</code></pre>
+<ul>
+<li><code>refit=True</code> argument for <code>GridSearchCV</code> will retrain on the entire training set after finding best estimator hyperparams</li>
+</ul>
+<pre><code class="language-python">cvres = grid_search.cv_results_
+for mean_score, params in zip(cvres[&quot;mean_test_score&quot;], cvres[&quot;params&quot;]):
+    print(np.sqrt(-mean_score), params)
+</code></pre>
+<pre><code>65307.87885616995 {'max_features': 2, 'n_estimators': 3}
+56745.41295641033 {'max_features': 2, 'n_estimators': 10}
+52896.1050644663 {'max_features': 2, 'n_estimators': 30}
+59681.45476015563 {'max_features': 4, 'n_estimators': 3}
+52735.85674503226 {'max_features': 4, 'n_estimators': 10}
+50892.22744742235 {'max_features': 4, 'n_estimators': 30}
+59799.42942971745 {'max_features': 6, 'n_estimators': 3}
+52650.77632649698 {'max_features': 6, 'n_estimators': 10}
+50570.40999405222 {'max_features': 6, 'n_estimators': 30}
+59094.68896450388 {'max_features': 8, 'n_estimators': 3}
+52492.707418330094 {'max_features': 8, 'n_estimators': 10}
+50432.33406200777 {'max_features': 8, 'n_estimators': 30}
+62530.835324885855 {'bootstrap': False, 'max_features': 2, 'n_estimators': 3}
+55183.05939812397 {'bootstrap': False, 'max_features': 2, 'n_estimators': 10}
+60507.19412492283 {'bootstrap': False, 'max_features': 3, 'n_estimators': 3}
+53097.84240758412 {'bootstrap': False, 'max_features': 3, 'n_estimators': 10}
+59391.108929740585 {'bootstrap': False, 'max_features': 4, 'n_estimators': 3}
+52293.331430755774 {'bootstrap': False, 'max_features': 4, 'n_estimators': 10}
+</code></pre>
+<ul>
+<li>can include data preparation steps as hyperparameters in grid search</li>
+</ul>
+<p>Randomized Search</p>
+<ul>
+<li>when hyperparameter search space is large, randomized usually gets comparable results faster</li>
+<li>explores $n$ different values for each hyperparameter for $n$ total iterations</li>
+<li>gives you more control over computing budget</li>
+</ul>
+<p>Ensemble Methods</p>
+<ul>
+<li>Can combine models that perform best</li>
+<li>Will often perform better than the best individual model, especially if the models make different types of errors</li>
+</ul>
+<p>Analyze the Best Models and their Errors</p>
+<ul>
+<li>Can gain insights by inspecting best models</li>
+<li>Random Forest can give feature importances:</li>
+</ul>
+<pre><code class="language-python">feature_importances = grid_search.best_estimator_.feature_importances_
+</code></pre>
+<pre><code class="language-python">extra_attribs = [&quot;rooms_per_hhold&quot;, &quot;pop_per_hhold&quot;, &quot;bedrooms_per_room&quot;]
+cat_encoder = full_pipeline.named_transformers_[&quot;cat&quot;]
+cat_one_hot_attribs = list(cat_encoder.categories_[0])
+attributes = num_attribs + extra_attribs + cat_one_hot_attribs
+sorted(zip(feature_importances, attributes), reverse=True)
+</code></pre>
+<pre><code>[(0.3938202057578966, 'median_income'),
+ (0.15133729393112902, 'INLAND'),
+ (0.1029603450675752, 'bedrooms_per_room'),
+ (0.0754751387108862, 'pop_per_hhold'),
+ (0.06620720663844283, 'longitude'),
+ (0.06338183338235212, 'latitude'),
+ (0.04206999831411881, 'housing_median_age'),
+ (0.03242004947783398, 'rooms_per_hhold'),
+ (0.015482413139961633, 'total_bedrooms'),
+ (0.014766900750197388, 'population'),
+ (0.014573461291699393, 'total_rooms'),
+ (0.014411203134276336, 'households'),
+ (0.006778298384461372, '&lt;1H OCEAN'),
+ (0.0032380720741344592, 'NEAR OCEAN'),
+ (0.002983526044293852, 'NEAR BAY'),
+ (9.40539007408315e-05, 'ISLAND')]
+</code></pre>
+<ul>
+<li>could drop less important features and try retraining</li>
+<li>could also analyze the specific errors the system makes and try to understand why they&rsquo;re occuring and what could fix (extra features, cleaning outliers, removing uninformative features)</li>
+</ul>
+<h3 id="evaluate-your-sytem-on-the-test-set">Evaluate Your Sytem on the Test Set</h3>
+<ul>
+<li>just apply pipeline to the test set (run <code>transform</code>, not <code>fit_transform</code> - we do not want to fit it to the training set!)</li>
+</ul>
+<pre><code class="language-python">final_model = grid_search.best_estimator_
+
+X_test = strat_test_set.drop(&quot;median_house_value&quot;, axis=1)
+y_test = strat_test_set[&quot;median_house_value&quot;].copy()
+</code></pre>
+<pre><code class="language-python">X_test_prepared = full_pipeline.transform(X_test)
+final_predictions = final_model.predict(X_test_prepared)
+</code></pre>
+<pre><code class="language-python">final_mse = mean_squared_error(y_test, final_predictions)
+final_rmse = np.sqrt(final_mse)
+</code></pre>
+<pre><code class="language-python">print(final_rmse)
+</code></pre>
+<pre><code>48026.91757298586
+</code></pre>
+<ul>
+<li>in some situations a point estimate of the generalization error will not be enough evidence to launch</li>
+<li>you can get an idea of precision by computing a 95% confidence interval for the generalization error:</li>
+</ul>
+<pre><code class="language-python">from scipy import stats
+</code></pre>
+<pre><code class="language-python">confidence = 0.95
+squared_errors = (final_predictions - y_test) ** 2
+np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+                        loc=squared_errors.mean(),
+                        scale=stats.sem(squared_errors)))
+</code></pre>
+<pre><code>array([46060.77003181, 49915.67977301])
+</code></pre>
+<ul>
+<li>performance will likely be a bit worse than what was measured in cross-validation</li>
+<li>resist temptation to tweak numbers on the test set</li>
+<li>present solution, highlighting assumptions, methodology, system limitations</li>
+<li>create presentations with clear visuals and keep points summarized</li>
+</ul>
+<h3 id="launch-monitor-and-maintain-your-system">Launch, Monitor, and Maintain Your System</h3>
+<ul>
+<li>
+<p>launch in prod, polishing code, writing tests and documentation, etc</p>
+</li>
+<li>
+<p>can deploy model by loading it in production environment or wrapping it in a REST api (i.e. cloud functions, microservices)</p>
+</li>
+<li>
+<p>this offers easier updating of system without disrupting main application, and can handle load balancing</p>
+</li>
+<li>
+<p>can deploy in cloud (GCP)</p>
+</li>
+<li>
+<p>need to write monitoring code after deployment to make sure performance doesn&rsquo;t rot over time</p>
+</li>
+<li>
+<p>models decay as the world changes and old data becomes less relevant, need to feed with new data</p>
+</li>
+<li>
+<p>model performance can be inferred from downstream metrics (e.g. how many sales your recommender system is generating)</p>
+</li>
+<li>
+<p>can use human testers to verfiy model outputs (experts, or crowdsourced from platforms like Amazon Mechanical Turk)</p>
+</li>
+<li>
+<p>putting models in prod and maintaining them can be more work than actually creating them</p>
+</li>
+<li>
+<p>automate as much of the process as possible:</p>
+</li>
+<li>
+<p>collecting fresh data regularly and labelling (e.g. using human raters)</p>
+</li>
+<li>
+<p>writing scripts to train the model and fine-tune hyperparameters automatically</p>
+</li>
+<li>
+<p>writing scripts to evaluate new model vs. old model on updated test sets, and deploying the new model if performance has not decreased</p>
+</li>
+<li>
+<p>monitor data quality as well, poor quality data leaking in can be hard to detect</p>
+</li>
+<li>
+<p>create backups of every model and have infrastructure to rollback previous models quickly, in case new ones start failing badly for some reason</p>
+</li>
+<li>
+<p>backups help for investigation/comparison</p>
+</li>
+<li>
+<p>keep backups of datasets as well</p>
+</li>
+</ul>
+<h2 id="exercises">Exercises</h2>
+<ol>
+<li>Try a Support Vector Machine regressor (sklearn.svm.SVR) with various hyperparameters, such as kernel=&quot;linear&rdquo; (with various values for the C hyperparameter) or kernel=&quot;rbf&rdquo; (with various values for the C and gamma hyperparameters). Don’t worry about what these hyperparameters mean for now. How does the best SVR predictor perform?</li>
+</ol>
+<pre><code class="language-python">from sklearn.svm import SVR
+</code></pre>
+<pre><code class="language-python">svr = SVR()
+param_grid = [{'kernel': ['linear'], 'C': [0.01, 0.1, 1.0, 10.0, 100.0]},
+              {'kernel': ['rbf'], 'C': [0.01, 0.1, 1.0, 10.0, 100.0],
+               'gamma': ['scale', 'auto']}
+             ]
+
+grid_search = GridSearchCV(svr, param_grid,
+                           scoring='neg_mean_squared_error',
+                           return_train_score=True)
+
+grid_search.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>/Users/willbarker/anaconda3/lib/python3.7/site-packages/sklearn/model_selection/_split.py:1978: FutureWarning: The default value of cv will change from 3 to 5 in version 0.22. Specify it explicitly to silence this warning.
+  warnings.warn(CV_WARNING, FutureWarning)
+
+
+
+
+
+GridSearchCV(cv='warn', error_score='raise-deprecating',
+             estimator=SVR(C=1.0, cache_size=200, coef0=0.0, degree=3,
+                           epsilon=0.1, gamma='auto_deprecated', kernel='rbf',
+                           max_iter=-1, shrinking=True, tol=0.001,
+                           verbose=False),
+             iid='warn', n_jobs=None,
+             param_grid=[{'C': [0.01, 0.1, 1.0, 10.0, 100.0],
+                          'kernel': ['linear']},
+                         {'C': [0.01, 0.1, 1.0, 10.0, 100.0],
+                          'gamma': ['scale', 'auto'], 'kernel': ['rbf']}],
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=True,
+             scoring='neg_mean_squared_error', verbose=0)
+</code></pre>
+<pre><code class="language-python">best_svr = grid_search.best_estimator_
+</code></pre>
+<pre><code class="language-python">best_svr
+</code></pre>
+<pre><code>SVR(C=100.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1,
+    gamma='auto_deprecated', kernel='linear', max_iter=-1, shrinking=True,
+    tol=0.001, verbose=False)
+</code></pre>
+<pre><code class="language-python">np.sqrt(-grid_search.best_score_)
+</code></pre>
+<pre><code>72427.44454616884
+</code></pre>
+<ol start="2">
+<li>Try replacing GridSearchCV with RandomizedSearchCV.</li>
+</ol>
+<pre><code class="language-python">from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import uniform
+from scipy.stats import norm
+from pprint import pprint
+</code></pre>
+<pre><code class="language-python">random_forest = RandomForestRegressor()
+</code></pre>
+<pre><code class="language-python">print(&quot;Parameters currently in use:\n&quot;)
+pprint(random_forest.get_params())
+</code></pre>
+<pre><code>Parameters currently in use:
+
+{'bootstrap': True,
+ 'criterion': 'mse',
+ 'max_depth': None,
+ 'max_features': 'auto',
+ 'max_leaf_nodes': None,
+ 'min_impurity_decrease': 0.0,
+ 'min_impurity_split': None,
+ 'min_samples_leaf': 1,
+ 'min_samples_split': 2,
+ 'min_weight_fraction_leaf': 0.0,
+ 'n_estimators': 'warn',
+ 'n_jobs': None,
+ 'oob_score': False,
+ 'random_state': None,
+ 'verbose': 0,
+ 'warm_start': False}
+</code></pre>
+<pre><code class="language-python">random_forest = RandomForestRegressor()
+
+n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=10)]
+max_features = ['auto', 'sqrt']
+max_depth = [int(x) for x in np.linspace(10,110, num=11)]
+max_depth.append(None)
+min_samples_split = [2, 5, 10]
+min_samples_leaf = [1,2,4]
+bootstrap = [True, False]
+
+
+random_grid = {'n_estimators': n_estimators,
+              'max_features': max_features,
+              'max_depth': max_depth,
+              'min_samples_split': min_samples_split,
+              'min_samples_leaf': min_samples_leaf,
+              'bootstrap': bootstrap}
+
+random_search = RandomizedSearchCV(estimator=random_forest,
+                                   param_distributions=random_grid,
+                                   scoring='neg_mean_squared_error',
+                                   verbose=1,
+                                   n_iter=10,
+                                   cv=3,
+                                   n_jobs=-1,
+                                   return_train_score=True)
+</code></pre>
+<pre><code class="language-python">random_search.fit(housing_prepared, housing_labels)
+</code></pre>
+<pre><code>Fitting 3 folds for each of 10 candidates, totalling 30 fits
+
+
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  30 out of  30 | elapsed: 31.4min finished
+
+
+
+
+
+RandomizedSearchCV(cv=3, error_score='raise-deprecating',
+                   estimator=RandomForestRegressor(bootstrap=True,
+                                                   criterion='mse',
+                                                   max_depth=None,
+                                                   max_features='auto',
+                                                   max_leaf_nodes=None,
+                                                   min_impurity_decrease=0.0,
+                                                   min_impurity_split=None,
+                                                   min_samples_leaf=1,
+                                                   min_samples_split=2,
+                                                   min_weight_fraction_leaf=0.0,
+                                                   n_estimators='warn',
+                                                   n_jobs=None, oob_score=False,
+                                                   random_sta...
+                   param_distributions={'bootstrap': [True, False],
+                                        'max_depth': [10, 20, 30, 40, 50, 60,
+                                                      70, 80, 90, 100, 110,
+                                                      None],
+                                        'max_features': ['auto', 'sqrt'],
+                                        'min_samples_leaf': [1, 2, 4],
+                                        'min_samples_split': [2, 5, 10],
+                                        'n_estimators': [200, 400, 600, 800,
+                                                         1000, 1200, 1400, 1600,
+                                                         1800, 2000]},
+                   pre_dispatch='2*n_jobs', random_state=None, refit=True,
+                   return_train_score=True, scoring='neg_mean_squared_error',
+                   verbose=1)
+</code></pre>
+<pre><code class="language-python">best_forest = random_search.best_estimator_
+</code></pre>
+<pre><code class="language-python">best_forest
+</code></pre>
+<pre><code>RandomForestRegressor(bootstrap=False, criterion='mse', max_depth=110,
+                      max_features='sqrt', max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=1, min_samples_split=10,
+                      min_weight_fraction_leaf=0.0, n_estimators=600,
+                      n_jobs=None, oob_score=False, random_state=None,
+                      verbose=0, warm_start=False)
+</code></pre>
+<pre><code class="language-python">np.sqrt(-random_search.best_score_)
+</code></pre>
+<pre><code>49359.61219717077
+</code></pre>
+<ol start="3">
+<li>Try adding a transformer in the preparation pipeline to select only the most important attributes.</li>
+</ol>
+<pre><code class="language-python">class FeatureImportancesFilter(BaseEstimator, TransformerMixin):
+    def __init__(self,
+                 feature_importances,
+                 importance_cutoff = 0.9): # no *args or **kargs
+        
+        self.feature_importances = feature_importances
+        feature_indices = [i for i in range(len(self.feature_importances))]
+        self.sorted_feature_importances = sorted(zip(self.feature_importances,
+                                                     feature_indices),
+                                                reverse=True)
+        self.importance_cutoff = importance_cutoff
+    def fit(self, X, y=None):
+        return self # nothing else to do
+    def transform(self, X, y=None):
+        importance_sum = 0
+        included_features = list()
+        for importance, ix in self.sorted_feature_importances:
+            if not importance_sum &gt;= self.importance_cutoff:
+                importance_sum += importance
+                included_features.append(ix)      
+            else: break
+                
+        return X[:, included_features]
+</code></pre>
+<ul>
+<li>note: might need to fit to actual random forest regressor, or breaks if input shape changes</li>
+</ul>
+<pre><code class="language-python">housing_prepared.shape
+</code></pre>
+<pre><code>(16512, 16)
+</code></pre>
+<pre><code class="language-python">importance_filter = FeatureImportancesFilter(feature_importances, importance_cutoff=0.9)
+</code></pre>
+<pre><code class="language-python">importance_filter.transform(housing_prepared).shape
+</code></pre>
+<pre><code>(16512, 8)
+</code></pre>
+<ol start="4">
+<li>Try creating a single pipeline that does the full data preparation plus the final prediction.</li>
+</ol>
+<pre><code class="language-python">e2e_pipeline = Pipeline([
+    ('data_prep', full_pipeline),
+    ('filter', FeatureImportancesFilter(feature_importances)),
+    ('clf', best_forest)
+])
+</code></pre>
+<ol start="5">
+<li>Automatically explore some preparation options using GridSearchCV.</li>
+</ol>
+<pre><code class="language-python">e2e_grid_params = {'filter__importance_cutoff': (0.5, 0.6, 0.65)}
+</code></pre>
+<pre><code class="language-python">e2e_grid_search = GridSearchCV(e2e_pipeline, e2e_grid_params,
+                               scoring='neg_mean_squared_error',
+                               verbose=1,
+                               cv=3)
+</code></pre>
+<pre><code class="language-python">e2e_grid_search.fit(housing, housing_labels)
+</code></pre>
+<pre><code>Fitting 3 folds for each of 3 candidates, totalling 9 fits
+
+
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+[Parallel(n_jobs=1)]: Done   9 out of   9 | elapsed:  1.4min finished
+
+
+
+
+
+GridSearchCV(cv=3, error_score='raise-deprecating',
+             estimator=Pipeline(memory=None,
+                                steps=[('data_prep',
+                                        ColumnTransformer(n_jobs=None,
+                                                          remainder='drop',
+                                                          sparse_threshold=0.3,
+                                                          transformer_weights=None,
+                                                          transformers=[('num',
+                                                                         Pipeline(memory=None,
+                                                                                  steps=[('imputer',
+                                                                                          SimpleImputer(add_indicator=False,
+                                                                                                        copy=True,
+                                                                                                        fill_value=None,
+                                                                                                        missing_values=nan,
+                                                                                                        strategy='median'...
+                                                              min_samples_leaf=1,
+                                                              min_samples_split=10,
+                                                              min_weight_fraction_leaf=0.0,
+                                                              n_estimators=600,
+                                                              n_jobs=None,
+                                                              oob_score=False,
+                                                              random_state=None,
+                                                              verbose=0,
+                                                              warm_start=False))],
+                                verbose=False),
+             iid='warn', n_jobs=None,
+             param_grid={'filter__importance_cutoff': (0.5, 0.6, 0.65)},
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
+             scoring='neg_mean_squared_error', verbose=1)
+</code></pre>
+<pre><code class="language-python">np.sqrt(-e2e_grid_search.best_score_)
+</code></pre>
+<pre><code>66661.60437351998
+</code></pre>
+<pre><code class="language-python">e2e_grid_search.best_params_
+</code></pre>
+<pre><code>{'filter__importance_cutoff': 0.65}
+</code></pre>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2020 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
