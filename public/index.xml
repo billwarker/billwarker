@@ -6,10 +6,19 @@
     <description>Recent content on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hands on Machine Learning - Chapter 3 Notes</title>
+      <link>https://billwarker.com/posts/handson-ml-ch3/</link>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/handson-ml-ch3/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Hands on Machine Learning - Chapter 2 Notes</title>
@@ -63,16 +72,6 @@ About Me, Not You Just some guy, will add more later&amp;hellip;</description>
 &lt;p&gt;Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:&lt;/p&gt;
 &lt;p&gt;$$N(n, k) = \frac{n!}{(n-k)!}$$&lt;/p&gt;
 &lt;p&gt;$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&amp;rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://billwarker.com/posts/handson-ml-ch3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://billwarker.com/posts/handson-ml-ch3/</guid>
-      <description>Notes Classification: predicting classes/categories
-Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml(&#39;mnist_784&#39;, version=1)  mnist.keys()  dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;frame&#39;, &#39;categories&#39;, &#39;feature_names&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;details&#39;, &#39;url&#39;])  X, y = mnist[&#39;data&#39;], mnist[&#39;target&#39;]  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&amp;quot;binary&amp;quot;) plt.axis(&amp;quot;off&amp;quot;) plt.show()  y[0]  &#39;5&#39;   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn.</description>
     </item>
     
   </channel>

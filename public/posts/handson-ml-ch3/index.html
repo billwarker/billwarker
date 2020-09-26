@@ -31,7 +31,7 @@ if (!doNotTrack) {
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
 
 
-<title> - Data Science Notes</title>
+<title>Hands on Machine Learning - Chapter 3 Notes - Data Science Notes</title>
 
 
 <meta name="author" content="Will Barker" />
@@ -40,20 +40,21 @@ if (!doNotTrack) {
 <meta name="description" content="A minimal Hugo theme with nice theme color." />
 
 
-<meta property="og:title" content="" />
-<meta property="og:description" content="Notes Classification: predicting classes/categories
-Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml(&#39;mnist_784&#39;, version=1)  mnist.keys()  dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;frame&#39;, &#39;categories&#39;, &#39;feature_names&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;details&#39;, &#39;url&#39;])  X, y = mnist[&#39;data&#39;], mnist[&#39;target&#39;]  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&quot;binary&quot;) plt.axis(&quot;off&quot;) plt.show()  y[0]  &#39;5&#39;   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn." />
+<meta name="keywords" content="handson-ml, ml" />
+
+<meta property="og:title" content="Hands on Machine Learning - Chapter 3 Notes" />
+<meta property="og:description" content="" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://billwarker.com/posts/handson-ml-ch3/" />
 <meta property="og:image" content="https://billwarker.com/img/og.png"/>
-
+<meta property="article:published_time" content="2020-09-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-09-26T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
 
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="Notes Classification: predicting classes/categories
-Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml(&#39;mnist_784&#39;, version=1)  mnist.keys()  dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;frame&#39;, &#39;categories&#39;, &#39;feature_names&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;details&#39;, &#39;url&#39;])  X, y = mnist[&#39;data&#39;], mnist[&#39;target&#39;]  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&quot;binary&quot;) plt.axis(&quot;off&quot;) plt.show()  y[0]  &#39;5&#39;   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn."/>
+<meta name="twitter:title" content="Hands on Machine Learning - Chapter 3 Notes"/>
+<meta name="twitter:description" content=""/>
 
 
 
@@ -127,10 +128,10 @@ Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml
 <article>
     
     <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/handson-ml-ch3/"></a>
+        <a href="https://billwarker.com/posts/handson-ml-ch3/">Hands on Machine Learning - Chapter 3 Notes</a>
     </h2>
     <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;0001-01-01</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;No tag</span>
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-09-26</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/handson-ml">handson-ml</a>&nbsp;<a href="/tags/ml">ml</a>&nbsp;</span>
     </div>
     
     
@@ -831,7 +832,6 @@ plt.subplot(122); plot_digit(clean_digit)
 <p><img class="img-zoomable" src="images/handson-ml-ch3_141_0.png" alt="png" />
 </p>
 <h2 id="exercises-in-a-separate-notebook">Exercises in a Separate Notebook</h2>
-
     </div>
 </article>
 

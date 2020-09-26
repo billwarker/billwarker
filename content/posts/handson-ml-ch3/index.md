@@ -1,3 +1,12 @@
+---
+title: "Hands on Machine Learning - Chapter 3 Notes"
+author: "Will Barker"
+date: 2020-09-26
+tags: ["handson-ml", "ml"]
+---
+<!--more--> 
+
+
 ## Notes
 
 Classification: predicting classes/categories
