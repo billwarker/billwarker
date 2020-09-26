@@ -181,6 +181,19 @@ if (!doNotTrack) {
     </div>
 </div>
 
+<div class="post">
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/handson-ml-ch3/"></a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;0001-01-01</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;No tag</span>
+    </div>
+    <div class="post-item post-summary markdown-body">
+        Notes Classification: predicting classes/categories
+Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml('mnist_784', version=1)  mnist.keys()  dict_keys(['data', 'target', 'frame', 'categories', 'feature_names', 'target_names', 'DESCR', 'details', 'url'])  X, y = mnist['data'], mnist['target']  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&quot;binary&quot;) plt.axis(&quot;off&quot;) plt.show()  y[0]  '5'   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn.
+    </div>
+</div>
+
 
 
 

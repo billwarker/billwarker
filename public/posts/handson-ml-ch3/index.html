@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title> - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Notes Classification: predicting classes/categories
+Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml(&#39;mnist_784&#39;, version=1)  mnist.keys()  dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;frame&#39;, &#39;categories&#39;, &#39;feature_names&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;details&#39;, &#39;url&#39;])  X, y = mnist[&#39;data&#39;], mnist[&#39;target&#39;]  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&quot;binary&quot;) plt.axis(&quot;off&quot;) plt.show()  y[0]  &#39;5&#39;   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/handson-ml-ch3/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Notes Classification: predicting classes/categories
+Introducing MNIST  handwritten digits  from sklearn.datasets import fetch_openml  mnist = fetch_openml(&#39;mnist_784&#39;, version=1)  mnist.keys()  dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;frame&#39;, &#39;categories&#39;, &#39;feature_names&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;details&#39;, &#39;url&#39;])  X, y = mnist[&#39;data&#39;], mnist[&#39;target&#39;]  X.shape  (70000, 784)   70K samples, 784 features (28x28 pixels)  y.shape  (70000,)  import matplotlib as mpl import matplotlib.pyplot as plt  some_digit = X[0] some_digit_image = some_digit.reshape(28,28) plt.imshow(some_digit_image, cmap=&quot;binary&quot;) plt.axis(&quot;off&quot;) plt.show()  y[0]  &#39;5&#39;   cast target variable to integers  import numpy as np  y = y.astype(np.uint8)  X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],   dataset is already shuffled, some CV folds will be similar (no missing digits)  Training a binary classifier  simplify the problem to classifying a single digit Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time relies on randomness  y_train_5 = (y_train == 5) y_test_5 = (y_test == 5)  from sklearn."/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/handson-ml-ch3/"></a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;0001-01-01</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;No tag</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <h2 id="notes">Notes</h2>
+<p>Classification: predicting classes/categories</p>
+<h3 id="introducing-mnist">Introducing MNIST</h3>
+<ul>
+<li>handwritten digits</li>
+</ul>
+<pre><code class="language-python">from sklearn.datasets import fetch_openml
+</code></pre>
+<pre><code class="language-python">mnist = fetch_openml('mnist_784', version=1)
+</code></pre>
+<pre><code class="language-python">mnist.keys()
+</code></pre>
+<pre><code>dict_keys(['data', 'target', 'frame', 'categories', 'feature_names', 'target_names', 'DESCR', 'details', 'url'])
+</code></pre>
+<pre><code class="language-python">X, y = mnist['data'], mnist['target']
+</code></pre>
+<pre><code class="language-python">X.shape
+</code></pre>
+<pre><code>(70000, 784)
+</code></pre>
+<ul>
+<li>70K samples, 784 features (28x28 pixels)</li>
+</ul>
+<pre><code class="language-python">y.shape
+</code></pre>
+<pre><code>(70000,)
+</code></pre>
+<pre><code class="language-python">import matplotlib as mpl
+import matplotlib.pyplot as plt
+</code></pre>
+<pre><code class="language-python">some_digit = X[0]
+some_digit_image = some_digit.reshape(28,28)
+
+plt.imshow(some_digit_image, cmap=&quot;binary&quot;)
+plt.axis(&quot;off&quot;)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_10_0.png" alt="png" />
+</p>
+<pre><code class="language-python">y[0]
+</code></pre>
+<pre><code>'5'
+</code></pre>
+<ul>
+<li>cast target variable to integers</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+</code></pre>
+<pre><code class="language-python">y = y.astype(np.uint8)
+</code></pre>
+<pre><code class="language-python">X_train, X_test, y_train, y_test = X[:60000], X[60000:], y[:60000], y[60000:],
+</code></pre>
+<ul>
+<li>dataset is already shuffled, some CV folds will be similar (no missing digits)</li>
+</ul>
+<h3 id="training-a-binary-classifier">Training a binary classifier</h3>
+<ul>
+<li>simplify the problem to classifying a single digit</li>
+<li>Stochastic Gradient Descent (SGD) classifier: good for large datasets, deals with training instances independently, one at a time</li>
+<li>relies on randomness</li>
+</ul>
+<pre><code class="language-python">y_train_5 = (y_train == 5)
+y_test_5 = (y_test == 5)
+</code></pre>
+<pre><code class="language-python">from sklearn.linear_model import SGDClassifier
+</code></pre>
+<pre><code class="language-python">sgd_clf = SGDClassifier(random_state=42)
+sgd_clf.fit(X_train, y_train_5)
+</code></pre>
+<pre><code>SGDClassifier(random_state=42)
+</code></pre>
+<pre><code class="language-python">sgd_clf.predict([some_digit])
+</code></pre>
+<pre><code>array([ True])
+</code></pre>
+<h3 id="performance-measures">Performance Measures</h3>
+<ul>
+<li>Can use cross validation</li>
+<li>Custom implementation of CV:</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import StratifiedKFold
+from sklearn.base import clone
+</code></pre>
+<pre><code class="language-python">skfolds = StratifiedKFold(n_splits=3, random_state=42)
+
+for train_index, test_index in skfolds.split(X_train, y_train_5):
+    clone_clf = clone(sgd_clf)
+    X_train_folds = X_train[train_index]
+    y_train_folds = y_train_5[train_index]
+    X_test_fold = X_train[test_index]
+    y_test_fold = y_train_5[test_index]
+    
+    clone_clf.fit(X_train_folds, y_train_folds)
+    y_pred = clone_clf.predict(X_test_fold)
+    n_correct = sum(y_pred == y_test_fold)
+    print(n_correct/len(y_pred))
+</code></pre>
+<pre><code>/opt/conda/lib/python3.7/site-packages/sklearn/model_selection/_split.py:297: FutureWarning: Setting a random_state has no effect since shuffle is False. This will raise an error in 0.24. You should leave random_state to its default (None), or set shuffle=True.
+  FutureWarning
+
+
+0.95035
+0.96035
+0.9604
+</code></pre>
+<ul>
+<li>performs stratified sampling to get a representative ratio of each class</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import cross_val_score
+</code></pre>
+<pre><code class="language-python">cross_val_score(sgd_clf, X_train, y_train_5, cv=3, scoring=&quot;accuracy&quot;)
+</code></pre>
+<pre><code>array([0.95035, 0.96035, 0.9604 ])
+</code></pre>
+<ul>
+<li>accuracy doesn&rsquo;t mean much here, since about 10% of the samples are 5s. If you guess non-5 for every sample you&rsquo;ll get around 90% accuracy</li>
+</ul>
+<pre><code class="language-python">from sklearn.base import BaseEstimator
+</code></pre>
+<pre><code class="language-python">class Never5Classifier(BaseEstimator):
+    def fit(self, X, y=None):
+        return self
+    def predict(self, X):
+        return np.zeros((len(X), 1), dtype=bool)
+</code></pre>
+<pre><code class="language-python">never_5_clf = Never5Classifier()
+cross_val_score(never_5_clf, X_train, y_train_5, cv=3, scoring='accuracy')
+</code></pre>
+<pre><code>array([0.91125, 0.90855, 0.90915])
+</code></pre>
+<ul>
+<li>accuracy is generally not the preferred performance measure, especially with skewed datasets</li>
+</ul>
+<p><strong>Confusion Matrix</strong></p>
+<ul>
+<li>count the number of times instances of class A are classfied as class B</li>
+</ul>
+<pre><code class="language-python">from sklearn.model_selection import cross_val_predict
+</code></pre>
+<ul>
+<li><code>cross_val_predict</code> returns the predictions for each test fold</li>
+</ul>
+<pre><code class="language-python">y_train_pred = cross_val_predict(sgd_clf, X_train, y_train_5, cv=3)
+</code></pre>
+<pre><code class="language-python">y_train_pred.shape
+</code></pre>
+<pre><code>(60000,)
+</code></pre>
+<pre><code class="language-python">from sklearn.metrics import confusion_matrix
+</code></pre>
+<pre><code class="language-python">confusion_matrix(y_train_5, y_train_pred)
+</code></pre>
+<pre><code>array([[53892,   687],
+       [ 1891,  3530]])
+</code></pre>
+<ul>
+<li>
+<p>each row represents an actual class</p>
+</li>
+<li>
+<p>each column represents a predicted class</p>
+</li>
+<li>
+<p>first row of this matrix is non-5s, second row is 5s</p>
+</li>
+<li>
+<p>row 1 col 1: true negatives</p>
+</li>
+<li>
+<p>row 1 col 2: false positives</p>
+</li>
+<li>
+<p>row 2 col 1: false negatives</p>
+</li>
+<li>
+<p>row 2 col 2: true positives</p>
+</li>
+<li>
+<p>a perfect classifier would only have true positives and true negatives</p>
+</li>
+</ul>
+<pre><code class="language-python"># pretending we reached perfection
+y_train_perfect_predictions = y_train_5
+confusion_matrix(y_train_5, y_train_perfect_predictions)
+</code></pre>
+<pre><code>array([[54579,     0],
+       [    0,  5421]])
+</code></pre>
+<p><strong>Precision and Recall</strong></p>
+<p>Precision: accuracy of positive predictions
+$$ precision = \frac{TP}{TP+FP} $$</p>
+<p>Recall (AKA sensitivity or True Positive Rate):
+$$ recall = \frac{TP}{TP+FN} $$</p>
+<pre><code class="language-python">from sklearn.metrics import precision_score, recall_score
+</code></pre>
+<pre><code class="language-python">precision_score(y_train_5, y_train_pred)
+</code></pre>
+<pre><code>0.8370879772350012
+</code></pre>
+<pre><code class="language-python">recall_score(y_train_5, y_train_pred)
+</code></pre>
+<pre><code>0.6511713705958311
+</code></pre>
+<ul>
+<li>higher precision than recall: when the classifier predicted a 5, it was likely to be correct. however, this came at the cost of incorrectly predicting non-5 on samples that it was less sure about</li>
+<li>its convenient to combine precision and recall into a single metric, the F1 score:</li>
+</ul>
+<p>$$ F_1 = \frac{2}{\frac{1}{precision} + \frac{1}{recall}} = 2\times\frac{precision\times{recall}}{precision + recall} = \frac{TP}{TP + \frac{FN+TP}{2}}$$</p>
+<ul>
+<li>this is the harmonic mean; while regular mean treats all values equally, harmonic mean gives much more weight to low values</li>
+<li>F1 is only high if both precision and recall are</li>
+</ul>
+<pre><code class="language-python">from sklearn.metrics import f1_score
+</code></pre>
+<pre><code class="language-python">f1_score(y_train_5, y_train_pred)
+</code></pre>
+<pre><code>0.7325171197343846
+</code></pre>
+<ul>
+<li>while F1 is a metric that favours equally good precision and recall, there are instances when prioritizing one of the two is more valuable</li>
+<li>e.g. a classifier that detects whether videos are safe for kids: you want high precision because the cost of being wrong is very high, and its better to reject potentially safe videos if it ensures that no unsafe videos are recommended</li>
+<li>e.g. a classifier for catching shoplifting can favour recall; maximizing the potential for catching all instances of shoplifting is well worth the potential for a few false positives here and there</li>
+<li>there is a tradeoff between precision and recall, can&rsquo;t have it both ways</li>
+</ul>
+<p><strong>Precision/Recall Trade-Off</strong></p>
+<ul>
+<li>controlled by the threshold at which a sample is classified as true</li>
+<li>can control this threshold by calling <code>decision_function()</code> instead of <code>predict()</code> for sklearn estimators and setting a threshold yourself:</li>
+</ul>
+<pre><code class="language-python">y_scores = sgd_clf.decision_function([some_digit])
+y_scores
+</code></pre>
+<pre><code>array([2164.22030239])
+</code></pre>
+<pre><code class="language-python">threshold = 0
+y_some_digit_pred = (y_scores &gt; threshold)
+y_some_digit_pred
+</code></pre>
+<pre><code>array([ True])
+</code></pre>
+<pre><code class="language-python">threshold = 8000
+y_some_digit_pred = (y_scores &gt; threshold)
+y_some_digit_pred
+</code></pre>
+<pre><code>array([False])
+</code></pre>
+<ul>
+<li>raising the threshold increases precision and lowers recall</li>
+<li>lowering the threshold increases recall and lowers precision</li>
+</ul>
+<pre><code class="language-python">y_scores = cross_val_predict(sgd_clf, X_train, y_train_5, cv=3,
+                             method='decision_function')
+</code></pre>
+<pre><code class="language-python">from sklearn.metrics import precision_recall_curve
+</code></pre>
+<pre><code class="language-python">precisions, recalls, thresholds = precision_recall_curve(y_train_5, y_scores)
+</code></pre>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+sns.set_style('whitegrid')
+</code></pre>
+<pre><code class="language-python">def plot_precision_recall_vs_threshold(precisions, recalls, thresholds, figsize=(10,6)):
+    plt.figure(figsize=figsize)
+    plt.plot(thresholds, precisions[:-1], 'b--', label='Precision')
+    plt.plot(thresholds, recalls[:-1], 'g--', label='Recall')
+    plt.legend()
+</code></pre>
+<pre><code class="language-python">plot_precision_recall_vs_threshold(precisions, recalls, thresholds)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_60_0.png" alt="png" />
+</p>
+<ul>
+<li>precision can go down when the threshold increases</li>
+<li>e.g. getting 4/5 (80%) correct, then raising threshold and getting 3/4 correct (75%)</li>
+<li>can also plot precision vs. recall directly:</li>
+</ul>
+<pre><code class="language-python">def plot_precision_vs_recall(precisions, recalls, figsize=(10,6)):
+    plt.figure(figsize=figsize)
+    plt.plot(recalls, precisions, 'b--')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+</code></pre>
+<pre><code class="language-python">plot_precision_vs_recall(precisions, recalls)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_63_0.png" alt="png" />
+</p>
+<ul>
+<li>precision really starts to dip around 70% recall</li>
+<li>might make sense to set the threshold before that drop, but depends on the context of your project</li>
+<li>to set the threshold at a specific precision:</li>
+<li><code>np.argmax()</code> gives the first index of the maximum value; in this case, the first instance where precision &gt; 90 is true</li>
+</ul>
+<pre><code class="language-python">threshold_90_precision = thresholds[np.argmax(precisions &gt;= 0.9)]
+threshold_90_precision
+</code></pre>
+<pre><code>3370.0194991439557
+</code></pre>
+<pre><code class="language-python">y_train_pred_90 = (y_scores &gt;= threshold_90_precision)
+</code></pre>
+<pre><code class="language-python">precision_score(y_train_5, y_train_pred_90)
+</code></pre>
+<pre><code>0.9000345901072293
+</code></pre>
+<pre><code class="language-python">recall_score(y_train_5, y_train_pred_90)
+</code></pre>
+<pre><code>0.4799852425751706
+</code></pre>
+<p><strong>The ROC Curve</strong></p>
+<ul>
+<li>Receiver Operating Characteristic</li>
+<li>plots true positive rate (TPR) vs false positive rate (FPR)</li>
+<li>FPR is ratio of false positives, i.e. 1 - True Negative Rate (TNR)</li>
+<li>TNR is also known as specificity</li>
+<li>ROC is plotting sensitivity (recall) vs 1 - specificity</li>
+</ul>
+<pre><code class="language-python">from sklearn.metrics import roc_curve
+</code></pre>
+<pre><code class="language-python">fpr, tpr, thresholds = roc_curve(y_train_5, y_scores)
+</code></pre>
+<pre><code class="language-python">def plot_roc_curve(fpr, tpr, label=None, figsize=(10,6)):
+    plt.figure(figsize=figsize)
+    plt.plot(fpr, tpr, linewidth=2, label=label)
+    plt.plot([0,1], [0,1], 'k--')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate (Recall)')
+    plt.legend()
+</code></pre>
+<pre><code class="language-python">plot_roc_curve(fpr, tpr)
+plt.show()
+</code></pre>
+<pre><code>No handles with labels found to put in legend.
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_74_1.png" alt="png" />
+</p>
+<ul>
+<li>dotted line represents purely random classifier</li>
+<li>good classifiers have the highest true positive rate with the lowest false positive rate (top left corner)</li>
+<li>can compare ROC scores of different classifiers by measuring area under the curve AUC</li>
+<li>a purely random classifier will have an AUC of 0.5 (think the integral of the purely random classifier, the linear line)</li>
+<li>false positive rate is so high here because there aren&rsquo;t that many 5s in the data (only about 10%), so don&rsquo;t get misled by the great looking ROC curve</li>
+</ul>
+<pre><code class="language-python">from sklearn.metrics import roc_auc_score
+</code></pre>
+<pre><code class="language-python">roc_auc_score(y_train_5, y_scores)
+</code></pre>
+<pre><code>0.9604938554008616
+</code></pre>
+<ul>
+<li>use the precision/recall curve when the positive class is rare or you care more about the false positives than the false negatives</li>
+<li>otherwise use the ROC curve</li>
+<li>for skewed datasets where the positive class is rare, you can see that precision really suffers when recall increases (a result of having less training data on the positive class, the classifier is trying to catch every positive class despite not having a lot to go off of). paints a different picture than ROC</li>
+<li>Try calculating ROC, AUC, Precision and Recall for Random Forest estimator:</li>
+</ul>
+<pre><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+</code></pre>
+<pre><code class="language-python">forest_clf = RandomForestClassifier(random_state=42)
+</code></pre>
+<pre><code class="language-python">y_probas_forest = cross_val_predict(forest_clf, X_train, y_train_5, cv=3,
+                                    method='predict_proba')
+</code></pre>
+<pre><code class="language-python">y_scores_forest = y_probas_forest[:, 1] # score = proba of positive class
+</code></pre>
+<pre><code class="language-python">fpr_forest, tpr_forest, thresholds_forest = roc_curve(y_train_5,
+                                                      y_scores_forest)
+</code></pre>
+<pre><code class="language-python">plot_roc_curve(fpr_forest, tpr_forest, label=&quot;Random Forest&quot;)
+plt.plot(fpr, tpr, &quot;b:&quot;, label=&quot;SGD&quot;)
+plt.legend()
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_84_0.png" alt="png" />
+</p>
+<ul>
+<li>Closer to top left than SGD, more AUC, better performance</li>
+<li>Explaining the ROC curve: to achieve an almost 99% recall/TPR rate (we correctly predict positive for 99% of all the real positive samples in the dataset), it seems like we will have to accept the tradeoff of getting 15% of the negative samples incorrectly predicted as positive (the false positive rate)</li>
+</ul>
+<pre><code class="language-python">roc_auc_score(y_train_5, y_scores_forest)
+</code></pre>
+<pre><code>0.9983436731328145
+</code></pre>
+<pre><code class="language-python">y_preds_forest = cross_val_predict(forest_clf, X_train, y_train_5,
+                                        cv=3)
+</code></pre>
+<pre><code class="language-python">precision_score(y_train_5, y_preds_forest)
+</code></pre>
+<pre><code>0.9905083315756169
+</code></pre>
+<pre><code class="language-python">recall_score(y_train_5, y_preds_forest)
+</code></pre>
+<pre><code>0.8662608374838591
+</code></pre>
+<h3 id="multiclass-classification">Multiclass Classification</h3>
+<ul>
+<li>AKA multinomial</li>
+<li>Logistic Regression, Random Forest, naive Bayes classifiers are examples of algorithms that can make multiclass classifications natively</li>
+<li>Can get around this with algos that only work as binary; in the example of MNIST train 10 binary classifiers, pick the class with the highest decision score. Known as one-versus-rest/one-versus-all strategy (OvR).</li>
+<li>You could also train a binary classifier for every pair of digits. i.e. 1 vs 2, 1 vs 3, 2 vs 5, etc. This is one-versus-one (OvO) strategy, and you pick the classifier that wins the most duels. Advantage of this strategy is that you only train the classifiers on subsets of the entire target variable space</li>
+<li>Some algos scale poorly with the size of the training set, so OvO strategy is preferred</li>
+<li>In general however, OvR is preferred, as its more straightforward</li>
+<li>Sklearn classifiers will automatically detecty multiclass classifications from the target variable and will use a strategy based on the algorithm used</li>
+</ul>
+<pre><code class="language-python">from sklearn.svm import SVC
+</code></pre>
+<pre><code class="language-python"># svm_clf = SVC()
+# svm_clf.fit(X_train, y_train) # all digits in target variable
+# svm_clf.predict([some_digit])
+</code></pre>
+<ul>
+<li>
+<p>SVC uses OvO strategy; it actually trained 45 binary classifiers</p>
+</li>
+<li>
+<p>NOTE: This takes forever to run. Sklearn can&rsquo;t use GPUs to speed up training; GPUs are only useful for training deep learning models with architectures like Tensorflow or PyTorch</p>
+</li>
+<li>
+<p>SVMs have a quadratic time complexity, calculating the distance between each point in the dataset:
+$$ O({n_{features}}\times{n_{observations}^2}) $$</p>
+</li>
+<li>
+<p>Caches common points but this kills memory regardless</p>
+</li>
+<li>
+<p>This doesn&rsquo;t scale well over a couple 10k features</p>
+</li>
+<li>
+<p><code>decision_function()</code> returns 10 scores per instance, and classifier picked the highest one:</p>
+</li>
+</ul>
+<pre><code class="language-python"># some_digit_scores = svm_clf.decision_function([some_digit])
+# some_digit_scores
+</code></pre>
+<pre><code class="language-python"># np.argmax(some_digit_scores)
+</code></pre>
+<pre><code class="language-python"># svm_clf.classes[np.argmax(some_digit_scores)]
+</code></pre>
+<ul>
+<li>index just happened to match the class itself, but this is just luck</li>
+<li>Sklearn can be forced to use either OvO or OvR using <code>OneVsOneClassifier</code> or <code>OneVsRestClassifier</code> classes; just create an instance with the classifier you want passed as constructor</li>
+</ul>
+<pre><code class="language-python">from sklearn.multiclass import OneVsRestClassifier
+</code></pre>
+<pre><code class="language-python"># ovr_clf = OneVsRestClassifier(SVC())
+# ovr_clf.fit(X_train, y_train)
+# ovr_clf.predict([some_digit])
+</code></pre>
+<pre><code class="language-python"># len(ovr_clf.estimators_)
+</code></pre>
+<ul>
+<li>SGD Classifiers can directly classify instances into multiple classes</li>
+<li>Decision function returns a score per class</li>
+</ul>
+<pre><code class="language-python">sgd_clf.fit(X_train, y_train)
+sgd_clf.predict([some_digit])
+</code></pre>
+<pre><code>array([3], dtype=uint8)
+</code></pre>
+<pre><code class="language-python">sgd_clf.decision_function([some_digit])
+</code></pre>
+<pre><code>array([[-31893.03095419, -34419.69069632,  -9530.63950739,
+          1823.73154031, -22320.14822878,  -1385.80478895,
+        -26188.91070951, -16147.51323997,  -4604.35491274,
+        -12050.767298  ]])
+</code></pre>
+<pre><code class="language-python">cross_val_score(sgd_clf, X_train, y_train, cv=3, scoring=&quot;accuracy&quot;)
+</code></pre>
+<pre><code>array([0.87365, 0.85835, 0.8689 ])
+</code></pre>
+<ul>
+<li>84% on all testing folds is decent - if you were to use a random classifier you&rsquo;d get 10% accuracy</li>
+<li>simply scaling inputs can increase score:</li>
+</ul>
+<pre><code class="language-python">from sklearn.preprocessing import StandardScaler
+</code></pre>
+<pre><code class="language-python">scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train.astype(np.float64))
+</code></pre>
+<pre><code class="language-python">cross_val_score(sgd_clf, X_train_scaled, y_train, cv=3,
+                scoring=&quot;accuracy&quot;)
+</code></pre>
+<pre><code>array([0.8983, 0.891 , 0.9018])
+</code></pre>
+<h3 id="error-analysis">Error Analysis</h3>
+<ul>
+<li>can improve shortlisted models by analyzing the errors they make</li>
+<li>make predictions using the <code>cross_val_predict()</code> function, then call <code>confusion_matrix()</code>:</li>
+</ul>
+<pre><code class="language-python">y_train_pred = cross_val_predict(sgd_clf, X_train_scaled, y_train, cv=3)
+conf_mx = confusion_matrix(y_train, y_train_pred)
+</code></pre>
+<pre><code class="language-python">conf_mx
+</code></pre>
+<pre><code>array([[5577,    0,   22,    5,    8,   43,   36,    6,  225,    1],
+       [   0, 6400,   37,   24,    4,   44,    4,    7,  212,   10],
+       [  27,   27, 5220,   92,   73,   27,   67,   36,  378,   11],
+       [  22,   17,  117, 5227,    2,  203,   27,   40,  403,   73],
+       [  12,   14,   41,    9, 5182,   12,   34,   27,  347,  164],
+       [  27,   15,   30,  168,   53, 4444,   75,   14,  535,   60],
+       [  30,   15,   42,    3,   44,   97, 5552,    3,  131,    1],
+       [  21,   10,   51,   30,   49,   12,    3, 5684,  195,  210],
+       [  17,   63,   48,   86,    3,  126,   25,   10, 5429,   44],
+       [  25,   18,   30,   64,  118,   36,    1,  179,  371, 5107]])
+</code></pre>
+<ul>
+<li>As a heatmap:</li>
+</ul>
+<pre><code class="language-python">plt.matshow(conf_mx, cmap=plt.cm.gray)
+plt.xlabel(&quot;Predicted&quot;)
+plt.ylabel(&quot;Actual Values&quot;)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_114_0.png" alt="png" />
+</p>
+<ul>
+<li>
+<p>Main diagonal: predicted rate of actual digit</p>
+</li>
+<li>
+<p>Rows are actual classes, Columns are predicted classes</p>
+</li>
+<li>
+<p>Lower rate could mean that less of that class in the dataset or lower performance on it</p>
+</li>
+<li>
+<p>Can divide absolute prediction sums by total number of instances for each class to get error rates:</p>
+</li>
+</ul>
+<pre><code class="language-python">row_sums = conf_mx.sum(axis=1, keepdims=True)
+norm_conf_mx = conf_mx / row_sums
+
+np.fill_diagonal(norm_conf_mx, 0) # fill in diagonals to look at errors only
+plt.matshow(norm_conf_mx, cmap=plt.cm.gray)
+plt.xlabel(&quot;Predicted&quot;)
+plt.ylabel(&quot;Actual Values&quot;)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_116_0.png" alt="png" />
+</p>
+<ul>
+<li>Many different numbers get misclassified for 8s, but 8s themselves seem to get classified properly</li>
+<li>Confusion matrix isn&rsquo;t symmetrical necessarily</li>
+<li>General confusion around 5s and 3s too</li>
+<li>If we wanted to fix the model, focusing on improving scores on 8s would be beneficial:</li>
+<li>Could collect more data on numbers that look like 8s but aren&rsquo;t 8s</li>
+<li>Could add extra features, like writing an algorithm to count closed loops, or preprocessing the image to make some patterns like closed loops stand out more</li>
+<li>Analyzing individual errors is good too but time consuming</li>
+</ul>
+<pre><code class="language-python">def plot_digits(instances, images_per_row=10, **options):
+    size = 28
+    images_per_row = min(len(instances), images_per_row)
+    images = [instance.reshape(size,size) for instance in instances]
+    n_rows = (len(instances) - 1) // images_per_row + 1
+    row_images = []
+    n_empty = n_rows * images_per_row - len(instances)
+    images.append(np.zeros((size, size * n_empty)))
+    for row in range(n_rows):
+        rimages = images[row * images_per_row : (row + 1) * images_per_row]
+        row_images.append(np.concatenate(rimages, axis=1))
+    image = np.concatenate(row_images, axis=0)
+    plt.imshow(image, cmap = mpl.cm.binary, **options)
+    plt.axis(&quot;off&quot;)
+</code></pre>
+<pre><code class="language-python">cl_a, cl_b = 3, 5
+X_aa = X_train[(y_train == cl_a) &amp; (y_train_pred == cl_a)]
+X_ab = X_train[(y_train == cl_a) &amp; (y_train_pred == cl_b)]
+X_ba = X_train[(y_train == cl_b) &amp; (y_train_pred == cl_a)]
+X_bb = X_train[(y_train == cl_b) &amp; (y_train_pred == cl_b)]
+
+plt.figure(figsize=(8,8))
+plt.subplot(221); plot_digits(X_aa[:25], images_per_row=5)
+plt.subplot(222); plot_digits(X_ab[:25], images_per_row=5)
+plt.subplot(223); plot_digits(X_ba[:25], images_per_row=5)
+plt.subplot(224); plot_digits(X_bb[:25], images_per_row=5)
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_119_0.png" alt="png" />
+</p>
+<ul>
+<li>
+<p>row 1 col 1: 3s that were classified as 3s</p>
+</li>
+<li>
+<p>row 1 col 2: 3s that were classified as 5s</p>
+</li>
+<li>
+<p>row 2 col 1: 5s that were classified as 3s</p>
+</li>
+<li>
+<p>row 2 col 2: 5s that were classified as 5s</p>
+</li>
+<li>
+<p>Hard to understand why SGD classifier made the errors it did; as a linear model, it just assigned a weight per pixel and when it sees a new image it sums up the weighted pixel intensities to get a score for each class</p>
+</li>
+<li>
+<p>3s are different from 5s mainly with the vertical line that connects the top horizontal line and the bottom arc; this means the classifier would be quite sensitive to image shifting and rotation</p>
+</li>
+<li>
+<p>Could preprocess images to make sure they&rsquo;re centered/not too rotated</p>
+</li>
+</ul>
+<h3 id="multilabel-classification">Multilabel Classification</h3>
+<ul>
+<li>Assigning multiple labels to one sample</li>
+<li>E.g. detecting multiple people&rsquo;s faces in a photo, or whether a digit is even or odd</li>
+<li>Outputs multiple binary tags. E.g. y_pred = [1, 0, 1] (yes to classes 1 and 3, no to 2)</li>
+</ul>
+<pre><code class="language-python">from sklearn.neighbors import KNeighborsClassifier
+</code></pre>
+<ul>
+<li>Side note: % (Modulus) yields the remainder when the first operand is divided by the second</li>
+</ul>
+<pre><code class="language-python">5 % 3 # 3 goes into 5 once, with remainder 2
+</code></pre>
+<pre><code>2
+</code></pre>
+<pre><code class="language-python">10 % 3 # 3 goes into 10 three times, with remainder 1
+</code></pre>
+<pre><code>1
+</code></pre>
+<pre><code class="language-python">y_train_large = (y_train &gt;= 7)
+y_train_odd = (y_train % 2 == 1)
+y_multilabel = np.c_[y_train_large, y_train_odd]
+</code></pre>
+<pre><code class="language-python">y_multilabel
+</code></pre>
+<pre><code>array([[False,  True],
+       [False, False],
+       [False, False],
+       ...,
+       [False,  True],
+       [False, False],
+       [ True, False]])
+</code></pre>
+<ul>
+<li>label 1: digit is 7 or above</li>
+<li>label 2: digit is odd</li>
+</ul>
+<pre><code class="language-python">knn_clf = KNeighborsClassifier()
+knn_clf.fit(X_train, y_multilabel)
+</code></pre>
+<pre><code>KNeighborsClassifier()
+</code></pre>
+<ul>
+<li>KNeighbors supports multilabel classification, though not all classifiers do</li>
+</ul>
+<pre><code class="language-python">knn_clf.predict([some_digit]) # some_digit = 5
+</code></pre>
+<pre><code>array([[False,  True]])
+</code></pre>
+<ul>
+<li>One approach to measure multilabel performance is measure F1 score for each individual label and compute the average score across them:</li>
+</ul>
+<pre><code class="language-python">y_train_knn_pred = cross_val_predict(knn_clf, X_train, y_multilabel, cv=3)
+</code></pre>
+<pre><code class="language-python">f1_score(y_multilabel, y_train_knn_pred, average=&quot;macro&quot;)
+</code></pre>
+<pre><code>0.976410265560605
+</code></pre>
+<ul>
+<li>this assumes that all labels are equally important, which might not always be the case</li>
+<li>can give labels weight according to number of appeareances in training data by setting <code>average=&quot;weighted&quot;</code></li>
+</ul>
+<h3 id="multioutput-classification">Multioutput Classification</h3>
+<ul>
+<li>Generalization of multilabel classification where each label can be multiclass (i.e. have more than two possible values)</li>
+<li>following example denoises images by predicting what the pixel intensitiy should be for each pixel in a sample (multiple classes for multiple labels)</li>
+<li>this somewhat blurs the line between classification and regression (predicting pixel intensity is more of a regression task)</li>
+</ul>
+<pre><code class="language-python">noise = np.random.randint(0, 100, (len(X_train), 784))
+X_train_mod = X_train + noise
+noise = np.random.randint(0, 100, (len(X_test), 784))
+X_test_mod = X_test + noise
+y_train_mod = X_train
+y_test_mod = X_test
+</code></pre>
+<pre><code class="language-python">def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.imshow(image, cmap = mpl.cm.binary,
+               interpolation=&quot;nearest&quot;)
+    plt.axis(&quot;off&quot;)
+</code></pre>
+<pre><code class="language-python">knn_clf.fit(X_train_mod, y_train_mod)
+</code></pre>
+<pre><code>KNeighborsClassifier()
+</code></pre>
+<pre><code class="language-python">some_index = np.random.randint(0, len(X_test_mod))
+clean_digit = knn_clf.predict([X_test_mod[some_index]])
+</code></pre>
+<pre><code class="language-python">plt.figure(figsize=(8,4))
+plt.subplot(121); plot_digit(X_test_mod[some_index])
+plt.subplot(122); plot_digit(clean_digit)
+</code></pre>
+<p><img class="img-zoomable" src="images/handson-ml-ch3_141_0.png" alt="png" />
+</p>
+<h2 id="exercises-in-a-separate-notebook">Exercises in a Separate Notebook</h2>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2020 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
