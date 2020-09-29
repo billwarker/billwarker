@@ -485,4 +485,4 @@ big_hamster_hash_map.display()
     [['Snowy', 'Pad Thai']]
 
 
-When the size of the hash table is much larger than the number of elements, there's a reduced chance of collisions occuring. This is an ideal scenario where the table is highly performant an increased likelihood of O(1) access times.
+When the size of the hash table is much larger than the number of elements, there's a reduced chance of collisions occuring. This is an ideal scenario where the table is highly performant and has an increased likelihood of O(1) access times.
