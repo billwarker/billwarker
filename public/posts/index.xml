@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>What is a Hash?</title>
+      <link>https://billwarker.com/posts/what-is-a-hash/</link>
+      <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/what-is-a-hash/</guid>
+      <description>&lt;p&gt;Well, for starters, a hash is an important part of a very useful and fast data structure called a hash table. Let&amp;rsquo;s reframe the question and ask what a hash table is instead.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Hands on Machine Learning - Chapter 3 Notes</title>
