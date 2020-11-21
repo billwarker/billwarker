@@ -424,8 +424,3 @@ A sample size of $n_1=508$ women who smoked during pregnancy and $n_2=508$ who d
 Attrition could be a factor in this trial as confounding factors could happen to either group (someone stops/starts smoking or decides to drop out for whatever reason)
 
 ### Note to be continued in Part 2: Understanding Power
-
-
-```python
-
-```
