@@ -7,6 +7,10 @@ type: about
 ---
 A place to upload notes as I study data science/products, machine learning, math in general (lots of catching up to do). By publishing these notes online they'll be easier for me to revisit and reference, plus I can show them to *you* (assuming you are not me).
 
-# About Me, Not You
+# A Brief Introduction
 
-Just some guy, will add more later...
+![png](/img/india_with_kiddos.png)
+
+
+
+I'm Will, and here's a picture of me with some friends I made while travelling in India. I'm hopeful that someday the skills I learn in tech will help make folks' lives all across the world a little bit easier - at the end of the day, we're all in the same boat!
