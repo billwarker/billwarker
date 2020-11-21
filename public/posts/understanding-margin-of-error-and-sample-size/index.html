@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>Understanding Margin of Error and Sample Size - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats" />
+
+<meta property="og:title" content="Understanding Margin of Error and Sample Size" />
+<meta property="og:description" content="1st part of a 3 parter covering margins of error, power, and sample size calculations.
+Notes, with questions and examples, taken from the following reading: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2020-11-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-11-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="Understanding Margin of Error and Sample Size"/>
+<meta name="twitter:description" content="1st part of a 3 parter covering margins of error, power, and sample size calculations.
+Notes, with questions and examples, taken from the following reading: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html"/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/">Understanding Margin of Error and Sample Size</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-21</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p>1st part of a 3 parter covering margins of error, power, and sample size calculations.</p>
+<p>Notes, with questions and examples, taken from the following reading: <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html">https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html</a></p>
+<h2 id="confidence-interals-margins-of-error-and-sample-sizes">Confidence Interals, Margins of Error, and Sample Sizes</h2>
+<p>Confidence intervals take the following general form: Point Estimate $\pm$ Margin of Error<br><br>
+For confidence intervals based on normal data, this looks like:</p>
+<p>$$ \bar{X} \pm E $$</p>
+<ul>
+<li>$\bar{X}$ is the sample mean generated through the experiment (our point estimate)</li>
+<li>$E$ is the margin of error, calculated as:
+$$ E=Z\frac{\sigma}{\sqrt{n}} $$<br></li>
+<li>$Z$ is the Z statistic of a standard normal distribution for a desired confidence level (Z = 1.96 for 95% confidence)</li>
+<li>$\sigma$ is the standard deviation of the population $\mu$ (as best as we know/can estimate it)</li>
+<li>$\sqrt{n}$ is the square root of the sample size</li>
+</ul>
+<p>In planning experiments we need to determine the sample size required to achieve a sufficiently small margin of error. If the margin of error is too wide then the test is fairly uninformative. To determine the sample size needed first we need to define the desired margin of error, and then we can use algebra to solve:</p>
+<p>$$ E = Z\frac{\sigma}{\sqrt{n}} $$<br>
+$$ \sqrt{n}E = Z\sigma $$<br>
+$$ \sqrt{n} = \frac{Z\sigma}{E} $$<br>
+$$ n = \left(\frac{Z\sigma}{E}\right)^2 $$</p>
+<p>$\sigma$ can be difficult to estimate at the outset of a experiment, so it can be appropriate to use a value for the standard deviation from a previous study done to a comparable population. However it&rsquo;s determined, $\sigma$ should be a conservative estimate (i.e. as large as is reasonable) so that the resulting sample size isn&rsquo;t too small.</p>
+<p>The following examples demonstrate these sample size calculations for different scenarios and random variables.</p>
+<h3 id="sample-size-for-one-sample-continuous-outcome">Sample Size for One Sample, Continuous Outcome</h3>
+<p>Example 1:</p>
+<ul>
+<li><em>An investigator wants to estimate the mean systolic blood pressure in children with congenital heart disease who are between the ages of 3 and 5. How many children should be enrolled in the study? The investigator plans on using a 95% confidence interval (so Z=1.96) and wants a margin of error of 5 units. The standard deviation of systolic blood pressure is unknown, but the investigators conduct a literature search and find that the standard deviation of systolic blood pressures in children with other cardiac defects is between 15 and 20.</em></li>
+</ul>
+<pre><code class="language-python">from scipy.stats import norm
+</code></pre>
+<pre><code class="language-python">Z = norm.ppf(0.975)
+std = 20
+E = 5
+</code></pre>
+<pre><code class="language-python">n = ((Z*std)/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>61.46334113110599
+</code></pre>
+<p>In order to ensure a 95% confidence interval the study will need 62 participants (rounding up). Selecting a smaller sample size could potentially produce a confidence interval with a larger margin of error.</p>
+<p>Question 1:</p>
+<ul>
+<li><em>An investigator wants to estimate the mean birth weight of infants born full term (approximately 40 weeks gestation) to mothers who are 19 years of age and under. The mean birth weight of infants born full-term to mothers 20 years of age and older is 3,510 grams with a standard deviation of 385 grams. How many women 19 years of age and under must be enrolled in the study to ensure that a 95% confidence interval estimate of the mean birth weight of their infants has a margin of error not exceeding 100 grams?</em></li>
+<li><em>If 5% of women are expected to deliver prematurely, how many participants should there be to account for this possibility?</em></li>
+</ul>
+<pre><code class="language-python">Z = norm.ppf(0.975)
+std = 385
+E = 100
+</code></pre>
+<pre><code class="language-python">n = ((Z*std)/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>56.94002336973868
+</code></pre>
+<p>In order to ensure a 95% confidence interval the study will need 57 participants. If 5% of women are expected to deliver prematurely then we would need $\frac{n}{0.95} = 60$ participants</p>
+<pre><code class="language-python">expected_premature = 0.05
+n = (n/(1 - expected_premature))
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>59.93686670498809
+</code></pre>
+<h3 id="sample-size-for-one-sample-binary-outcome-bernoulli">Sample Size for One Sample, Binary Outcome (Bernoulli)</h3>
+<p>In experiments to estimate the proportion of successes in a variable with a binary outcome (yes/no, AKA a bernoulli random variable), the formula becomes:</p>
+<p>$$ n = p(1-p)\left(\frac{Z}{E}\right)^2 $$</p>
+<ul>
+<li>$n$ is equal to the variance of a bernoulli trial multiplied by the square of the desired confidence Z score over the margin of error</li>
+</ul>
+<p>Working backwards to get the margin of error:</p>
+<p>$$ n = p(1-p)\left(\frac{Z}{E}\right)^2 = \sigma^2\left(\frac{Z}{E}\right)^2 $$<br>
+$$ \frac{n}{\sigma^2} = \left(\frac{Z}{E}\right)^2 $$<br>
+$$ \sqrt{\frac{n}{\sigma^2}} = \frac{Z}{E} $$<br>
+$$ \frac{\sqrt{n}}{\sigma} = \frac{Z}{E} $$<br>
+$$ E\frac{\sqrt{n}}{\sigma} = Z $$<br>
+$$ \frac{E}{\sigma} = \frac{Z}{\sqrt{n}} $$<br>
+$$ E = Z\frac{\sigma}{\sqrt{n}} $$</p>
+<p>In planning an experiment, $p$ is our estimate of the propensity for the binary outcome to be a success and $1-p$ is the propensity for it to be failure. If no knowledge is known for an estimate of $p$, using 0.5 (50/50 chance) will maximize the variance and the sample size.</p>
+<p>Example 2:</p>
+<ul>
+<li><em>An investigator wants to estimate the proportion of freshmen at his University who currently smoke cigarettes (i.e., the prevalence of smoking). How many freshmen should be involved in the study to ensure that a 95% confidence interval estimate of the proportion of freshmen who smoke is within 5% of the true proportion?</em></li>
+</ul>
+<p>Since we have no information of the proportion of freshmen who smoke, we use 0.5 to estimate the sample size as follows:</p>
+<pre><code class="language-python">p = 0.5
+Z = norm.ppf(0.975)
+E = 0.05
+</code></pre>
+<pre><code class="language-python">n = p*(1-p)*(Z/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>384.14588206941244
+</code></pre>
+<p>To ensure a 95% confidence interval estimate of the proportion of freshmen who smoke is within 5% of the true population, a sample size of 385 is needed.</p>
+<p>Question 2:</p>
+<ul>
+<li><em>Suppose that a similar study was conducted 2 years ago and found that the prevalence of smoking was 27% among freshmen. If the investigator believes that this is a reasonable estimate of prevalence 2 years later, it can be used to plan the next study. Using this estimate of p, what sample size is needed (assuming that again a 95% confidence interval will be used and we want the same level of precision)?</em></li>
+</ul>
+<pre><code class="language-python">p = 0.27
+Z = norm.ppf(0.975)
+E = 0.05
+</code></pre>
+<pre><code class="language-python">n = p*(1-p)*(Z/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>302.86061342352474
+</code></pre>
+<p>To ensure a 95% confidence interval estimate of the proportion of freshmen who smoke is within 5% of the true population, a sample size of 303 is needed.</p>
+<p>Example 3:</p>
+<ul>
+<li><em>An investigator wants to estimate the prevalence of breast cancer among women who are between 40 and 45 years of age living in Boston. How many women must be involved in the study to ensure that the estimate is precise? National data suggest that 1 in 235 women are diagnosed with breast cancer by age 40. This translates to a proportion of 0.0043 (0.43%) or a prevalence of 43 per 10,000 women. Suppose the investigator wants the estimate to be within 10 per 10,000 women with 95% confidence.</em></li>
+</ul>
+<pre><code class="language-python">p = 43/10000
+Z = norm.ppf(0.975)
+E = 10/10000
+</code></pre>
+<pre><code class="language-python">n = p*(1-p)*(Z/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>16447.244355390107
+</code></pre>
+<p>A sample size of n=16447 will ensure a 95% confidence interval estimate of the prevelance of breast cancer is within 0.10 (10 women per 10,000).</p>
+<ul>
+<li>Suppose this sample size isn&rsquo;t feasible, and the investigators thought a sample size of 5,000 would be practical</li>
+<li>How precisely can we estimate the prevalence with a sample size of n=5,000?</li>
+</ul>
+<p>The confidence interval formula to estimate prevalence is:<br><br>
+$$ \hat{p}\pm Z\sqrt{\frac{\hat{p}(1-\hat{p})}{N}} $$</p>
+<p>This is just the sample mean plus/minus the Z score multiplied the standard error of the mean. If we assume the prevalence of breast cancer in the sample will be close to that based on national data, we can expect the margin of error to be approximately:</p>
+<p>$$ Z\sqrt{\frac{\hat{p}(1-\hat{p})}{N}} = 1.96\sqrt{\frac{0.0043(1-0.00.43)}{5000}} = 0.0018 $$</p>
+<pre><code class="language-python">sample_size = 5000
+</code></pre>
+<pre><code class="language-python">E = Z*((p*(1-p))/sample_size)**(1/2)
+</code></pre>
+<pre><code class="language-python">E
+</code></pre>
+<pre><code>0.0018136837847535663
+</code></pre>
+<p>With n=5,000 women in the sample, a 95% confidence interval would be expected to have a margin of error of 0.0018 (18 per 10,000). The investigators would need to decide if this is precise enough to answer the question. This comes with the assumption that the propensity for one to get breast cancer in Boston is similar to the propensity to get it nationally, which might be a stretch.</p>
+<h3 id="sample-sizes-for-two-independent-samples-continuous-outcome">Sample Sizes for Two Independent Samples, Continuous Outcome</h3>
+<p>For studies where the plan is to estimate the difference in means between two independent populations, the formula for determining sample sizes becomes:</p>
+<p>$$ n_i = 2\left(\frac{Z\sigma}{ES_p}\right)^2 $$</p>
+<ul>
+<li>$n_i$ is the sample size required in each group</li>
+<li>$Z$ is again the Z score from the standard normal distribution for the confidence level used</li>
+<li>$E$ is the desired margin of error</li>
+<li>$\sigma$ is the standard deviation of the outcome variable</li>
+<li>$S_p$ is the pooled estimate of the common standard deviation between the two populations, calculated as:</li>
+</ul>
+<p>$$ S_p = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{(n_1 + n_2 - 2)}} $$</p>
+<p>If data is available on variability of the outcome in each population, then $S_p$ can be computed and used in the sample size formula. Usually though there&rsquo;s only data on the variance in one group, usually the control.</p>
+<p>When planning an investigation data is often available from other trials that involved a placebo or control group, and a standard deviation from these trials can be used for the experimental (non-control) group in this trial. When this is the case we forget about $S_p$ and just use the following:</p>
+<p>$$ n_i = 2\left(\frac{Z\sigma}{E}\right)^2 $$</p>
+<p>Note: sample size formula generates estimates for samples of equal size, alternative formulas can be used for samples of different sizes</p>
+<p>Skipping Example 4 and going straight to Example 5:</p>
+<ul>
+<li>*An investigator wants to compare two diet programs in children who are obese. One diet is a low fat diet, and the other is a low carbohydrate diet. The plan is to enroll children and weigh them at the start of the study. Each child will then be randomly assigned to either the low fat or the low carbohydrate diet. Each child will follow the assigned diet for 8 weeks, at which time they will again be weighed. The number of pounds lost will be computed for each child. Based on data reported from diet trials in adults, the investigator expects that 20% of all children will not complete the study. A 95% confidence interval will be estimated to quantify the difference in weight lost between the two diets and the investigator would like the margin of error to be no more than 3 pounds. How many children should be recruited into the study?*<br><br></li>
+<li><em>Again, the issue is determining the variability in the outcome of interest (σ), here the standard deviation in pounds lost over 8 weeks. To plan this study, investigators use data from a published study in adults. Suppose one such study compared the same diets in adults and involved 100 participants in each diet group. The study reported a standard deviation in weight lost over 8 weeks on a low fat diet of 8.4 pounds and a standard deviation in weight lost over 8 weeks on a low carbohydrate diet of 7.7 pounds.</em></li>
+</ul>
+<p>Can use the information in the second bullet to compute the pooled estimate of the standard deviation between low fat and low carbohydrate groups:</p>
+<pre><code class="language-python">n_fat = 100
+n_carb = 100
+
+std_fat = 8.4
+std_carb = 7.7
+
+std_pooled = (((n_fat - 1)*std_fat**2 \
+               + (n_carb - 1)*std_carb**2) \
+               / (n_fat + n_carb - 2))**(1/2)
+</code></pre>
+<pre><code class="language-python">std_pooled
+</code></pre>
+<pre><code>8.057605103254938
+</code></pre>
+<p>$S_p = 8.1 $, rounding up. We will use this as $\sigma$ in our experiment, and do not need to multiply the margin of error by the pooled variance (drop $ES_p$ in the denominator and just use $E$):</p>
+<pre><code class="language-python">Z = norm.ppf(0.975)
+E = 3
+
+n = 2*((Z*std_pooled)/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>55.423714207459135
+</code></pre>
+<p>$n = 56$, rounding up. This means that $2 \times n_i = 2 \times 56 = 112$ children should be recruited for the study (not counting attrition). If we factor in an attrition rate of 20%:</p>
+<pre><code class="language-python">attrition_rate = 0.2
+n_total = (n * 2) / (1 - attrition_rate)
+</code></pre>
+<pre><code class="language-python">n_total
+</code></pre>
+<pre><code>138.55928551864784
+</code></pre>
+<p>Factoring in attrition, about 140 children should participate in the study.</p>
+<h3 id="sample-size-for-matched-samples-continuous-outcomes">Sample Size for Matched Samples, Continuous Outcomes</h3>
+<p>In studies where the plan is to estimate the mean difference of a continuous outcome based on matched (i.e. paired) data:</p>
+<p>$$ n = \left(\frac{Z\sigma_d}{E}\right)^2 $$<br></p>
+<p>In this case, $\sigma_d$ is the standard deviation of the difference scores. The standard deviation between the paired data points must be used here, you can&rsquo;t estimate the difference using past trials.</p>
+<h3 id="sample-sizes-for-two-independent-samples-binary-outcome">Sample Sizes for Two Independent Samples, Binary Outcome</h3>
+<p>In studies where the plan is to estimate the difference in proportions between two independent populations, the formula for determining the sample sizes required in each comparison group is:</p>
+<p>$$ n_i = {p_1(1-p_1) + p_2(1-p_2)}\left(\frac{Z}{E}\right)^2 $$</p>
+<ul>
+<li>$n_i$ is the sample size required in each group</li>
+<li>${p_1(1-p_1) + p_2(1-p_2)}$ is their pooled variance</li>
+<li>$Z$ is again the Z score from the standard normal distribution for the confidence level used</li>
+<li>$E$ is the desired margin of error</li>
+<li>$p_1$ and $p_2$ are the propensities for success in each group</li>
+</ul>
+<p>To estimate the sample size we need to approximate $p_1$ and $p_2$, or if we have no prior intuitions and just want to generate the most conservative and largest sample sizes we can again use just 0.5.</p>
+<p>If we&rsquo;re comparing an unknown group with a group that we know already have data on (e.g. the control group), we can use its proportion for both $p_1$ and $p_2$. Alternative formulas can be used with groups with different sample sizes</p>
+<p>Example 6</p>
+<ul>
+<li>
+<p><em>An investigator wants to estimate the impact of smoking during pregnancy on premature delivery. Normal pregnancies last approximately 40 weeks and premature deliveries are those that occur before 37 weeks. The 2005 National Vital Statistics report indicates that approximately 12% of infants are born prematurely in the United States.5 The investigator plans to collect data through medical record review and to generate a 95% confidence interval for the difference in proportions of infants born prematurely to women who smoked during pregnancy as compared to those who did not. How many women should be enrolled in the study to ensure that the 95% confidence interval for the difference in proportions has a margin of error of no more than 4%?</em></p>
+</li>
+<li>
+<p><em>The sample sizes (i.e., numbers of women who smoked and did not smoke during pregnancy) can be computed using the formula shown above. National data suggest that 12% of infants are born prematurely.</em></p>
+</li>
+</ul>
+<pre><code class="language-python"># using the proportion of p=0.12 for both groups (smoking and non-smoking)
+
+Z = norm.ppf(0.975)
+E = 0.04
+p = 0.12
+
+n = (p*(1-p) + p*(1-p))*(Z/E)**2
+</code></pre>
+<pre><code class="language-python">n
+</code></pre>
+<pre><code>507.07256433162445
+</code></pre>
+<p>A sample size of $n_1=508$ women who smoked during pregnancy and $n_2=508$ who did not during pregnancy will ensure that the 95% confidence interval for the difference in proportions who deliver prematurely will have a margin of error of no more than 4%.</p>
+<p>Attrition could be a factor in this trial as confounding factors could happen to either group (someone stops/starts smoking or decides to drop out for whatever reason)</p>
+<h3 id="note-to-be-continued-in-part-2-understanding-power">Note to be continued in Part 2: Understanding Power</h3>
+<pre><code class="language-python">
+</code></pre>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2020 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>

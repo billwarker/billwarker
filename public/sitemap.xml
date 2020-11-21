@@ -3,17 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://billwarker.com/tags/comp-sci/</loc>
-    <lastmod>2020-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://billwarker.com/</loc>
-    <lastmod>2020-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://billwarker.com/posts/</loc>
+    <lastmod>2020-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/tags/stats/</loc>
+    <lastmod>2020-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/</loc>
+    <lastmod>2020-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/tags/comp-sci/</loc>
     <lastmod>2020-09-28T00:00:00+00:00</lastmod>
   </url>
   
@@ -49,11 +59,6 @@
   
   <url>
     <loc>https://billwarker.com/about/</loc>
-    <lastmod>2020-07-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://billwarker.com/tags/stats/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
   </url>
   
