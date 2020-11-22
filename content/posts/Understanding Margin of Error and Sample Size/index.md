@@ -5,7 +5,7 @@ date: 2020-11-21
 tags: ["stats"]
 ---
 
-1st part of a 3 parter covering margins of error, power, and sample size calculations. 
+Part 1 of 3 on a series of notes covering margin of error, power, and sample size calculations. 
 
 Notes, with questions and examples, taken from the following reading: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html
 
@@ -423,4 +423,4 @@ A sample size of $n_1=508$ women who smoked during pregnancy and $n_2=508$ who d
 
 Attrition could be a factor in this trial as confounding factors could happen to either group (someone stops/starts smoking or decides to drop out for whatever reason)
 
-### Note to be continued in Part 2: Understanding Power
+### Note to be continued in Part 2: Understanding Statistical Power

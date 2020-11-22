@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Understanding Statistical Power</title>
+      <link>https://billwarker.com/posts/understanding-statistical-power/</link>
+      <pubDate>Sun, 22 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/understanding-statistical-power/</guid>
+      <description>&lt;p&gt;Part 2 of 3 on a series of notes covering margin of error, power, and sample size calculations.&lt;/p&gt;
+&lt;p&gt;Notes, with questions and examples, taken from the following reading: &lt;a href=&#34;https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html&#34;&gt;https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Understanding Margin of Error and Sample Size</title>
@@ -17,7 +27,7 @@
       <pubDate>Sat, 21 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/</guid>
-      <description>&lt;p&gt;1st part of a 3 parter covering margins of error, power, and sample size calculations.&lt;/p&gt;
+      <description>&lt;p&gt;Part 1 of 3 on a series of notes covering margin of error, power, and sample size calculations.&lt;/p&gt;
 &lt;p&gt;Notes, with questions and examples, taken from the following reading: &lt;a href=&#34;https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html&#34;&gt;https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
