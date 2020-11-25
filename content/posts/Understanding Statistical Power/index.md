@@ -354,3 +354,4 @@ print(f"The power of this hypothesis test is {power}%")
 
     The power of this hypothesis test is 97.92999999999999%
 
+### Note to be continued in Part 3: Ensuring a Test has High Power
