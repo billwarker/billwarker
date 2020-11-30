@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>Calculating Sample Size to Ensure High Power - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats" />
+
+<meta property="og:title" content="Calculating Sample Size to Ensure High Power" />
+<meta property="og:description" content="Part 3 of 3 on a series of notes covering margin of error, power, and sample size calculations.
+Notes, with questions and examples, taken from the following reading: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2020-11-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-11-29T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="Calculating Sample Size to Ensure High Power"/>
+<meta name="twitter:description" content="Part 3 of 3 on a series of notes covering margin of error, power, and sample size calculations.
+Notes, with questions and examples, taken from the following reading: https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html"/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/">Calculating Sample Size to Ensure High Power</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-29</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p>Part 3 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
+<p>Notes, with questions and examples, taken from the following reading: <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html">https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html</a></p>
+<h2 id="ensuring-a-test-has-high-power">Ensuring a Test has High Power</h2>
+<p>Power values of 80-90% are commonly accepted as norms when running hypothesis tests. Certain power levels can guaranteed in studies by including enough samples to control the variability in the parameter of interest.</p>
+<p>The input for the sample size formulas include desired power, the level of significance, and the effect size. Effect size is selected to represent a meaningful or practically important difference in the parameter of interest.</p>
+<p>The formulas below produce minimum sample sizes to ensure that their associated flavours of hypothesis tests will have a specified probability of rejecting the null hypothesis when it is false (i.e. power). Additionally, for certain studies one may need to factor in the likelihood of attrition or lose in the samples afterwards.</p>
+<h3 id="sample-size-for-one-sample-continuous-outcome">Sample Size for One Sample, Continuous Outcome</h3>
+<p>In a hypothesis test comparing the mean of a continuous normal variable in a single population to a known mean, the hypotheses are:</p>
+<p>$$ H_0: \mu = \mu_0 $$
+$$ H_A: \mu \neq \mu_0 $$</p>
+<p>Where $\mu_0$ is the known mean (e.g. historical control).</p>
+<p>The formula for determining sample size to ensure the test has a specified power is:</p>
+<p>$$ n = \left(\frac{Z_{1-\alpha/2} + Z_{1-\beta}}{ES}\right)^2 $$</p>
+<ul>
+<li>$\alpha$ is the selected level of significance and $Z_{1-\alpha/2}$ is the value from the standard normal distribution holding $1-\alpha/2$ below it</li>
+<li>$1-\beta$ is the selected power, and $Z_{1-\beta}$ is the value from the standard normal distribution holding $1-\beta$ below it</li>
+</ul>
+<p>For 80% power, this associated Z value is $Z_{0.80} = 0.84$. For 90% power, it is $Z_{0.90} = 1.282$.</p>
+<pre><code class="language-python">from scipy.stats import norm
+import numpy as np
+</code></pre>
+<pre><code class="language-python">norm.ppf(0.8)
+</code></pre>
+<pre><code>0.8416212335729143
+</code></pre>
+<pre><code class="language-python">norm.ppf(0.9)
+</code></pre>
+<pre><code>1.2815515655446004
+</code></pre>
+<p>$ES$ is the effect size, defined as follows:</p>
+<p>$$ ES = \frac{\lvert\mu_1 - \mu_0\rvert}{\sigma} $$</p>
+<ul>
+<li>$\mu_0$ is the mean under $H_0$</li>
+<li>$\mu_1$ is the mean under $H_1$</li>
+<li>$\sigma$ is the standard deviation of the outcome of interest</li>
+</ul>
+<p>The numerator of the effect size is the absolute difference in means, $\lvert\mu_1 - \mu_0\rvert$, representing what is considered a meaningful or important difference in the population.</p>
+<p>It can be difficult to underestimate $\sigma$ at the outset of a test - in sample size calculations it is common to use a value from a previous study or a study performed on a comparable population. Regardless, $\sigma$ should always be conservative (i.e. reasonably large), so that the resultant sample size isn&rsquo;t too small.</p>
+<h3 id="example">Example</h3>
+<ul>
+<li><em>An investigator hypothesizes that in people free of diabetes, fasting blood glucose, a risk factor for coronary heart disease, is higher in those who drink at least 2 cups of coffee per day. A cross-sectional study is planned to assess the mean fasting blood glucose levels in people who drink at least two cups of coffee per day. The mean fasting blood glucose level in people free of diabetes is reported as 95.0 mg/dL with a standard deviation of 9.8 mg/dL.7 If the mean blood glucose level in people who drink at least 2 cups of coffee per day is 100 mg/dL, this would be important clinically. How many patients should be enrolled in the study to ensure that the power of the test is 80% to detect this difference? A two sided test will be used with a 5% level of significance.</em></li>
+</ul>
+<pre><code class="language-python">two_cups_glucose = 100.0
+mean_glucose = 95.0
+std_glucose = 9.8
+
+effect_size = (two_cups_glucose - mean_glucose)/std_glucose
+effect_size
+</code></pre>
+<pre><code>0.5102040816326531
+</code></pre>
+<p>The effect size represents a meaningful standardized difference in the population mean - 95 mg/dL vs. 100 mg/dL, or 0.51 standard deviation units different.</p>
+<pre><code class="language-python">Z_significance = norm.ppf(1 - (0.05/2))
+beta = 0.2
+Z_power = norm.ppf(1 - beta)
+
+n_patients = ((Z_significance + Z_power)/effect_size)**2
+n_patients
+</code></pre>
+<pre><code>30.152256387475454
+</code></pre>
+<p>Therefore a sample size of n=31 (rounding up) will ensure that a two-sided test with $\alpha = 0.05$ has 80% power to detect a 5 mg/dL difference in mean fasting blood glucose levels.</p>
+<ul>
+<li><em>In the planned study, participants will be asked to fast overnight and to provide a blood sample for analysis of glucose levels. Based on prior experience, the investigators hypothesize that 10% of the participants will fail to fast or will refuse to follow the study protocol.</em></li>
+</ul>
+<p>Factoring in 10% attritition to hit the needed 31 participants:</p>
+<pre><code class="language-python">31 / (1 - 0.1)
+</code></pre>
+<pre><code>34.44444444444444
+</code></pre>
+<p>Factoring in an attrition rate of 10%, 35 participants should be enrolled in the study.</p>
+<h3 id="sample-size-for-one-sample-bernoulli-outcome">Sample Size for One Sample, Bernoulli Outcome</h3>
+<p>In studies where the plan is to perform a hypothesis test comparing the proportion of successes in a bernoulli variable in a single population to a known proportion, the hypotheses become:</p>
+<p>$$ H_0: p = p_0 $$
+$$ H_A: p \neq p_0 $$</p>
+<p>The formula for calculating sample size remains the same as the one for one sample, continuous outcome. This is because a bernoulli random variable approximates to a normal distribution across many trials due to CLT:</p>
+<p>$$ n = \left(\frac{Z_{1-\alpha/2} + Z_{1-\beta}}{ES}\right)^2 $$</p>
+<p>The effect size $ES$ is calculated as:</p>
+<p>$$ ES = \frac{\lvert p_A - p_0\rvert}{\sqrt{p_0(1-p_0)}} $$</p>
+<ul>
+<li>where $p_0$ is the proportion under $H_0$ and $p_A$ is the proportion under $H_A$</li>
+<li>the numerator is again a meaningful difference in proportions</li>
+</ul>
+<p>We use $p_0$ for the standard deviation calculation in the denominator because we want to measure the effect size of $p_A$, the proportion in our alternate hypothesis, in relation to what we already know/have observed about the population.</p>
+<h3 id="example-1">Example</h3>
+<ul>
+<li><em>A medical device manufacturer produces implantable stents. During the manufacturing process, approximately 10% of the stents are deemed to be defective. The manufacturer wants to test whether the proportion of defective stents is more than 10%. If the process produces more than 15% defective stents, then corrective action must be taken. Therefore, the manufacturer wants the test to have 90% power to detect a difference in proportions of this magnitude. How many stents must be evaluated? For you computations, use a two-sided test with a 5% level of significance.</em></li>
+</ul>
+<pre><code class="language-python">p0_stents = 0.1
+pA_stents = 0.15
+
+effect_size = np.abs(pA_stents - p0_stents)/\
+              np.sqrt(p0_stents * (1 - p0_stents))
+
+effect_size
+</code></pre>
+<pre><code>0.1666666666666666
+</code></pre>
+<p>We could round this effect size up to 0.17 - doing so would simplify our understanding of what the standardized difference we&rsquo;re looking for is, but it would lower the number of samples in our test by way of increasing the denominator.</p>
+<pre><code class="language-python">alpha = 0.05
+beta = 0.1
+
+Z_significance = norm.ppf(1 - (alpha/2))
+Z_power = norm.ppf(1 - beta)
+
+n_stents = np.square((Z_significance + Z_power)/effect_size)
+n_stents
+</code></pre>
+<pre><code>378.26723021186257
+</code></pre>
+<p>Therefore, 379 stents should be evaluated to ensure that a two-sided test with $\alpha = 0.05$ and 90% power would detect a 5% difference (the delta between a 10% and 15% defective rate) in the proportion of defective stents produced.</p>
+<h3 id="sample-sizes-for-two-independent-samples-continuous-outcomes">Sample Sizes for Two Independent Samples, Continuous Outcomes</h3>
+<p>When the plan is to perform a hypothesis test on the mean difference of a continuous random variable (CRV) in two independent populations, the hypotheses of interest are:</p>
+<p>$$ H_0: \mu_1 = \mu_2 $$
+$$ H_A: \mu_1 \neq \mu_2 $$</p>
+<p>where $\mu_1$ and $\mu_2$ are the means in the two comparison populations.</p>
+<p>The formulas for determining sample size and effect size:</p>
+<p>$$ n_i = 2\left(\frac{Z_{1-\alpha/2} + Z_{1-\beta}}{ES}\right)^2 $$</p>
+<p>$$ ES = \frac{\lvert\mu_1 - \mu_0\rvert}{\sigma} $$</p>
+<p>Where $n_i$ is the sample size required in each group (i=1,2). When doing a hypothesis test on two independent groups, the pooled estimate of standard deviation $S_p$ is used:</p>
+<p>$$ S_p = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{(n_1 + n_2 - 2)}} $$</p>
+<p>If the variability of each of the two populations is known at the outset of the test, then we can use algebra to get the sample sizes by reversing the equation (and setting $n_1 = n_2$, generating samples of equal size). However, it is usually the case that data on the variability of the outcome will only be available for a single population that you&rsquo;re testing an alternative against. This can be used as a substitute for the standard deviation in the effect size to plan the test.</p>
+<h3 id="example-2">Example</h3>
+<ul>
+<li><em>An investigator is planning a study to assess the association between alcohol consumption and grade point average among college seniors. The plan is to categorize students as heavy drinkers or not using 5 or more drinks on a typical drinking day as the criterion for heavy drinking. Mean grade point averages will be compared between students classified as heavy drinkers versus not using a two independent samples test of means. The standard deviation in grade point averages is assumed to be 0.42 and a meaningful difference in grade point averages (relative to drinking status) is 0.25 units. How many college seniors should be enrolled in the study to ensure that the power of the test is 80% to detect a 0.25 unit difference in mean grade point averages? Use a two-sided test with a 5% level of significance.</em></li>
+</ul>
+<pre><code class="language-python">gpa_std = 0.42
+gpa_delta = 0.25
+
+alpha = 0.05
+beta = 0.2
+</code></pre>
+<p>Since variability is only known for average GPA (not for the two populaitons, heavy drinkers vs. non heavy drinkers), we&rsquo;ll use it to plan the study.</p>
+<pre><code class="language-python">effect_size = gpa_delta/gpa_std
+effect_size
+</code></pre>
+<pre><code>0.5952380952380952
+</code></pre>
+<p>Pretty large effect size (i.e. we&rsquo;re testing for a pretty obvious difference between the two populations), so we won&rsquo;t need as many samples to achieve our desired power.</p>
+<pre><code class="language-python">Z_significance = norm.ppf(1 - (alpha/2))
+Z_power = norm.ppf(1 - beta)
+
+n_students = 2 * np.square((Z_significance + Z_power)/effect_size)
+n_students
+</code></pre>
+<pre><code>44.30535632445374
+</code></pre>
+<p>Therefore in each group we would need 44 students - 44 heavy drinkers, 44 who aren&rsquo;t heavy drinkers, 88 students total.</p>
+<h3 id="sample-size-for-matched-samples-continuous-outcome">Sample Size for Matched Samples, Continuous Outcome</h3>
+<ul>
+<li>in studies where the plan is to perform a hypothesis test on the mean difference in a continuous outcome variable based on matched data:</li>
+</ul>
+<p>$$ H_0: \mu_d = 0 $$
+$$ H_A: \mu_d \neq 0 $$</p>
+<p>Where $\mu_d$ is the mean difference in the population.</p>
+<p>The formula for sample size is again:</p>
+<p>$$ n_i = \left(\frac{Z_{1-\alpha/2} + Z_{1-\beta}}{ES}\right)^2 $$</p>
+<p>While effect size is calculated as:</p>
+<p>$$ ES = \frac{\mu_d}{\sigma_d} $$</p>
+<p>Where $\sigma_d$ is the standard deviation of the difference in the outcome (i.e. difference based on measurements over time/between matched pairs)</p>
+<h3 id="example-3">Example</h3>
+<ul>
+<li><em>An investigator wants to evaluate the efficacy of an acupuncture treatment for reducing pain in patients with chronic migraine headaches. The plan is to enroll patients who suffer from migraine headaches. Each will be asked to rate the severity of the pain they experience with their next migraine before any treatment is administered. Pain will be recorded on a scale of 1-100 with higher scores indicative of more severe pain. Each patient will then undergo the acupuncture treatment. On their next migraine (post-treatment), each patient will again be asked to rate the severity of the pain. The difference in pain will be computed for each patient. A two sided test of hypothesis will be conducted, at α =0.05, to assess whether there is a statistically significant difference in pain scores before and after treatment. How many patients should be involved in the study to ensure that the test has 80% power to detect a difference of 10 units on the pain scale? Assume that the standard deviation in the difference scores is approximately 20 units.</em></li>
+</ul>
+<pre><code class="language-python">pain_std = 20
+pain_delta = 10
+alpha = 0.05
+beta = 0.2
+
+effect_size = pain_delta/pain_std
+effect_size
+</code></pre>
+<pre><code>0.5
+</code></pre>
+<pre><code class="language-python">Z_significance = norm.ppf(1 - (alpha/2))
+Z_power = norm.ppf(1 - beta)
+
+n_samples = np.square((Z_significance + Z_power) / effect_size)
+n_samples
+</code></pre>
+<pre><code>31.395518937396353
+</code></pre>
+<p>Therefore a sample size n=32 patients with migraines will ensure that a two sided test with $\alpha=0.05$ has 80% power to detect a mean difference of 10% pain before and after the treatment, assuming all patients complete the treatment.</p>
+<h3 id="sample-sizes-for-two-independent-samples-dichotomous-outcomes">Sample Sizes for Two Independent Samples, Dichotomous Outcomes</h3>
+<p>In studies where the plan is to perform a hypothesis test comparing the proportions of successes in two independent populations, the hypotheses of interest are:</p>
+<p>$$ H_0: p_1 = p_2 $$
+$$ H_A: p_1 \neq p_2 $$</p>
+<p>Where $p_1$ and $p_2$ are the proportions in the two comparison populations.</p>
+<p>The formulas for determining sample size and effect size are:</p>
+<p>$$ n_i = 2\left(\frac{Z_{1-\alpha/2} + Z_{1-\beta}}{ES}\right)^2 $$<br>
+$$ ES = \frac{\lvert{p_1 - p_2}\rvert}{\sqrt{p(1-p)}} $$</p>
+<ul>
+<li>$n_i$ is the sample size required for each group (i=1,2).</li>
+<li>$\lvert{p_1 - p_2}\rvert$ is the absolute value of the difference in proportions between the two groups expected under the alternate hypothesis $H_A$.</li>
+<li>$p$ is the overall proportion, based on pooling the data from the two comparison groups (can be computed by taking the mean of the proportions in the two groups, assuming that the groups will be of approximately equal size.</li>
+</ul>
+<h3 id="example-4">Example</h3>
+<ul>
+<li>
+<p>*Clostridium difficile (also referred to as &ldquo;C. difficile&rdquo; or &ldquo;C. diff.&quot;) is a bacterial species that can be found in the colon of humans, although its numbers are kept in check by other normal flora in the colon. Antibiotic therapy sometimes diminishes the normal flora in the colon to the point that C. difficile flourishes and causes infection with symptoms ranging from diarrhea to life-threatening inflammation of the colon. Illness from C. difficile most commonly affects older adults in hospitals or in long term care facilities and typically occurs after use of antibiotic medications.*<br><br></p>
+</li>
+<li>
+<p>*In recent years, C. difficile infections have become more frequent, more severe and more difficult to treat. Ironically, C. difficile is first treated by discontinuing antibiotics, if they are still being prescribed. If that is unsuccessful, the infection has been treated by switching to another antibiotic. However, treatment with another antibiotic frequently does not cure the C. difficile infection. There have been sporadic reports of successful treatment by infusing feces from healthy donors into the duodenum of patients suffering from C. difficile. (Yuk!) This re-establishes the normal microbiota in the colon, and counteracts the overgrowth of C. diff.*<br><br></p>
+</li>
+<li>
+<p><em>The efficacy of this approach was tested in a randomized clinical trial reported in the New England Journal of Medicine (Jan. 2013). The investigators planned to randomly assign patients with recurrent C. difficile infection to either antibiotic therapy or to duodenal infusion of donor feces. In order to estimate the sample size that would be needed, the investigators assumed that the feces infusion would be successful 90% of the time, and antibiotic therapy would be successful in 60% of cases. How many subjects will be needed in each group to ensure that the power of the study is 80% with a level of significance α = 0.05?</em></p>
+</li>
+</ul>
+<pre><code class="language-python">p_feces = 0.9
+p_anti =  0.6
+p = np.mean([p_feces, p_anti])
+
+effect_size = np.abs(p_feces - p_anti)/np.sqrt(p * (1 - p))
+effect_size
+</code></pre>
+<pre><code>0.692820323027551
+</code></pre>
+<p>Again, pretty sizeable effect size.</p>
+<pre><code class="language-python">alpha = 0.05
+beta = 0.2
+
+Z_significance = norm.ppf(1 - alpha/2)
+Z_power = norm.ppf(1 - beta)
+
+n_subjects = 2 * np.square((Z_significance + Z_power) / effect_size)
+n_subjects
+</code></pre>
+<pre><code>32.70366555978786
+</code></pre>
+<p>Each group would need about 33 subjects, so (66 subjects total) to detect a 30% difference in the two methods with $\alpha = 0.05$ and 80% power</p>
+<h3 id="concluding-notes">Concluding Notes</h3>
+<p>Determining the appropriate design of a study is more important than the analysis; you can always re-analzye the data, you can&rsquo;t always just redo studies. We need a sample size large enough to answer the research question, byachieving acceptable margins of error and powers for the results.</p>
+<pre><code class="language-python">
+</code></pre>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2020 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
