@@ -291,7 +291,7 @@ While effect size is calculated as:
 
 $$ ES = \frac{\mu_d}{\sigma_d} $$
 
-Where $\sigma_d$ is the standard deviation of the difference in the outcome (i.e. difference based on measurements over time/between matched pairs)
+Where $\sigma_d$ is the standard deviation of the difference in the outcome (i.e. difference based on measurements over time/between matched pairs).
 
 ### Example
 
@@ -397,7 +397,7 @@ n_subjects
 
 
 
-Each group would need about 33 subjects, so (66 subjects total) to detect a 30% difference in the two methods with $\alpha = 0.05$ and 80% power
+Each group would need about 33 subjects, so (66 subjects total) to detect a 30% difference in the two methods with $\alpha = 0.05$ and 80% power.
 
 ### Concluding Notes
 
