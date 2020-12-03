@@ -17,4 +17,4 @@ I'm Will, and here's a picture of me with some friends I made while travelling i
 
 # Food for Thought
 
-*It more important to ask interesting questions, not give precise answers to boring ones.*
+*It is more important to ask interesting questions, not give precise answers to boring ones.*
