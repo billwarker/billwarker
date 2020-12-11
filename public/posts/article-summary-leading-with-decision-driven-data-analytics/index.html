@@ -31,7 +31,7 @@ if (!doNotTrack) {
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
 
 
-<title>Permutations and Combinations - Data Science Notes</title>
+<title>Article Summary - Leading With Decision-Driven Data Analytics - Data Science Notes</title>
 
 
 <meta name="author" content="Will Barker" />
@@ -40,27 +40,49 @@ if (!doNotTrack) {
 <meta name="description" content="A minimal Hugo theme with nice theme color." />
 
 
-<meta name="keywords" content="stats" />
+<meta name="keywords" content="analytics, strategy" />
 
-<meta property="og:title" content="Permutations and Combinations" />
-<meta property="og:description" content="Permutations of a Set
-Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:
-$$N(n, k) = \frac{n!}{(n-k)!}$$
-$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations." />
+<meta property="og:title" content="Article Summary - Leading With Decision-Driven Data Analytics" />
+<meta property="og:description" content="Article Link: https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics
+
+
+Companies have more data than ever, but many fail to produce actionable insights or good results
+
+
+Being &ldquo;data-driven&rdquo; doesn&rsquo;t stop analysts and leadership from making poor decisions
+
+
+Failing to ask and answer the right/meaningful questions can be a trap to fall into, data can be used to reinforce existing beliefs
+
+
+Decision-driven data analytics: instead of finding a purpose for existing data, find data for existing purpose
+
+" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://billwarker.com/posts/permutations-and-combinations/" />
+<meta property="og:url" content="https://billwarker.com/posts/article-summary-leading-with-decision-driven-data-analytics/" />
 <meta property="og:image" content="https://billwarker.com/img/og.png"/>
-<meta property="article:published_time" content="2020-07-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-07T00:00:00+00:00" />
+<meta property="article:published_time" content="2020-12-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-10T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
 
-<meta name="twitter:title" content="Permutations and Combinations"/>
-<meta name="twitter:description" content="Permutations of a Set
-Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:
-$$N(n, k) = \frac{n!}{(n-k)!}$$
-$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations."/>
+<meta name="twitter:title" content="Article Summary - Leading With Decision-Driven Data Analytics"/>
+<meta name="twitter:description" content="Article Link: https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics
+
+
+Companies have more data than ever, but many fail to produce actionable insights or good results
+
+
+Being &ldquo;data-driven&rdquo; doesn&rsquo;t stop analysts and leadership from making poor decisions
+
+
+Failing to ask and answer the right/meaningful questions can be a trap to fall into, data can be used to reinforce existing beliefs
+
+
+Decision-driven data analytics: instead of finding a purpose for existing data, find data for existing purpose
+
+"/>
 
 
 
@@ -134,72 +156,93 @@ $n!$ represents all orderings for every element in the set. $(n-k)!$ represents 
 <article>
     
     <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/permutations-and-combinations/">Permutations and Combinations</a>
+        <a href="https://billwarker.com/posts/article-summary-leading-with-decision-driven-data-analytics/">Article Summary - Leading With Decision-Driven Data Analytics</a>
     </h2>
     <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-07-07</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-12-10</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/analytics">analytics</a>&nbsp;<a href="/tags/strategy">strategy</a>&nbsp;</span>
     </div>
     
     
     <div class="post-content markdown-body">
-        <h1 id="permutations-of-a-set">Permutations of a Set</h1>
-<p>Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:</p>
-<p>$$N(n, k) = \frac{n!}{(n-k)!}$$</p>
-<p>$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations.</p>
-<pre><code class="language-python">import itertools
-import math
-
-S = ['A', 'B', 'C', 'D']
-
-permutations = itertools.permutations(S, 2) # P(4,2)
-for p in permutations:
-    print(p)
-</code></pre>
-<pre><code>('A', 'B')
-('A', 'C')
-('A', 'D')
-('B', 'A')
-('B', 'C')
-('B', 'D')
-('C', 'A')
-('C', 'B')
-('C', 'D')
-('D', 'A')
-('D', 'B')
-('D', 'C')
-</code></pre>
-<pre><code class="language-python">def permutations(n, k):
-    return int(math.factorial(n)/math.factorial(n-k))
-
-permutations(4, 2)
-</code></pre>
-<pre><code>12
-</code></pre>
-<h2 id="combinations-of-a-set">Combinations of a Set</h2>
-<p>Combinations don&rsquo;t care about order - they are just the different subsets of elements in the set. To calculate the number of combinations (i.e. subsets) of $k$ distinct elements from a set of size $n$, the formula is:</p>
-<p>$$C(n, k) = \frac{n!}{k!(n-k)!}$$</p>
-<p>An easy way to understand combinations is in relation to permutations - basically, we are calculating the number of permutations of a subset created by $P(n, k)$ and then just dividing that number by the possible ways to order its elements (since combinations don&rsquo;t care about that).</p>
-<p>$$C(n, k) = \frac{P(n, k)}{k!} = \frac{n!}{(n-k)!}*\frac{1}{k!}$$</p>
-<pre><code class="language-python">S = ['A', 'B', 'C', 'D']
-
-combinations = itertools.combinations(S, 2) # P(4,2)
-for c in combinations:
-    print(c)
-</code></pre>
-<pre><code>('A', 'B')
-('A', 'C')
-('A', 'D')
-('B', 'C')
-('B', 'D')
-('C', 'D')
-</code></pre>
-<pre><code class="language-python">def combinations(n, k):
-    return int(permutations(n, k)/math.factorial(k))
-
-combinations(4, 2)
-</code></pre>
-<pre><code>6
-</code></pre>
+        <p>Article Link: <a href="https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics">https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics</a></p>
+<ul>
+<li>
+<p>Companies have more data than ever, but many fail to produce actionable insights or good results</p>
+</li>
+<li>
+<p>Being &ldquo;data-driven&rdquo; doesn&rsquo;t stop analysts and leadership from making poor decisions</p>
+</li>
+<li>
+<p>Failing to ask and answer the right/meaningful questions can be a trap to fall into, data can be used to reinforce existing beliefs</p>
+</li>
+<li>
+<p>Decision-driven data analytics: instead of finding a purpose for existing data, find data for existing purpose</p>
+</li>
+</ul>
+<h3 id="asking-the-right-question">Asking the Right Question</h3>
+<ul>
+<li>
+<p>E.g. company wants to reduce churn, develops a sophisticated model to predict which customers are likely to churn, and then sends them a gift basket</p>
+</li>
+<li>
+<p>A churn model is valuable information, but the decision made off of it (send a gift basket) is untested</p>
+</li>
+<li>
+<p>How does sending a gift basket affect a customer&rsquo;s likelihood to churn? This can&rsquo;t be answered by existing data (need for experiment)</p>
+</li>
+<li>
+<p>Too much emphasis on relying on pre-existing data can lead one into the trap of only thinking of questions or context that can be answered/explained by it</p>
+</li>
+<li>
+<p>If data-driven decision making anchors on just available data, it can lead decision makers to focus on the wrong questions</p>
+</li>
+<li>
+<p>Decision-driven data analytics starts with a proper definition of the decision that needs to be made, and then looks for data to make an educated action on it</p>
+</li>
+</ul>
+<h3 id="avoid-the-trap-of-reinforcing-existing-beliefs">Avoid the Trap of Reinforcing Existing Beliefs</h3>
+<ul>
+<li>
+<p>Twitter offers a three-step attribution process for businesses to evaluate the effectiveness of advertising on it</p>
+</li>
+<li>
+<p>Get customer data &gt; look for customers in twitter history &gt; if customers are found, add information on their engagement with the business</p>
+</li>
+<li>
+<p>Analysts will then compare these with customers who didn’t engage on Twitter, see a stark difference (customers on Twitter are much more engaged), and conclude that Twitter plays a major impact on sales</p>
+</li>
+<li>
+<p>Twitter would love for people to make this conclusion</p>
+</li>
+<li>
+<p>Comparing customers who do and don’t use Twitter is apples to oranges</p>
+</li>
+<li>
+<p>Twitter engagement doesn’t necessarily cause sales, sales are from customers who like the product, and therefore engage on twitter</p>
+</li>
+<li>
+<p>Again, correlation $\neq$ causation</p>
+</li>
+</ul>
+<h3 id="decision-driven-data-analytics">Decision-Driven Data Analytics</h3>
+<p>3 steps:</p>
+<p>#1 Define the decision that needs to be made and consider the options available</p>
+<ul>
+<li>What needs to be done and why? Is the solution already known/obvious?</li>
+<li>Consider all possible options for achieving the desired result, and narrow the list down through judgement/data</li>
+</ul>
+<p>#2 Determine what data would be needed to narrow down the list</p>
+<ul>
+<li>Develop criteria to rank the options</li>
+<li>Goal of data analytics is to turn unknowns into knowns</li>
+<li>Starting with the decision to be made forces us to consider what we don’t know</li>
+<li>Focus on the high-impact data that would determine the outcome of a decision</li>
+<li>Once this is thought out, gather the data (i.e. experiment)</li>
+</ul>
+<p>#3 Use the insights gained to execute on the best course of action</p>
+<ul>
+<li>It all comes down to asking important questions and thinking beyond the scope of what you already know</li>
+</ul>
     </div>
 </article>
 

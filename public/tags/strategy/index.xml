@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>strategy on Data Science Notes</title>
+    <link>https://billwarker.com/tags/strategy/</link>
+    <description>Recent content in strategy on Data Science Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://billwarker.com/tags/strategy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Article Summary - Leading With Decision-Driven Data Analytics</title>
+      <link>https://billwarker.com/posts/article-summary-leading-with-decision-driven-data-analytics/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/article-summary-leading-with-decision-driven-data-analytics/</guid>
+      <description>&lt;p&gt;Article Link: &lt;a href=&#34;https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics&#34;&gt;https://sloanreview.mit.edu/article/leading-with-decision-driven-data-analytics&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Companies have more data than ever, but many fail to produce actionable insights or good results&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Being &amp;ldquo;data-driven&amp;rdquo; doesn&amp;rsquo;t stop analysts and leadership from making poor decisions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Failing to ask and answer the right/meaningful questions can be a trap to fall into, data can be used to reinforce existing beliefs&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Decision-driven data analytics: instead of finding a purpose for existing data, find data for existing purpose&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
