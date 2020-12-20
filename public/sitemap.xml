@@ -3,6 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://billwarker.com/posts/anova/</loc>
+    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/</loc>
+    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/posts/</loc>
+    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/tags/stats/</loc>
+    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://billwarker.com/tags/analytics/</loc>
     <lastmod>2020-12-10T00:00:00+00:00</lastmod>
   </url>
@@ -13,27 +33,12 @@
   </url>
   
   <url>
-    <loc>https://billwarker.com/</loc>
-    <lastmod>2020-12-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://billwarker.com/posts/</loc>
-    <lastmod>2020-12-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://billwarker.com/tags/strategy/</loc>
     <lastmod>2020-12-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/</loc>
-    <lastmod>2020-11-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://billwarker.com/tags/stats/</loc>
     <lastmod>2020-11-29T00:00:00+00:00</lastmod>
   </url>
   

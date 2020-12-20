@@ -6,10 +6,25 @@
     <description>Recent content in Posts on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 20 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ANOVA</title>
+      <link>https://billwarker.com/posts/anova/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/anova/</guid>
+      <description>&lt;h3 id=&#34;use&#34;&gt;Use&lt;/h3&gt;
+&lt;p&gt;ANOVA (Analysis of Variance) is a significance test that tests whether the population means from $n$ different groups are the same using the F distribution (therefore only works on numerical response data). It can test between two or more populations, therefore generalizing the t-test beyond just two groups. Examples of when you might want to do an ANOVA test:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Testing whether employee stress levels are the same or different before, during, and after layoffs.&lt;/li&gt;
+&lt;li&gt;Students from different colleges take the same exam. You want to see if one college outperforms the other.&lt;/li&gt;
+&lt;li&gt;A factory is testing three different methods for producing breadsticks and wants to know which yields a superior crunchiness.&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     
     <item>
       <title>Article Summary - Leading With Decision-Driven Data Analytics</title>

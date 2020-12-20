@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>ANOVA - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats" />
+
+<meta property="og:title" content="ANOVA" />
+<meta property="og:description" content="Use
+ANOVA (Analysis of Variance) is a significance test that tests whether the population means from $n$ different groups are the same using the F distribution (therefore only works on numerical response data). It can test between two or more populations, therefore generalizing the t-test beyond just two groups. Examples of when you might want to do an ANOVA test:
+
+Testing whether employee stress levels are the same or different before, during, and after layoffs.
+Students from different colleges take the same exam. You want to see if one college outperforms the other.
+A factory is testing three different methods for producing breadsticks and wants to know which yields a superior crunchiness.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/anova/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2020-12-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-20T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="ANOVA"/>
+<meta name="twitter:description" content="Use
+ANOVA (Analysis of Variance) is a significance test that tests whether the population means from $n$ different groups are the same using the F distribution (therefore only works on numerical response data). It can test between two or more populations, therefore generalizing the t-test beyond just two groups. Examples of when you might want to do an ANOVA test:
+
+Testing whether employee stress levels are the same or different before, during, and after layoffs.
+Students from different colleges take the same exam. You want to see if one college outperforms the other.
+A factory is testing three different methods for producing breadsticks and wants to know which yields a superior crunchiness.
+"/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/anova/">ANOVA</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-12-20</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <h3 id="use">Use</h3>
+<p>ANOVA (Analysis of Variance) is a significance test that tests whether the population means from $n$ different groups are the same using the F distribution (therefore only works on numerical response data). It can test between two or more populations, therefore generalizing the t-test beyond just two groups. Examples of when you might want to do an ANOVA test:</p>
+<ul>
+<li>Testing whether employee stress levels are the same or different before, during, and after layoffs.</li>
+<li>Students from different colleges take the same exam. You want to see if one college outperforms the other.</li>
+<li>A factory is testing three different methods for producing breadsticks and wants to know which yields a superior crunchiness.</li>
+</ul>
+<h3 id="one-way-vs-two-way-anova">One-Way vs. Two-Way ANOVA</h3>
+<p>Refers to the number of independent variables in the test.</p>
+<p>One-Way</p>
+<ul>
+<li>Testing to see if there is a difference in the single independent variable between $n$ groups</li>
+<li>If $n=2$, it is equivalent to a t-test and you should just do that instead $(F = t^2)$</li>
+</ul>
+<p>Two-Way</p>
+<ul>
+<li>Tests the impact of two independent variables that can have multiple levels on a single dependent variable</li>
+<li>Can be done with replication, which means you&rsquo;re duplicating your test(s) with multiple groups, meaning they are doing more than one thing</li>
+</ul>
+<p>Levels refers to the different groups within an independent variable. E.g. one independent variable is <code>brand</code> of cereal: Cheerios, Corn Flakes, Shreddies (3 levels). Another other independent variable is <code>sugar content</code>: sweetened or unsweetened (2 levels).</p>
+<h3 id="assumptions-focusing-on-one-way-anova">Assumptions (focusing on One-Way ANOVA)</h3>
+<ul>
+<li>Data from each group is generated froma a normal (or approximately normal) distribution.</li>
+<li>Responses in a given group are independent and identically distributed (I.I.D)</li>
+<li>The variance of each group is the same (but can be unknown at the outset of the test)</li>
+</ul>
+<p>TLDR: the groups have the same distribution shapes, but testing to see if they&rsquo;re centered around different means.</p>
+<p>This is an assumption under ideal circumstances, but doens&rsquo;t need to be absolute - ANOVA is robusy to heterogeneity (i.e. difference) of variance so long as the largest variance isn&rsquo;t more than 4 times the smallest variance. The general affect that heterogeneity is that it makes ANOVA less efficient and the test has less power.</p>
+<h3 id="null-and-alternate-hypotheses">Null and Alternate Hypotheses</h3>
+<p>$H_0$: The group means come from the same population: $\mu_1 = \mu_2 = \mu_n $</p>
+<p>$H_A$: The group means don&rsquo;t come from the same population, the variable of interest is different due to the groups.</p>
+<p>ANOVA is always a one-sided hypothesis test.</p>
+<h3 id="test-statistic">Test Statistic</h3>
+<p>Test Statistic $W$ is defined as:</p>
+<p>$$ W = \frac{MS_B}{MS_W} $$</p>
+<p>Where $MS_B$ is the Between Group Variance, defined as:</p>
+<p>$$ MS_B = m \times \text{sample variance of group means} $$</p>
+<p>$$ MS_B = \frac{m}{n - 1} \sum_{i=1}^n \left(\bar{x}_{i} - \bar{x}\right)^{2} $$</p>
+<p>And $MS_W$ is the Average Within Group Variance, defined as:</p>
+<p>$$ MS_W = \text{sample mean of } s_{i}^2, \ldots, s_{n}^2 $$</p>
+<p>$$ MS_W = \frac{s_{i}^2, \ldots , s_{n}^2}{n} $$</p>
+<h3 id="example">Example</h3>
+<p>Conducting a One-Way ANOVA test to see whether employee stress levels are the same or different before, during, and after layoffs. Employees have their stress levels surveyed at these three different times and the average stress level of the group is calculated.</p>
+<p>$H_0$: Layoffs don&rsquo;t have an impact on stress levels, so the mean stress level before, during, and after the layoffs should be the same.</p>
+<p>$H_A$: Layoffs do impact stress levels, so means should be different before, during, and after.</p>
+<p>This is a one-sided test that we will conduct with significance $\alpha = 0.05$</p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import f, f_oneway
+</code></pre>
+<pre><code class="language-python">normal_stress = np.array([2, 3, 7, 2, 6])
+announced_stress = np.array([10, 8, 7, 5, 10])
+during_stress = np.array([10, 13, 14, 13, 15])
+
+groups = [normal_stress, announced_stress, during_stress]
+total_data = np.concatenate(groups, axis = 0)
+
+m = len(normal_stress)
+n = len(groups)
+</code></pre>
+<pre><code class="language-python">for group in groups:
+    print(group.mean())
+</code></pre>
+<pre><code>4.0
+8.0
+13.0
+</code></pre>
+<pre><code class="language-python">m, n
+</code></pre>
+<pre><code>(5, 3)
+</code></pre>
+<pre><code class="language-python">MSw = np.array([x.var(ddof=1) for x in groups]).mean() # taking sample variance so ddof=1
+</code></pre>
+<pre><code class="language-python">MSw
+</code></pre>
+<pre><code>4.5
+</code></pre>
+<pre><code class="language-python">MSb = np.sum(np.square(np.array([x.mean() - total_data.mean() for x in groups]))) * (m/(n - 1)) 
+</code></pre>
+<pre><code class="language-python">MSb
+</code></pre>
+<pre><code>101.66666666666666
+</code></pre>
+<pre><code class="language-python">W = MSb / MSw
+</code></pre>
+<pre><code class="language-python">W
+</code></pre>
+<pre><code>22.59259259259259
+</code></pre>
+<p>Calculating the same test statistic with SciPy&rsquo;s <code>f_oneway</code> method:</p>
+<pre><code class="language-python">statistic, p_value = f_oneway(normal_stress, announced_stress, during_stress)
+statistic, p_value
+</code></pre>
+<pre><code>(22.59259259259259, 8.538592454274676e-05)
+</code></pre>
+<pre><code class="language-python">W == statistic
+</code></pre>
+<pre><code>True
+</code></pre>
+<h3 id="test-statistic-intuition">Test Statistic Intuition</h3>
+<p>If population means $\mu_i$ are equal then ratio that equals $W$ should be near 1, with the variance between the groups being close to the variance within the groups (since they&rsquo;re all from the same underlying population). If they&rsquo;re not equal then the between group variance $MS_B$ should be larger while the average within group variance $MS_W$ stays the same.</p>
+<h3 id="null-distribution">Null Distribution</h3>
+<p>$f\left(W \vert H_0\right)$ is the PDF of $W \text{\textasciitilde} F\left(n - 1, n (m - 1)\right)$, where $F$ is the F-Distribution with $(n - 1)$ and $n(m - 1)$ degrees of freedom.</p>
+<pre><code class="language-python">from scipy.stats import f
+</code></pre>
+<pre><code class="language-python">dfn = n - 1
+dfd = n * (m - 1)
+
+f_dist = f(dfn, dfd)
+</code></pre>
+<pre><code class="language-python">f_dist.ppf(0.95)
+</code></pre>
+<pre><code>3.8852938346523933
+</code></pre>
+<pre><code class="language-python">dfn, dfd
+</code></pre>
+<pre><code>(2, 12)
+</code></pre>
+<pre><code class="language-python">f_range = np.linspace(f_dist.ppf(0.0001), f_dist.ppf(0.9999), num=1000)
+</code></pre>
+<pre><code class="language-python">plt.figure(figsize=(8,5))
+plt.plot(f_range, f_dist.pdf(f_range))
+plt.axvline(f_dist.ppf(0.95), c='r', label='p=0.05')
+plt.scatter(W, f_dist.pdf(W), c='g', label='test statistic')
+plt.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7f8f128913d0&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/ANOVA_20_1.png" alt="png" />
+</p>
+<p>Given the results of the test we can reject the null hypothesis $H_0$ in favour of $H_A$ - employee stress levels do seem to be impacted by layoffs (duhhhh).</p>
+<h2 id="appendix---refresh-on-population-and-sample-variancestandard-deviation-calculations">Appendix - Refresh on Population and Sample Variance/Standard Deviation Calculations</h2>
+<p>Population Variance and Standard Deviation:</p>
+<p>$$ \sigma^2 = \frac{\Sigma (x_i - \mu)^2}{N} $$</p>
+<p>$$ \sigma = \sqrt{\frac{\Sigma (x_i - \mu)^2}{N}} $$</p>
+<p>Sample Variance and Standard Deviation:</p>
+<p>$$ S^2 = \frac{\Sigma (x_i - \bar{x})^2}{n - 1} $$</p>
+<p>$$ s = \sqrt{\frac{\Sigma (x_i - \bar{x})^2}{n - 1}} $$</p>
+<p>In the population calculations, we&rsquo;re dividing by the total size of the population, while in the sample calculations we&rsquo;re dividing by the sample&rsquo;s total degrees of freedom.</p>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2020 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
