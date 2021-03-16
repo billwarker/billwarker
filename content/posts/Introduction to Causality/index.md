@@ -1,17 +1,16 @@
 ---
-title: "Notes from Causal Inference for the Brave and True: Introduction to Causality"
+title: "Causal Inference for the Brave and True: Introduction to Causality"
 author: "Will Barker"
-date: 2021-03-21
+date: 2021-03-15
 tags: ["stats", "causal-inference"]
 ---
 
-
-Notes from <i>Causal Inference for the Brave and True</i>.
+Notes from <i>Causal Inference for the Brave and True</i>
 
 https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias
 
 
-## Introduction to Causality
+# Introduction to Causality
 
 Data Science is kind of like a cup of beer, with a little bit of foam on the top:
 - The beer is statistical foundations, scientific curiousity, passion for difficult problems

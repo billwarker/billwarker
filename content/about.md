@@ -18,3 +18,9 @@ I'm Will, and here's a picture of me with some friends I made while travelling i
 # Food for Thought
 
 *It is more important to ask interesting questions, not give precise answers to boring ones.*
+
+---
+
+*"What happens in a man’s life is already written. A man must move through life as his destiny wills.“*
+
+*"Yes, but each man is free to live as he chooses. Though they seem opposite, both are true”.*
