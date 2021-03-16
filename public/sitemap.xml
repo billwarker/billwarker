@@ -3,22 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://billwarker.com/posts/anova/</loc>
-    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://billwarker.com/</loc>
-    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://billwarker.com/posts/</loc>
-    <lastmod>2020-12-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://billwarker.com/tags/stats/</loc>
+    <lastmod>2021-03-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/</loc>
+    <lastmod>2021-03-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://billwarker.com/posts/anova/</loc>
     <lastmod>2020-12-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -48,7 +53,7 @@
   </url>
   
   <url>
-    <loc>https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/</loc>
+    <loc>https://billwarker.com/posts/introduction-to-causality/</loc>
     <lastmod>2020-11-21T00:00:00+00:00</lastmod>
   </url>
   

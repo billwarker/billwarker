@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>Notes from Causal Inference for the Brave and True: Introduction to Causality - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats" />
+
+<meta property="og:title" content="Notes from Causal Inference for the Brave and True: Introduction to Causality" />
+<meta property="og:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias
+
+Introduction to Causality
+Data Science is kind of like a cup of beer, with a little bit of foam on the top:
+
+The beer is statistical foundations, scientific curiousity, passion for difficult problems
+The foam is the hype and unrealistic expectations that will disappear eventually
+
+Focus on what makes your work valuable." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/introduction-to-causality/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2020-11-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-11-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="Notes from Causal Inference for the Brave and True: Introduction to Causality"/>
+<meta name="twitter:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias
+
+Introduction to Causality
+Data Science is kind of like a cup of beer, with a little bit of foam on the top:
+
+The beer is statistical foundations, scientific curiousity, passion for difficult problems
+The foam is the hype and unrealistic expectations that will disappear eventually
+
+Focus on what makes your work valuable."/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/introduction-to-causality/">Notes from Causal Inference for the Brave and True: Introduction to Causality</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-21</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p>Notes from <i>Causal Inference for the Brave and True</i></p>
+<p><a href="https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias">https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias</a></p>
+<hr>
+<h1 id="introduction-to-causality">Introduction to Causality</h1>
+<p>Data Science is kind of like a cup of beer, with a little bit of foam on the top:</p>
+<ul>
+<li>The beer is statistical foundations, scientific curiousity, passion for difficult problems</li>
+<li>The foam is the hype and unrealistic expectations that will disappear eventually</li>
+</ul>
+<p>Focus on what makes your work valuable.</p>
+<h2 id="answering-a-different-kind-of-question">Answering a Different Kind of Question</h2>
+<ul>
+<li>ML doesn&rsquo;t bring intelligence, it brings predictions</li>
+<li>Must frame problems as prediction ones, and it&rsquo;s not so good at explaining causation</li>
+</ul>
+<p>Causal questions are everywhere:</p>
+<ul>
+<li>Does X cause an increase in sales?</li>
+<li>Does higher education lead to higher earnings?</li>
+<li>Does immigration cause unemployment to go up?</li>
+</ul>
+<p>ML and correlation-type predictions don&rsquo;t work for these questions.</p>
+<p>We always hear that correlation isn&rsquo;t causation:</p>
+<ul>
+<li>Explaining why takes some understanding</li>
+<li>This book explains how to figure out when correlation is causation</li>
+</ul>
+<h2 id="when-association-is-causation">When Association is Causation</h2>
+<p>We can intuitively understand why correlation doesn&rsquo;t necessarily mean causation:</p>
+<ul>
+<li>If someone says that schools that give their students tablets to work with perform better, we can quickly point out that these schools are probably better funded, richer families, etc.</li>
+<li>We can&rsquo;t say that tablets make students perform better, but they&rsquo;re associated/correlated with better performance (due to underlying factors)</li>
+</ul>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+from scipy.special import expit
+import seaborn as sns
+import matplotlib.pyplot as plt
+from matplotlib import style
+</code></pre>
+<pre><code class="language-python">style.use(&quot;fivethirtyeight&quot;)
+
+np.random.seed(123)
+n = 100
+tuition = np.random.normal(1000, 300, n).round()
+tablet = np.random.binomial(1, expit((tuition - tuition.mean()) / tuition.std())).astype(bool)
+enem_score = np.random.normal(200 - 50 * tablet + 0.7 * tuition, 200)
+enem_score = (enem_score - enem_score.min()) / enem_score.max()
+enem_score *= 1000
+
+df = pd.DataFrame(dict(enem_score=enem_score, Tuition=tuition, Tablet=tablet))
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>enem_score</th>
+      <th>Tuition</th>
+      <th>Tablet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>227.622953</td>
+      <td>674.0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>219.079925</td>
+      <td>1299.0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>400.889622</td>
+      <td>1085.0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>122.761509</td>
+      <td>548.0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>315.064276</td>
+      <td>826.0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>95</td>
+      <td>451.019929</td>
+      <td>1309.0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>96</td>
+      <td>113.288467</td>
+      <td>675.0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>97</td>
+      <td>116.042782</td>
+      <td>591.0</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>98</td>
+      <td>266.238616</td>
+      <td>1114.0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>99</td>
+      <td>297.431514</td>
+      <td>886.0</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 3 columns</p>
+</div>
+<pre><code class="language-python">plt.figure(figsize=(6,8))
+sns.boxplot(y=&quot;enem_score&quot;, x=&quot;Tablet&quot;, data=df).set_title(&quot;ENEM score by Tablet in Class&quot;)
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/Introduction%20to%20Causality_4_0.png" alt="png" />
+</p>
+<p>$T_i$ is the treatment intake for unit $i$:</p>
+<ul>
+<li>1 if unit $i$ received the treatment</li>
+<li>0 otherwise</li>
+</ul>
+<p>$Y_i$ is the observed outcome variable of interest for unit $i$</p>
+<p>The fundamental problem of causal inference is we can never observe the same unit with/without treatment:</p>
+<ul>
+<li>Like two diverging roads in life&hellip; you always wonder what could have been &lt;/3</li>
+<li>Potential outcomes are talked about a lot, denoting what would/could have happened if some treatment was taken</li>
+<li>Sometimes call the outcome that happened &ldquo;factual&rdquo;, and the one that didn&rsquo;t as &ldquo;counterfactual&rdquo;</li>
+</ul>
+<p>$Y_{0i}$ is the potential outcome for unit $i$ without the treatment<br>
+$Y_{1i}$ is the potential outcome for the same unit $i$ with the treatment</p>
+<p>In our example:</p>
+<ul>
+<li>$Y_{1i}$ is the academic performance of student $i$ if they are in a classroom with tablets</li>
+<li>$Y_{0i}$ otherwise</li>
+<li>If the student gets the tablet, we can observe $Y_{1i}$, if not we can observe $Y_{0i}$</li>
+<li>Each counterfactual is still defined, we just can&rsquo;t see it - a potential outcome</li>
+</ul>
+<p>With potential outcomes we can define the treatment effect:</p>
+<p>$ Y_{1i} - Y_{0i} $</p>
+<ul>
+<li>Of course we can never know the treatment effect directly because we can only observe one of the potential outcomes</li>
+</ul>
+<p>Focus on easier things to estimate/measure:</p>
+<p>Average treatment effect:</p>
+<p>$ ATE = E[Y_1 - Y_{0}] $</p>
+<ul>
+<li>Where $E[&hellip;]$ is the expected value</li>
+</ul>
+<p>Average treatment effect on the treated:</p>
+<p>$ ATET = E[Y_1 - Y_{0} \vert T = 1] $</p>
+<p>Pretending we could see both potential outcomes (a gift from the causal inference gods):</p>
+<ul>
+<li>Collected data on 4 schools</li>
+<li>We know if they gave tablets to students and their score on a test</li>
+<li>$T = 1$ is treatment (getting the tablets)</li>
+<li>$Y$ is test score</li>
+</ul>
+<pre><code class="language-python">data = pd.DataFrame(dict(i = [1,2,3,4],
+                         y0 = [500,600,700,800],
+                         y1 = [450,600,600,750],
+                         t = [0,0,1,1],
+                         y = [500,600,600,750],
+                         te = [-50,0,-200,50],)) # TE is treatment effect
+</code></pre>
+<pre><code class="language-python">data
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>i</th>
+      <th>y0</th>
+      <th>y1</th>
+      <th>t</th>
+      <th>y</th>
+      <th>te</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>500</td>
+      <td>450</td>
+      <td>0</td>
+      <td>500</td>
+      <td>-50</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>600</td>
+      <td>600</td>
+      <td>0</td>
+      <td>600</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+      <td>700</td>
+      <td>600</td>
+      <td>1</td>
+      <td>600</td>
+      <td>-200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>800</td>
+      <td>750</td>
+      <td>1</td>
+      <td>750</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>$ATE$ would be the mean of $TE$:</p>
+<pre><code class="language-python">data.te.mean()
+</code></pre>
+<pre><code>-50.0
+</code></pre>
+<ul>
+<li>Tablets reduced the academic performance of students, on average, by 50 pts</li>
+</ul>
+<p>$ATET$:</p>
+<pre><code class="language-python">data[data.t == 1].te.mean()
+</code></pre>
+<pre><code>-75.0
+</code></pre>
+<ul>
+<li>For schools that were treated, tablets reduced academic performance by 75 pts on average</li>
+</ul>
+<p>In reality (where we can&rsquo;t observe counterfactuals) the data would look like:</p>
+<pre><code class="language-python">reality_data = pd.DataFrame(dict(i = [1,2,3,4],
+                                 y0 = [500,600,np.nan,np.nan],
+                                 y1 = [np.nan,np.nan,600,750],
+                                 t = [0,0,1,1],
+                                 y = [500,600,600,750],
+                                 te = [np.nan,np.nan,np.nan,np.nan],))
+</code></pre>
+<pre><code class="language-python">reality_data
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>i</th>
+      <th>y0</th>
+      <th>y1</th>
+      <th>t</th>
+      <th>y</th>
+      <th>te</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>500.0</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>500</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>600.0</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>600</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>600.0</td>
+      <td>1</td>
+      <td>600</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>750.0</td>
+      <td>1</td>
+      <td>750</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>You can&rsquo;t just take the mean of the treated and compare it with the mean of the untreated to try and answer the question of causality:</p>
+<ul>
+<li>That&rsquo;s committing a grave sin: mistaking association for causation</li>
+</ul>
+<h2 id="bias">Bias</h2>
+<p>The main enemy of causal inference.</p>
+<p>Schools with tablets are likely richer than those without; i.e. the treated schools (with tablets) are not the same as untreated schools (without tablets, likely poorer). The $Y_0$ of the treated is different from the $Y_0$ of the untreated.</p>
+<p>Leverage your understanding of how the world works:</p>
+<ul>
+<li>The $Y_0$ of the treated schools is likely larger than untreated schools for other reasons</li>
+<li>Schools that can afford tablets can also afford other factors that contribute to better the scores</li>
+</ul>
+<p>Association is measured by $E[Y \vert T = 1] - E[Y \vert T = 0]$</p>
+<ul>
+<li>e.g. the average test score for schools with tablets minus the average test score of those without them</li>
+</ul>
+<p>Causation is measured by $E[Y_{1} - Y_{0}]$</p>
+<p>To see how they relate:</p>
+<p>First, take the association measurement and replace observed outcomes with potential outcomes</p>
+<p>$E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} \vert T = 1] - E[Y_{0} \vert T = 0]$</p>
+<p>Now lets add and subtract $E[Y_{0} \vert T = 1]$, the counterfactual outcome. What would have been the outcome of the treated group, had they not received treatment.</p>
+<p>$E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} \vert T = 1] - E[Y_{0} \vert T = 0] + E[Y_{0} \vert T = 1] - E[Y_{0} \vert T = 1]$</p>
+<p>Through reordering the terms and merging some expectations we get:</p>
+<p>$E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} - Y_{0} \vert T = 1] + E[Y_{0} \vert T = 1] - E[Y_{0} \vert T = 0]$</p>
+<p>Where</p>
+<ul>
+<li>$E[Y_{1} - Y_{0} \vert T = 1]$ is $ATET$</li>
+<li>$E[Y_{0} \vert T = 1] - E[Y_{0} \vert T = 0]$ is our $BIAS$ term</li>
+</ul>
+<p>Association is equal to the treatment effect on the treated plus a bias term:</p>
+<ul>
+<li>The bias is given by how the treated and control group differ before the treatment; in the case neither of them has received the treatment</li>
+<li>In this example, we think that $E[Y_0 \vert T = 0] &lt; E[Y_0 \vert T = 1]$; that schools who can afford to give tablets are better than those that can&rsquo;t, regardless of the tablets treatment</li>
+</ul>
+<p>Bias arises from many things we can&rsquo;t control changing together with the experiment (confounding variables).</p>
+<ul>
+<li>e.g. treated and untreated schools don&rsquo;t just differ on tablets, but on tuition cost, location, teachers, etc.</li>
+<li>To claim that tablets improve performance, we would need schools with and without them to be, on average, similar to each other</li>
+</ul>
+<pre><code class="language-python">plt.figure(figsize=(10,6))
+sns.scatterplot(x=&quot;Tuition&quot;, y=&quot;enem_score&quot;, hue=&quot;Tablet&quot;, data=df, s=70).set_title(&quot;ENEM score by Tuition Cost&quot;)
+</code></pre>
+<pre><code>Text(0.5, 1.0, 'ENEM score by Tuition Cost')
+</code></pre>
+<p><img class="img-zoomable" src="images/Introduction%20to%20Causality_17_1.png" alt="png" />
+</p>
+<p>We know the problem, and here&rsquo;s the solution:</p>
+<p>If $E[Y_{0} \vert T = 0] = E[Y_{0} \vert T = 1]$, then association is causation!</p>
+<ul>
+<li>This is saying that the treatment and control group are comparable before the treatment</li>
+<li>If we could observe $Y_{0}$ for the treated group, then its outcome would be the same as the untreated</li>
+</ul>
+<p>This makes the bias term vanish in association, leaving only $ATET$:</p>
+<p>$E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} - Y_{0} \vert T = 1] + 0$</p>
+<p>If $E[Y_{0} \vert T = 0] = E[Y_{0} \vert T = 1]$, the causal impact on the treated is the same as in the untreated (because they are similar).</p>
+<p>$E[Y_{1} - Y_{0} \vert T = 1] = E[Y_{1} \vert T = 1] - E[Y_{0} \vert T = 1]$<br>
+$\hspace{3.35cm} = E[Y_{1} \vert T = 1] - E[Y_{0} \vert T = 0]$<br>
+$\hspace{3.35cm} = E[Y \vert T = 1] - E[Y \vert T = 0]$<br></p>
+<p>Hence the difference in means becomes the causal effect:</p>
+<p>$E[Y \vert T = 1] - E[Y \vert T = 0] = ATE = ATET$</p>
+<p>Causal inference is all about finding clever ways to remove bias through experimentation, making the treatment and control groups comparable so that all the difference we can see between them is only the average treatment effect.</p>
+<h2 id="key-ideas">Key Ideas</h2>
+<p>Association is not causation, but it can be (if there are no other differences between the groups being tested, AKA bias).</p>
+<p>Potential outcome notation and the idea of counterfactuals - two potential realities, but only one of them can be measured (the funadamental problem of causal inference).</p>
+<hr>
+<p><i>&quot;What happens in a man&rsquo;s life is already written. A man must move through life as his destiny wills.&ldquo;</i></p>
+<p><i>&quot;Yes, but each man is free to live as he chooses. Though they seem opposite, both are true&rdquo;.</i></p>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2021 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
