@@ -6,27 +6,29 @@
     <description>Recent content on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Causality for the Brave and True: Introduction to Causality</title>
+      <title>Randomized Experiments/RCTs</title>
+      <link>https://billwarker.com/posts/randomized-experiments/</link>
+      <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/randomized-experiments/</guid>
+      <description>&lt;p&gt;Notes from &lt;i&gt;Causal Inference for the Brave and True&lt;/i&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html&#34;&gt;https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Causality</title>
       <link>https://billwarker.com/posts/introduction-to-causality/</link>
       <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://billwarker.com/posts/introduction-to-causality/</guid>
       <description>&lt;p&gt;Notes from &lt;i&gt;Causal Inference for the Brave and True&lt;/i&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias&#34;&gt;https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias&lt;/a&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h1 id=&#34;introduction-to-causality&#34;&gt;Introduction to Causality&lt;/h1&gt;
-&lt;p&gt;Data Science is kind of like a cup of beer, with a little bit of foam on the top:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The beer is statistical foundations, scientific curiousity, passion for difficult problems&lt;/li&gt;
-&lt;li&gt;The foam is the hype and unrealistic expectations that will disappear eventually&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Focus on what makes your work valuable.&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html&#34;&gt;https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>

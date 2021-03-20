@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-174475056-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.73.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+
+
+<title>Randomized Experiments/RCTs - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats, causal-inference, experimentation" />
+
+<meta property="og:title" content="Randomized Experiments/RCTs" />
+<meta property="og:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/randomized-experiments/" />
+<meta property="og:image" content="https://billwarker.com/img/og.png"/>
+<meta property="article:published_time" content="2021-03-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-03-20T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
+
+<meta name="twitter:title" content="Randomized Experiments/RCTs"/>
+<meta name="twitter:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html"/>
+
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+<link rel="stylesheet" href="/assets/css/fuji.min.css" />
+
+
+<script async type="module" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.esm.js"></script>
+<script async nomodule src="https://cdn.jsdelivr.net/npm/ionicons@5.0.1/dist/ionicons/ionicons.js"></script>
+
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+    
+    var fujiThemeData = localStorage.getItem('fuji_data-theme');
+    
+    if (!fujiThemeData) {
+        localStorage.setItem('fuji_data-theme', 'auto');
+    } else {
+        
+        if (fujiThemeData !== 'auto') {
+            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+        }
+    }
+</script>
+<script data-cfasync="false">
+    
+    function browserDetection(ua) {
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    var ua = window.navigator.userAgent;
+    if (browserDetection(ua)) {
+        window.location.href('https:\/\/billwarker.com\/ie\/');
+    }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/randomized-experiments/">Randomized Experiments/RCTs</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><ion-icon name="today"></ion-icon>&nbsp;2021-03-20</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
+    </div>
+    
+    
+    <div class="post-content markdown-body">
+        <p>Notes from <i>Causal Inference for the Brave and True</i></p>
+<p><a href="https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html">https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html</a></p>
+<hr>
+<h1 id="randomized-experiments">Randomized Experiments</h1>
+<h2 id="the-golden-standard">The Golden Standard</h2>
+<p>Association becomes causation when there is no bias between treatment &amp; control groups.</p>
+<ul>
+<li>There&rsquo;s no difference between them except for the treatment itself</li>
+<li>The outcome of the untreated group is the same as the counterfactual of the treated group</li>
+<li>$E[Y_{0} \vert T = 0] = E[Y_{0} \vert T = 1]$</li>
+</ul>
+<p>Randomized Experiments, otherwise known as Randomized Controlled Trials (RCTs), can make bias vanish:</p>
+<ul>
+<li>Randomly assigning individuals in a population to either a treatment or control group</li>
+<li>Doesn&rsquo;t need to be 50/50 split, as long as the sample size is large enough to be representative</li>
+<li>Randomization annihilates bias by making the potential outcomes independent of the treatment</li>
+</ul>
+<p>$(Y_{0}, Y_{1}) \perp!!!\perp T$</p>
+<ul>
+<li>Where $\perp!!!\perp$ is the symbol for conditional independence</li>
+<li>This means that the potential outcomes are independent of the treatment</li>
+<li>Emphasis on potential outcomes $Y_{0}$ or $Y_{1}$</li>
+<li>In randomized trials we don&rsquo;t want the outcome $Y$ to be independent of the treatment, because we think the treatment causes the outcome</li>
+<li>But saying the potential outcomes $Y_{0}$ or $Y_{1}$ are independent of the treatment is to say that in expectation, they are the same between the control and treatment groups (i.e. the groups are comparable)</li>
+</ul>
+<p>$(Y_{0}, Y_{1}) \perp T$</p>
+<ul>
+<li>Where $\perp$ essentially means dependence</li>
+<li>This means that the treatment is the only thing generating a difference between the outcome in the treated and control groups</li>
+<li>Which, if this is the case, implies $E[Y_{0} \vert T = 0] = E[Y_{0} \vert T = 1] = E[Y_{0}]$</li>
+<li>Which gives us $E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} - Y_{0}] = ATE$</li>
+<li>Meaning the randomization allows us to just use the simple difference in means between treatment and control as the treatment effect</li>
+</ul>
+<h2 id="in-a-school-far-far-away">In a School Far, Far Away</h2>
+<ul>
+<li>Let&rsquo;s say we wanted to know if remote learning has a positive or negative impact on student performance</li>
+<li>If we were to compare students in schools that give mostly online classes to those that just use traditional classrooms, we would run the risk of mistaking association for causation (bias exists)</li>
+<li>$T = 1$ for online schools and $T = 0$ for traditional schools</li>
+</ul>
+<p>Potential biases:</p>
+<ul>
+<li>Online schools attract more studious, disciplined students $\rightarrow E[Y_{0} \vert T = 1] &gt; E[Y_{0} \vert T = 0]$ (positive bias)</li>
+<li>Online schools consist of poorer students who cannot afford traditional schooling $\rightarrow E[Y_{0} \vert T = 1] &lt; E[Y_{0} \vert T = 0]$ (negative bias)</li>
+<li>We could still speak to correlation, but can&rsquo;t make any convincing claims about causality</li>
+</ul>
+<p>Randomly assigning the online and traditional classes to students solves this</p>
+<ul>
+<li>On average the treatment is the only difference between the two groups</li>
+</ul>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+</code></pre>
+<pre><code class="language-python">data = pd.read_stata(&quot;113462-V1/data-file-and-program/ReplicationData2.dta&quot;)
+</code></pre>
+<pre><code class="language-python">data.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gpa</th>
+      <th>cum_total_crds</th>
+      <th>gender</th>
+      <th>asian</th>
+      <th>black</th>
+      <th>hawaiian</th>
+      <th>hispanic</th>
+      <th>unknown</th>
+      <th>white</th>
+      <th>ethnic_dummy</th>
+      <th>format_ol</th>
+      <th>format_blended</th>
+      <th>sat_math_NEW</th>
+      <th>sat_verbal_NEW</th>
+      <th>enroll_count</th>
+      <th>format_f2f_v_ol</th>
+      <th>format_f2f_v_blended</th>
+      <th>format_combined_v_f2f</th>
+      <th>falsexam</th>
+      <th>experiment1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2.014</td>
+      <td>63.0</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>540.0</td>
+      <td>540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>3.720</td>
+      <td>33.0</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>590.0</td>
+      <td>630.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>650.0</td>
+      <td>570.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>690.0</td>
+      <td>690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>480.0</td>
+      <td>420.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre><code class="language-python">data_groups = data.assign(class_format = np.select([data[&quot;format_ol&quot;].astype(bool), data[&quot;format_blended&quot;].astype(bool)],
+                                                   [&quot;online&quot;, &quot;blended&quot;],
+                                                   default=&quot;face_to_face&quot;)).groupby([&quot;class_format&quot;]).mean()
+</code></pre>
+<pre><code class="language-python">data_groups
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gpa</th>
+      <th>cum_total_crds</th>
+      <th>gender</th>
+      <th>asian</th>
+      <th>black</th>
+      <th>hawaiian</th>
+      <th>hispanic</th>
+      <th>unknown</th>
+      <th>white</th>
+      <th>ethnic_dummy</th>
+      <th>format_ol</th>
+      <th>format_blended</th>
+      <th>sat_math_NEW</th>
+      <th>sat_verbal_NEW</th>
+      <th>enroll_count</th>
+      <th>format_f2f_v_ol</th>
+      <th>format_f2f_v_blended</th>
+      <th>format_combined_v_f2f</th>
+      <th>falsexam</th>
+      <th>experiment1</th>
+    </tr>
+    <tr>
+      <th>class_format</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>blended</td>
+      <td>3.127560</td>
+      <td>34.509934</td>
+      <td>0.561404</td>
+      <td>0.230088</td>
+      <td>0.115044</td>
+      <td>0.017699</td>
+      <td>0.008850</td>
+      <td>0.008850</td>
+      <td>0.619469</td>
+      <td>0.416667</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>620.413793</td>
+      <td>579.554795</td>
+      <td>2.421053</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>50.018696</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <td>face_to_face</td>
+      <td>3.100013</td>
+      <td>31.566413</td>
+      <td>0.573620</td>
+      <td>0.146154</td>
+      <td>0.084615</td>
+      <td>0.003846</td>
+      <td>0.026923</td>
+      <td>0.000000</td>
+      <td>0.738462</td>
+      <td>0.261538</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>625.521173</td>
+      <td>590.618893</td>
+      <td>2.525714</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>29.138031</td>
+      <td>0.493289</td>
+    </tr>
+    <tr>
+      <td>online</td>
+      <td>3.061357</td>
+      <td>36.774096</td>
+      <td>0.526012</td>
+      <td>0.220472</td>
+      <td>0.055118</td>
+      <td>0.007874</td>
+      <td>0.023622</td>
+      <td>0.023622</td>
+      <td>0.669291</td>
+      <td>0.330709</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>615.911950</td>
+      <td>570.251572</td>
+      <td>2.375723</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>40.963379</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>We can use the difference in means between groups as the $ATE$:</p>
+<ul>
+<li>Looking at GPA, we can conclude that $ATE = E[Y_{1} - Y_{0}] = 3.06 - 3.10 = -0.04$ (comparing <code>online</code> and <code>face_to_face</code> groups)</li>
+<li>Online classes caused students to perform slightly worse</li>
+<li>Is this difference significant though, maybe another question</li>
+</ul>
+<p>Either way the randomized experiment wiped out any bias between the groups:</p>
+<ul>
+<li>We can see that <code>gender</code> is fairly evenly distributed between groups</li>
+<li><code>white</code> students/variable slightly overindexed in <code>face_to_face</code> however; these slight imbalances are due to small dataset size</li>
+</ul>
+<h2 id="the-ideal-experiment">The Ideal Experiment</h2>
+<p>RCTs are the most reliable way to uncover causal effects - a well designed RCT is a scientist&rsquo;s dream.</p>
+<p>Sometimes however, we can&rsquo;t control the assignment mechanism due to cost/ethical reasons:</p>
+<ul>
+<li>e.g. If we wanted to understand the effects of smoking during preganancy, we couldn&rsquo;t just force a random portion of moms to smoke while they were pregnant</li>
+<li>e.g. A big bank couldn&rsquo;t just give random lines of credit to customers to measure the impact on churn</li>
+<li>Conditional randomization can help lower the cost sometimes</li>
+<li>Nothing can be done for unethical/unfeasible experiments though</li>
+<li>Always worth it to ask what the ideal experiment would be, this can shed some light on how to uncover the causal effect without perfect conditions</li>
+</ul>
+<h2 id="the-assignment-mechanism">The Assignment Mechanism</h2>
+<p>Causal inference techniques try to identify the assignment mechanism of the treatments.</p>
+<ul>
+<li>
+<p>In RCTs the assignment mechanism is pure randomness</p>
+</li>
+<li>
+<p>Understanding the assignment mechanism can make inference more certain</p>
+</li>
+<li>
+<p>Assignment mechanisms can&rsquo;t just be found looking at associations in the data through EDA</p>
+</li>
+<li>
+<p>In causal questions you can usually argue both ways: X causes Y, Y causes X, or Z causes X and Y, and the X/Y correlation is just spurious</p>
+</li>
+<li>
+<p>Understanding the assignment mechanism leads to more convincing answers and makes causal inference exciting</p>
+</li>
+</ul>
+<h2 id="key-ideas">Key Ideas</h2>
+<ul>
+<li>RCTs make the treatment and control groups comparable; this is the equivalent to being able to see the counterfactuals for both groups</li>
+<li>When the potential outcome for the untreated $Y_{0}$ is the same for both the test and control groups, this allows us to call their difference in means for the outcome variable $Y$ as the average treatment effect $ATE$</li>
+</ul>
+<p>Breaking this down from the original association equation:</p>
+<p>$ATE = E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} - Y_{0} \vert T = 1] + E[Y_{0} \vert T = 1] - E[Y_{0} \vert T = 0]$</p>
+<p>Where the average treatment effect/difference in means/association between the groups is equal to the average treatment effect of the treated plus a bias term ($ATET + BIAS$)</p>
+<p>RCTs make $Y_{0}$ the same between both groups so $E[Y_{0} \vert T = 1] - E[Y_{0} \vert T = 0] = x - x = 0$, eliminating the bias term</p>
+<p>This reduces the average treatment effect to be equal to the average treatment effect of the treated:</p>
+<p>$ATE = ATET \rightarrow E[Y \vert T = 1] - E[Y \vert T = 0] = E[Y_{1} - Y_{0} \vert T = 1]$</p>
+<p>Long story short we can take the average treatment effect/difference in means between treatment to be equivalent to the causal effect of the treatment on the treatment group. Association becomes causation.</p>
+<p>RCTs are great, but unfortunately they can&rsquo;t always be the solution due to ethical/cost/feasibility reasons.</p>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    
+    
+    
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/causal-inference/">causal-inference</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/experimentation/">experimentation</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-toggle-mode">
+        <ion-icon name="contrast"></ion-icon>
+    </div>
+    <div class="btn-scroll-top">
+        <ion-icon name="chevron-up"></ion-icon>
+    </div>
+</div>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            <span>&copy; 2021 <a href="https://billwarker.com">Will Barker</a>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+</footer>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+    
+    
+<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+</body>
+
+</html>
