@@ -6,6 +6,7 @@ hasCJKLanguage = true
 enableEmoji = true
 enableRobotsTXT = true
 disableKinds = ["taxonomyTerm"]
+ignoreErrors = ["error-disable-taxonomy"]
 
 ## Change this two to switch between different language
 languageCode = "en"  # For RSS, view https://www.rssboard.org/rss-language-codes
@@ -16,8 +17,15 @@ paginate = 10
 
 googleAnalytics = "UA-174475056-1" # Set your Google Analytics UA here
 
+[outputFormats]
+  [outputFormats.SearchIndex]
+    isPlainText = true
+    notAlternative = true
+    mediaType = "application/json"
+    path = "/search/"
+
 [outputs]
-  home = ["html", "rss", "json"]
+  home = ["HTML", "RSS", "SearchIndex"]
 
 [permalinks]
   post = "/:section/:filename/" # Custom post links, e.g. "/:year/:month/:title/"
@@ -26,6 +34,9 @@ googleAnalytics = "UA-174475056-1" # Set your Google Analytics UA here
   author = "Will Barker" # You can also set author in post front matter individually
   subTitle = "Concepts and ideas learned throughout my studies"
   math = true
+  
+  # Source URL of the website, will appear in the footer
+  sourceURL = "https://github.com/billwarker/billwarker"
 
   # Use CloudFlare Workers to accelerate the Google Analytics
   # If you are using this please comment the googleAnalytics above
@@ -72,6 +83,9 @@ googleAnalytics = "UA-174475056-1" # Set your Google Analytics UA here
   # disqusJSApi = "https://*********/"
   # disqusJSApikey = "**********"
 
+  # Let images display in full brightness under dark mode
+  disableDarkImage = true
+
   # custom lazyload placeholder
   # 16:9
   lazyPlaceholder = "/assets/lazyload/dsrca_loading_480x270.svg"
@@ -113,14 +127,14 @@ googleAnalytics = "UA-174475056-1" # Set your Google Analytics UA here
     name = "About"
     url = "/about/"
     weight = 3
-  #[[menu.nav]]
-  #  name = "Search"
-  #  url = "/search/"
-  #  weight = 4
-  #[[menu.nav]]
-  #  name = "RSS"
-  #  url = "/index.xml"
-  #  weight = 5
+  [[menu.nav]]
+    name = "Search"
+    url = "/search/"
+    weight = 4
+  [[menu.nav]]
+    name = "RSS"
+    url = "/index.xml"
+    weight = 5
 
   [[menu.link]]
     name = "GitHub"
