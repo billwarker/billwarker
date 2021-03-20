@@ -6,11 +6,7 @@
     <description>Recent content on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://billwarker.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Randomized Experiments/RCTs</title>
       <link>https://billwarker.com/posts/randomized-experiments/</link>
@@ -142,7 +138,7 @@
       
       <guid>https://billwarker.com/about/</guid>
       <description>A place to upload notes as I study data science/products, machine learning, math in general (lots of catching up to do). By publishing these notes online they&amp;rsquo;ll be easier for me to revisit and reference, plus I can show them to you (assuming you are not me).
-A Brief Introduction I&amp;rsquo;m Will, and here&amp;rsquo;s a picture of me with some friends I made while travelling in India. I&amp;rsquo;m hopeful that someday the skills I learn in tech will help make folks&amp;rsquo; lives all across the world a little bit easier - at the end of the day, we&amp;rsquo;re all in the same boat!</description>
+A Brief Introduction I&amp;rsquo;m Will, and here&amp;rsquo;s a picture of me with some friends I made while travelling in India. I&amp;rsquo;m hopeful that someday the skills I learn in tech will help make folks&#39; lives all across the world a little bit easier - at the end of the day, we&amp;rsquo;re all in the same boat!</description>
     </item>
     
     <item>

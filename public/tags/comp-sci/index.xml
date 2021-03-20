@@ -6,11 +6,7 @@
     <description>Recent content in comp-sci on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://billwarker.com/tags/comp-sci/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://billwarker.com/tags/comp-sci/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What is a Hash?</title>
       <link>https://billwarker.com/posts/what-is-a-hash/</link>

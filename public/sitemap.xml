@@ -1,129 +1,79 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://billwarker.com/tags/causal-inference/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/experimentation/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/randomized-experiments/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/stats/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/introduction-to-causality/</loc>
     <lastmod>2021-03-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/anova/</loc>
     <lastmod>2020-12-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/analytics/</loc>
     <lastmod>2020-12-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/article-summary-leading-with-decision-driven-data-analytics/</loc>
     <lastmod>2020-12-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/strategy/</loc>
     <lastmod>2020-12-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/</loc>
     <lastmod>2020-11-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/understanding-statistical-power/</loc>
     <lastmod>2020-11-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/</loc>
     <lastmod>2020-11-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/comp-sci/</loc>
     <lastmod>2020-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/what-is-a-hash/</loc>
     <lastmod>2020-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/handson-ml-ch3/</loc>
     <lastmod>2020-09-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/handson-ml/</loc>
     <lastmod>2020-09-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/tags/ml/</loc>
     <lastmod>2020-09-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/handson-ml-ch2/</loc>
     <lastmod>2020-08-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/handson-ml-ch1/</loc>
     <lastmod>2020-08-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/about/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/standard-error-of-the-mean/</loc>
     <lastmod>2020-07-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/posts/permutations-and-combinations/</loc>
     <lastmod>2020-07-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://billwarker.com/archives/</loc>
   </url>
-  
 </urlset>

@@ -25,10 +25,11 @@ if (!doNotTrack) {
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<meta name="generator" content="Hugo 0.73.0" />
+<meta name="generator" content="Hugo 0.81.0" />
 
 
-<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/stcapi@1/favicons/favicon.ico" />
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
+
 
 
 <title>stats - Data Science Notes</title>
@@ -43,9 +44,8 @@ if (!doNotTrack) {
 <meta property="og:title" content="stats" />
 <meta property="og:description" content="A minimal Hugo theme with nice theme color." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://billwarker.com/tags/stats/" />
-<meta property="og:image" content="https://billwarker.com/img/og.png"/>
-<meta property="og:updated_time" content="2021-03-20T00:00:00+00:00" />
+<meta property="og:url" content="https://billwarker.com/tags/stats/" /><meta property="og:image" content="https://billwarker.com/img/og.png"/>
+
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://billwarker.com/img/og.png"/>
@@ -80,31 +80,17 @@ if (!doNotTrack) {
 
 <body data-theme="auto">
     <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
     
-    var fujiThemeData = localStorage.getItem('fuji_data-theme');
-    
-    if (!fujiThemeData) {
-        localStorage.setItem('fuji_data-theme', 'auto');
-    } else {
-        
-        if (fujiThemeData !== 'auto') {
-            document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
-        }
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
     }
-</script>
-<script data-cfasync="false">
-    
-    function browserDetection(ua) {
-        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    var ua = window.navigator.userAgent;
-    if (browserDetection(ua)) {
-        window.location.href('https:\/\/billwarker.com\/ie\/');
-    }
+  }
 </script>
     <header>
     <div class="container-lg clearfix">
@@ -124,139 +110,170 @@ if (!doNotTrack) {
                 
 
 <div class="page-info">
-    <span>Posts with the tag stats: </span>
+  <span>Posts with the tag stats: </span>
 </div>
 
 
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/randomized-experiments/">Randomized Experiments/RCTs</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2021-03-20</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <p>Notes from <i>Causal Inference for the Brave and True</i></p>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/randomized-experiments/">Randomized Experiments/RCTs</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-03-20</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <p>Notes from <i>Causal Inference for the Brave and True</i></p>
 <p><a href="https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html">https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/introduction-to-causality/">Introduction to Causality</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2021-03-15</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <p>Notes from <i>Causal Inference for the Brave and True</i></p>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/introduction-to-causality/">Introduction to Causality</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-03-15</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <p>Notes from <i>Causal Inference for the Brave and True</i></p>
 <p><a href="https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html">https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/anova/">ANOVA</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-12-20</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <h3 id="use">Use</h3>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/anova/">ANOVA</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-12-20</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <h3 id="use">Use</h3>
 <p>ANOVA (Analysis of Variance) is a significance test that tests whether the population means from $n$ different groups are the same using the F distribution (therefore only works on numerical response data). It can test between two or more populations, therefore generalizing the t-test beyond just two groups. Examples of when you might want to do an ANOVA test:</p>
 <ul>
 <li>Testing whether employee stress levels are the same or different before, during, and after layoffs.</li>
 <li>Students from different colleges take the same exam. You want to see if one college outperforms the other.</li>
 <li>A factory is testing three different methods for producing breadsticks and wants to know which yields a superior crunchiness.</li>
 </ul>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/">Calculating Sample Size to Ensure High Power</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-29</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <p>Part 3 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/calculating-sample-size-to-ensure-high-power/">Calculating Sample Size to Ensure High Power</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-11-29</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <p>Part 3 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
 <p>Notes, with questions and examples, taken from the following reading: <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html">https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/understanding-statistical-power/">Understanding Statistical Power</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-22</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <p>Part 2 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/understanding-statistical-power/">Understanding Statistical Power</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-11-22</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <p>Part 2 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
 <p>Notes, with questions and examples, taken from the following reading: <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html">https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/">Understanding Margin of Error and Sample Size</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-11-21</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <p>Part 1 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/understanding-margin-of-error-and-sample-size/">Understanding Margin of Error and Sample Size</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-11-21</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <p>Part 1 of 3 on a series of notes covering margin of error, power, and sample size calculations.</p>
 <p>Notes, with questions and examples, taken from the following reading: <a href="https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html">https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/BS704_Power/BS704_Power_print.html</a></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/standard-error-of-the-mean/">The Standard Error of the Mean</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-07-12</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <h2 id="the-standard-error-of-the-mean">The Standard Error of the Mean</h2>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/standard-error-of-the-mean/">The Standard Error of the Mean</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-07-12</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <h2 id="the-standard-error-of-the-mean">The Standard Error of the Mean</h2>
 <p>The Standard Error of the Mean ($SE$) is the <strong>standard deviation</strong> of the <strong>sample distribution</strong> of the <strong>sample mean</strong>. To understand what this means, let&rsquo;s break that sentence down in reverse order (i.e. chronologically):</p>
 <p><strong>Sample Mean</strong>: we have some probability density function $P$ for a population. We take a sample of $N$ instances from it and calculate our statistic of interest - in this case the mean, $\bar{x}$. We have to take samples because it is hard/impossible to look at every instance in an entire population to calculate the true mean $\mu$ hidden to us in nature (i.e. say we were interested in the average weight of all monkeys on the planet).</p>
 <p><strong>Sample Distribution</strong>: we take many samples (the number of which denoted by $M$) from the population&rsquo;s probability density function $P$ and calculate the sample mean $\bar{x}$ for each one. All of these sample means can be lumped together into a distribution $S$, which approximates a normal distribution the higher $M$ is due to the <strong>Central Limit Theorum</strong>. We want to create a sampling distribution because it allows us to reason about the likelihood of different values the sample mean can be. By doing so, we can look at the mean of this distribution and conclude that its the most likely value for $\mu$ given the data we&rsquo;ve used.</p>
 <p><strong>Standard Deviation</strong>: The standard deviation is a metric that describes the dispersion of a dataset/distribution in relation to its mean. It speaks to how close/far the density of the distribution is spread in relation to its mean. The standard deviation of a sample distribution - our standard error $SE$ - is an indication of how representative the distribution is of our true mean $\mu$. The smaller it is, the more representative it can be said to be; the larger it is, the harder it is to trust.</p>
 <p><strong>TLDR: The Standard Error matters because it allows us to better understand how representative our sampling distribution is (i.e. our model of the true mean).</strong></p>
-    </div>
+  </div>
 </div>
 
 <div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://billwarker.com/posts/permutations-and-combinations/">Permutations and Combinations</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><ion-icon name="today"></ion-icon>&nbsp;2020-07-07</span><span><ion-icon name="pricetags"></ion-icon>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
-    </div>
-    <div class="post-item post-summary markdown-body">
-        <h1 id="permutations-of-a-set">Permutations of a Set</h1>
+  <h2 class="post-item post-title">
+    <a href="https://billwarker.com/posts/permutations-and-combinations/">Permutations and Combinations</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-07-07</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    <h1 id="permutations-of-a-set">Permutations of a Set</h1>
 <p>Permutations of a set are particular orderings of its elements. To calculate the number of permutations (i.e. the possible orderings) of a subset $k$ distinct elements from a set of size $n$, the formula is:</p>
 <p>$$N(n, k) = \frac{n!}{(n-k)!}$$</p>
 <p>$n!$ represents all orderings for every element in the set. $(n-k)!$ represents the orderings of the elements we&rsquo;re not including in the subset of $k$ elements - dividing by this number allows us to factor them out of $n!$ in the numerator and give us the number of permutations.</p>
-    </div>
+  </div>
 </div>
-
-
-
-
-
-
-
 
 
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
-    
-    
     
     <div class="sidebar-item sidebar-pages">
         <h3>Pages</h3>
@@ -272,6 +289,17 @@ if (!doNotTrack) {
             
             <li>
                 <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
             </li>
             
         </ul>
@@ -316,6 +344,43 @@ if (!doNotTrack) {
         </div>
     </div>
     
+    
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+        </ul>
+    </div>
+    
     <div class="sidebar-item sidebar-links">
         <h3>Links</h3>
         <ul>
@@ -327,16 +392,48 @@ if (!doNotTrack) {
         </ul>
     </div>
     
-</aside>
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/causal-inference/">causal-inference</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/experimentation/">experimentation</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
         </div>
-        <div class="btn">
-    <div class="btn-toggle-mode">
-        <ion-icon name="contrast"></ion-icon>
     </div>
-    <div class="btn-scroll-top">
-        <ion-icon name="chevron-up"></ion-icon>
-    </div>
-</div>
+    
+    
+  </div>
+</aside>
     </main>
 
     <footer>
@@ -361,7 +458,16 @@ if (!doNotTrack) {
     
 </footer>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
     onload='renderMathInElement(document.body,
@@ -373,13 +479,7 @@ if (!doNotTrack) {
           }
       );'>
 </script>
-    
-    
-<script defer src="https://cdn.jsdelivr.net/combine/npm/medium-zoom@1.0.5,npm/lazysizes@5.2.2"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/components/prism-core.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
-<script defer src="/assets/js/fuji.min.js"></script>
 
 </body>
 
