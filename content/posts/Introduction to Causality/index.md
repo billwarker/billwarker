@@ -1,14 +1,18 @@
 ---
-title: "Causal Inference for the Brave and True: Introduction to Causality"
+title: "Introduction to Causality"
 author: "Will Barker"
 date: 2021-03-15
 tags: ["stats", "causal-inference"]
 ---
 
+
 Notes from <i>Causal Inference for the Brave and True</i>
 
-https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html#bias
+https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html
 
+<!--more--> 
+
+---
 
 # Introduction to Causality
 
@@ -18,7 +22,6 @@ Data Science is kind of like a cup of beer, with a little bit of foam on the top
 
 Focus on what makes your work valuable.
 
-<!--more--> 
 
 ## Answering a Different Kind of Question
 
@@ -529,3 +532,8 @@ Potential outcome notation and the idea of counterfactuals - two potential reali
 <i>"What happens in a man's life is already written. A man must move through life as his destiny wills."</i>
 
 <i>"Yes, but each man is free to live as he chooses. Though they seem opposite, both are true".</i>
+
+
+```python
+
+```

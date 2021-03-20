@@ -12,7 +12,6 @@ A place to upload notes as I study data science/products, machine learning, math
 ![png](/img/india_with_kiddos.png)
 
 
-
 I'm Will, and here's a picture of me with some friends I made while travelling in India. I'm hopeful that someday the skills I learn in tech will help make folks' lives all across the world a little bit easier - at the end of the day, we're all in the same boat!
 
 # Food for Thought
