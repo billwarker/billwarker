@@ -7,7 +7,7 @@ tags: ["stats", "causal-inference", "experimentation"]
 
 Notes from <i>Causal Inference for the Brave and True</i>
 
-https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html
+https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html
 
 <!--more--> 
 
