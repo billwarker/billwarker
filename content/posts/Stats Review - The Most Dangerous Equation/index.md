@@ -1,3 +1,18 @@
+---
+title: "Stats Review: The Most Dangerous Equation"
+author: "Will Barker"
+date: 2021-06-05
+tags: ["stats", "causal-inference", "experimentation"]
+---
+
+Notes from <i>Causal Inference for the Brave and True</i>
+
+https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html
+
+<!--more--> 
+
+---
+
 # Stats Review: The Most Dangerous Equation
 
 The Standard Error of Mean is a dangerous equation to not know:
