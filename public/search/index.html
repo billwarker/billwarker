@@ -16,7 +16,7 @@
 
 
 
-<title>experimentation - Data Science Notes</title>
+<title>Search - Data Science Notes</title>
 
 
 <meta name="author" content="Will Barker" />
@@ -25,12 +25,12 @@
 <meta name="description" content="A minimal Hugo theme with nice theme color." />
 
 
-<link rel="alternate" type="application/rss+xml" href="https://billwarker.com/tags/experimentation/index.xml" title="Data Science Notes" />
+<link rel="alternate" type="application/rss+xml" href="https://billwarker.com/search/index.xml" title="Data Science Notes" />
 
-<meta property="og:title" content="experimentation" />
-<meta name="twitter:title" content="experimentation" />
+<meta property="og:title" content="Search" />
+<meta name="twitter:title" content="Search" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://billwarker.com/tags/experimentation/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-06-05T00:00:00+00:00" />
+<meta property="og:url" content="https://billwarker.com/search/" /><meta name="twitter:card" content="summary" />
 
 
 
@@ -83,48 +83,34 @@
                 
 
 <div class="page-info">
-  <span>Posts with the tag experimentation: </span>
+    <form class="search-form" method="GET">
+        <div class="search-input">
+            <input name="s" type="search" autocapitalize="off" autocomplete="off" autocorrect="off"
+                   spellcheck="false" />
+            <button type="submit"><i class="iconfont icon-search-circle-sharp"></i></button>
+        </div>
+    </form>
 </div>
 
-
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://billwarker.com/posts/stats-review-the-most-dangerous-equation/">Stats Review: The Most Dangerous Equation</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-06-05</span>
-
-
-
-<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    <p>Notes from <i>Causal Inference for the Brave and True</i></p>
-<p><a href="https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html">https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html</a></p>
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://billwarker.com/posts/randomized-experiments/">Randomized Experiments/RCTs</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-03-20</span>
-
-
-
-<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    <p>Notes from <i>Causal Inference for the Brave and True</i></p>
-<p><a href="https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html">https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html</a></p>
-  </div>
-</div>
-
-
+<div class="search-result-info" style="display: none;"><span>[NUM] results ([TIME] ms)</span></div>
+<div class="search-result-info" style="display: none;"><span>Results not found</span></div>
+<div class="search-result-info" style="display: none;"><span>Failed to load index file</span></div>
+<div id="search-result"></div>
+<script id="search-result-template" type="text/fuse-template">
+    <% for(var i = 0; i < $data.length; i++){ %>
+    <div class="post">
+        <h3 class="post-item post-title-archive">
+            <a href="<%= $data[i].item.permalink %>"><%= $data[i].item.title %></a>
+        </h3>
+        <div class="post-item post-meta-archive">
+            <span><i class="iconfont icon-today-sharp"></i>&nbsp;<%= $data[i].item.date %></span>
+            <span>
+                <i class="iconfont icon-pricetags-sharp"></i>&nbsp;<% if ($data[i].item.tags && $data[i].item.tags.length > 0) { %><% for(var j = 0; j < $data[i].item.tags.length; j++){ %><%= $data[i].item.tags[j] %>&nbsp;<% } %><% } else { %>No tag<% } %>
+            </span>
+        </div>
+    </div>
+    <% } %>
+</script>
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
@@ -337,10 +323,8 @@
 </footer>
 
     
-<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/art-template@4.13.2/lib/template-web.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 
 
 

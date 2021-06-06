@@ -3,21 +3,24 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://billwarker.com/tags/causal-inference/</loc>
-    <lastmod>2021-03-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/</loc>
-    <lastmod>2021-03-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/tags/experimentation/</loc>
-    <lastmod>2021-03-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/posts/</loc>
-    <lastmod>2021-03-20T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://billwarker.com/posts/randomized-experiments/</loc>
-    <lastmod>2021-03-20T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/tags/stats/</loc>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://billwarker.com/posts/stats-review-the-most-dangerous-equation/</loc>
+    <lastmod>2021-06-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://billwarker.com/posts/randomized-experiments/</loc>
     <lastmod>2021-03-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/posts/introduction-to-causality/</loc>
@@ -75,5 +78,7 @@
     <lastmod>2020-07-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://billwarker.com/archives/</loc>
+  </url><url>
+    <loc>https://billwarker.com/search/</loc>
   </url>
 </urlset>

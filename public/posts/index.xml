@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Data Science Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://billwarker.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://billwarker.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Stats Review: The Most Dangerous Equation</title>
+      <link>https://billwarker.com/posts/stats-review-the-most-dangerous-equation/</link>
+      <pubDate>Sat, 05 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://billwarker.com/posts/stats-review-the-most-dangerous-equation/</guid>
+      <description>&lt;p&gt;Notes from &lt;i&gt;Causal Inference for the Brave and True&lt;/i&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html&#34;&gt;https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Randomized Experiments/RCTs</title>
       <link>https://billwarker.com/posts/randomized-experiments/</link>

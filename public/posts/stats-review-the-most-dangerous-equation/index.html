@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.81.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
+
+
+
+<title>Stats Review: The Most Dangerous Equation - Data Science Notes</title>
+
+
+<meta name="author" content="Will Barker" />
+
+
+<meta name="description" content="A minimal Hugo theme with nice theme color." />
+
+
+<meta name="keywords" content="stats, causal-inference, experimentation" />
+
+
+<meta property="og:title" content="Stats Review: The Most Dangerous Equation" />
+<meta name="twitter:title" content="Stats Review: The Most Dangerous Equation" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://billwarker.com/posts/stats-review-the-most-dangerous-equation/" /><meta property="og:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html" />
+<meta name="twitter:description" content="Notes from Causal Inference for the Brave and True
+https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html" /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-06-05T00:00:00+00:00" /><meta property="article:modified_time" content="2021-06-05T00:00:00+00:00" />
+
+
+
+
+<link rel="stylesheet" href="https://billwarker.com/assets/css/fuji.min.css" />
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174475056-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174475056-1');
+</script>
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://billwarker.com">Data Science Notes</a>
+            
+            <span class="title-sub">Concepts and ideas learned throughout my studies</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://billwarker.com/posts/stats-review-the-most-dangerous-equation/">Stats Review: The Most Dangerous Equation</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-06-05</span>
+
+
+
+<span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/stats">stats</a>&nbsp;<a href="/tags/causal-inference">causal-inference</a>&nbsp;<a href="/tags/experimentation">experimentation</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <p>Notes from <i>Causal Inference for the Brave and True</i></p>
+<p><a href="https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html">https://matheusfacure.github.io/python-causality-handbook/03-Stats-Review-The-Most-Dangerous-Equation.html</a></p>
+<hr>
+<h1 id="stats-review-the-most-dangerous-equation">Stats Review: The Most Dangerous Equation</h1>
+<p>The Standard Error of Mean is a dangerous equation to not know:</p>
+<p>$SE = \frac{\sigma}{\sqrt{n}}$</p>
+<p>With $\sigma$ as the standard deviation and $n$ as the sample size.</p>
+<p>Looking at a dataset of ENEM scores (Brazillian standardized high school scores similar to SAT) from different schools over three years:</p>
+<pre><code class="language-python">import warnings
+warnings.filterwarnings('ignore')
+
+import pandas as pd
+import numpy as np
+from scipy import stats
+import seaborn as sns
+from matplotlib import pyplot as plt
+from matplotlib import style
+style.use(&quot;fivethirtyeight&quot;)
+</code></pre>
+<pre><code class="language-python">df = pd.read_csv(&quot;data/enem_scores.csv&quot;)
+df.sort_values(by=&quot;avg_score&quot;, ascending=False).head(10)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>school_id</th>
+      <th>number_of_students</th>
+      <th>avg_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>16670</td>
+      <td>2007</td>
+      <td>33062633</td>
+      <td>68</td>
+      <td>82.97</td>
+    </tr>
+    <tr>
+      <td>16796</td>
+      <td>2007</td>
+      <td>33065403</td>
+      <td>172</td>
+      <td>82.04</td>
+    </tr>
+    <tr>
+      <td>16668</td>
+      <td>2005</td>
+      <td>33062633</td>
+      <td>59</td>
+      <td>81.89</td>
+    </tr>
+    <tr>
+      <td>16794</td>
+      <td>2005</td>
+      <td>33065403</td>
+      <td>177</td>
+      <td>81.66</td>
+    </tr>
+    <tr>
+      <td>10043</td>
+      <td>2007</td>
+      <td>29342880</td>
+      <td>43</td>
+      <td>80.32</td>
+    </tr>
+    <tr>
+      <td>18121</td>
+      <td>2007</td>
+      <td>33152314</td>
+      <td>14</td>
+      <td>79.82</td>
+    </tr>
+    <tr>
+      <td>16781</td>
+      <td>2007</td>
+      <td>33065250</td>
+      <td>80</td>
+      <td>79.67</td>
+    </tr>
+    <tr>
+      <td>3026</td>
+      <td>2007</td>
+      <td>22025740</td>
+      <td>144</td>
+      <td>79.52</td>
+    </tr>
+    <tr>
+      <td>14636</td>
+      <td>2007</td>
+      <td>31311723</td>
+      <td>222</td>
+      <td>79.41</td>
+    </tr>
+    <tr>
+      <td>17318</td>
+      <td>2007</td>
+      <td>33087679</td>
+      <td>210</td>
+      <td>79.38</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Initial observation is that top performing schools seem to have a low number of students</p>
+<ul>
+<li>Taking a look at the top 1%:</li>
+</ul>
+<pre><code class="language-python">plot_data = (df
+             .assign(top_school = df[&quot;avg_score&quot;] &gt;= np.quantile(df[&quot;avg_score&quot;], .99))
+             [[&quot;top_school&quot;, &quot;number_of_students&quot;]]
+             .query(f&quot;number_of_students&lt;{np.quantile(df['number_of_students'], .98)}&quot;))
+
+plt.figure(figsize=(6,6))
+sns.boxplot(x=&quot;top_school&quot;, y=&quot;number_of_students&quot;, data=plot_data)
+plt.title(&quot;Number of Students in 1% top schools (right)&quot;)
+</code></pre>
+<pre><code>Text(0.5, 1.0, 'Number of Students in 1% top schools (right)')
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_4_1.png" alt="png" />
+</p>
+<p>The data does suggest that top schools do have less students, which makes sense intuitively.</p>
+<p>The trap appears when we just take this at face value and make decisions on it:</p>
+<ul>
+<li>What if we looked at bottom 1% of schools too?</li>
+</ul>
+<pre><code class="language-python">q_99 = np.quantile(df['avg_score'], .99)
+q_01 = np.quantile(df['avg_score'], .01)
+</code></pre>
+<pre><code class="language-python">plot_data = (df
+             .sample(10000)
+             .assign(group = lambda d: np.select([d['avg_score'] &gt; q_99,
+                                                  d['avg_score'] &lt; q_01],
+                                                 ['Top', 'Bottom'],
+                                                 'Middle')))
+</code></pre>
+<pre><code class="language-python">plt.figure(figsize=(10,5))
+sns.scatterplot(y=&quot;avg_score&quot;,
+                x=&quot;number_of_students&quot;,
+                hue=&quot;group&quot;,
+                data=plot_data)
+plt.title(&quot;ENEM Score by Number of Students in the School&quot;)
+</code></pre>
+<pre><code>Text(0.5, 1.0, 'ENEM Score by Number of Students in the School')
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_8_1.png" alt="png" />
+</p>
+<pre><code class="language-python">plot_data.groupby('group')['number_of_students'].median()
+</code></pre>
+<pre><code>group
+Bottom     95.5
+Middle    104.0
+Top        77.0
+Name: number_of_students, dtype: float64
+</code></pre>
+<ul>
+<li>Bottom 1% of schools also have less students as well</li>
+</ul>
+<p>As the number of units in a sample grows, the variance of the sample decreases and averages get more precise.</p>
+<ul>
+<li>Smaller samples can have a lot of variance in their expected outcome variables due to chance</li>
+</ul>
+<p>Speaks to a fundamental fact about the reality of information: it is always imprecise.</p>
+<ul>
+<li>The question becomes: can we quantify how imprecise it is?</li>
+<li>Probabilty is an acceptance of the lack of certainty in our knowledge and the development of methods for dealing with our ignorance</li>
+</ul>
+<h2 id="the-standard-error-of-our-estimates">The Standard Error of our Estimates</h2>
+<p>We can test and see if the $ATE$ from the last chapter (GPA scores for students in traditional classrooms vs. online) was significant. First step is calculating the standard error $SE$:</p>
+<pre><code class="language-python">data = pd.read_csv(&quot;data/online_classroom.csv&quot;)
+online = data.query(&quot;format_ol ==  1&quot;)[&quot;falsexam&quot;]
+face_to_face = data.query(&quot;format_ol == 0 &amp; format_blended == 0&quot;)[&quot;falsexam&quot;]
+</code></pre>
+<pre><code class="language-python">def se(y: pd.Series):
+    return y.std() / np.sqrt(len(y))
+</code></pre>
+<pre><code class="language-python">print(f&quot;SE for Online: {se(online)}&quot;)
+print(f&quot;SE for Face to Face: {se(face_to_face)}&quot;)
+</code></pre>
+<pre><code>SE for Online: 1.5371593973041635
+SE for Face to Face: 0.8723511456319106
+</code></pre>
+<h2 id="confidence-intervals">Confidence Intervals</h2>
+<p>The Standard Error $SE$ of an estimate is a measure of confidence.</p>
+<p>Has a different interpretation depending on the different views of statistics (Frequentist and Bayesian).</p>
+<p>Frequentist view:</p>
+<ul>
+<li>The data is a manifestation of a true data generating process</li>
+<li>If we could run multiple experiments and collect multiple datasets, all would resemble the underlying process</li>
+</ul>
+<p>For the sake of an example lets say that the true distribution of a student&rsquo;s test score is normal distribution $N(\mu, \sigma^{2})$ with $\mu = 74$ and $\sigma = 2$.</p>
+<p>Run 10,000 experiments, collecting 500 units per sample:</p>
+<pre><code class="language-python">true_std = 2
+true_mean = 74
+
+n = 500
+def run_experiment():
+    return np.random.normal(true_mean, true_std, 500)
+
+np.random.seed(42)
+
+plt.figure(figsize=(8,5))
+freq, bins, img = plt.hist([run_experiment().mean() for _ in range(10000)],
+                           bins=40,
+                           label=&quot;Experiment's Mean&quot;)
+plt.vlines(true_mean, ymin=0, ymax=freq.max(), linestyles=&quot;dashed&quot;, label=&quot;True Mean&quot;)
+plt.legend()
+</code></pre>
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fbb7ab33e90&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_15_1.png" alt="png" />
+</p>
+<ul>
+<li>This is the distribution of sample means; the sample distribution</li>
+<li><strong>The standard error is the standard deviation of this distribution</strong></li>
+<li>With the standard error we can create an interval that will contain the true mean 95% of the time (95% CI)</li>
+<li>We take the desired $Z$ score for the normal distribution, in this case Z = 1.96 for 95% CDF and $\pm$ that multipled by $SE$ to get the confidence interval around a point estimate</li>
+<li>$SE$ serves as our estimate for the means' distribution of our experiments</li>
+</ul>
+<pre><code class="language-python">from scipy.stats import norm
+</code></pre>
+<pre><code class="language-python">z = norm.ppf(0.975)
+</code></pre>
+<pre><code class="language-python">z
+</code></pre>
+<pre><code>1.959963984540054
+</code></pre>
+<pre><code class="language-python">np.random.seed(321)
+exp_data = run_experiment()
+exp_se = exp_data.std() / np.sqrt(len(exp_data))
+exp_mu = exp_data.mean()
+ci = (exp_mu - z * exp_se, exp_mu + z * exp_se)
+</code></pre>
+<pre><code class="language-python">print(ci) # 95% of the time the data's true mean will fall within this interval
+</code></pre>
+<pre><code>(73.83064660084463, 74.16994997421483)
+</code></pre>
+<p>We can construct a confidence interval for $ATE$ on GPA scores in our classroom example:</p>
+<pre><code class="language-python">def ci(y: pd.Series, confidence = 0.975):
+    return (y.mean() - norm.ppf(confidence) * se(y), y.mean() + norm.ppf(confidence) * se(y))
+</code></pre>
+<pre><code class="language-python">print(f&quot;95% CI for Online: {ci(online)}&quot;)
+print(f&quot;95% CI for Face to Face: {ci(face_to_face)}&quot;)
+</code></pre>
+<pre><code>95% CI for Online: (70.62248602789292, 76.64804014231983)
+95% CI for Face to Face: (76.8377077560225, 80.2572614106441)
+</code></pre>
+<ul>
+<li>We can see that there&rsquo;s no overlap between the two groups' CIs: this is evidence that the results were not by chance</li>
+<li>Very likely that there is a significant causal decrease in academic performance once you switch from face to face to online classes.</li>
+</ul>
+<p>There is a nuance to confidence intervals:</p>
+<ul>
+<li>The population mean is constant; you shouldn&rsquo;t really say that the confidence interval contains the population mean with 95% chance. Since it is constant, it is either in the interval or not.</li>
+<li>The 95% refers to the frequency that such confidence intervals, computed in many other studies, contain the true mean.</li>
+<li>95% confidence in the algorithm used to compute the 95% CI, not on a particular interval itself</li>
+<li>Bayesian statistics and the use of probability intervals are able to say that an interval contains the distribution mean 95% of the time.</li>
+</ul>
+<h2 id="hypothesis-testing">Hypothesis Testing</h2>
+<p>Is the difference in two means significant, or statistically different from zero/another value?</p>
+<ul>
+<li>Recall that the sum or difference of normal distributions is also a normal distribution</li>
+<li>The resulting mean will be the sum or difference of the two distributions' means, while the variance will always be the sum of variance</li>
+</ul>
+<p>$$N(\mu_1, \sigma_{1}^{2}) - N(\mu_2, \sigma_{2}^{2}) = N(\mu_1 - \mu_2, \sigma_{1}^{2} + \sigma_{2}^{2})$$
+$$N(\mu_1, \sigma_{1}^{2}) + N(\mu_2, \sigma_{2}^{2}) = N(\mu_1 + \mu_2, \sigma_{1}^{2} + \sigma_{2}^{2})$$</p>
+<pre><code class="language-python">np.random.seed(123)
+
+n1 = np.random.normal(4, 3, 30000)
+n2 = np.random.normal(1, 4, 30000)
+n_diff = n1 - n2
+
+sns.distplot(n1, hist=False, label=&quot;N(4,3)&quot;)
+sns.distplot(n2, hist=False, label=&quot;N(1,4)&quot;)
+sns.distplot(n_diff, hist=False, label=&quot;N(4,3) - N(1,4) = N(3,5)&quot;)
+</code></pre>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fbb7ec4a550&gt;
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_28_1.png" alt="png" />
+</p>
+<ul>
+<li>If we take the distribution of the means of our two groups and subtract one from the other, we get a third distribution equaling the difference in the means and the standard deviation of the distribution will be the square root of the sum of the standard deviations:</li>
+</ul>
+<p>$$ \mu_{diff} = \mu_1 - \mu_2 $$
+$$ SE_{diff} = \sqrt{SE_1 + SE_2} = \sqrt{\frac{\sigma_{1}^{2}}{n_1} + \frac{\sigma_{2}^{2}}{n_2}} $$</p>
+<p>Constructing the distribution of the difference with the classroom example:</p>
+<pre><code class="language-python">diff_mu = online.mean() - face_to_face.mean()
+diff_se = np.sqrt(online.var()/len(online) + face_to_face.var()/len(face_to_face))
+ci = (diff_mu - 1.96 * diff_se, diff_mu + 1.96 * diff_se)
+</code></pre>
+<pre><code class="language-python">ci
+</code></pre>
+<pre><code>(-8.376410208363357, -1.4480327880904964)
+</code></pre>
+<p>Plot the confidence interval with the distribution of differences between online and face-to-face groups:</p>
+<pre><code class="language-python">diff_dist = stats.norm(diff_mu, diff_se)
+x = np.linspace(diff_mu - 4 * diff_se, diff_mu + 4 * diff_se, 100)
+y = diff_dist.pdf(x)
+
+plt.plot(x,y)
+plt.vlines(ci[0], ymin=0, ymax = diff_dist.pdf(ci[0]))
+plt.vlines(ci[1], ymin=0, ymax = diff_dist.pdf(ci[1]), label = &quot;95% CI&quot;)
+plt.legend()
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_34_0.png" alt="png" />
+</p>
+<ul>
+<li>We can say that we&rsquo;re 95% that the true difference between groups falls within this interval of (-8.37, -1.44)</li>
+</ul>
+<p>We can create a z statistic by dividing the difference in means by the standard error of the differences:</p>
+<p>$$ z = \frac{\mu_{diff} - H_0}{SE_{diff}} = \frac{(u_1 - u_2) - H_0}{\sqrt{\frac{\sigma_{1}^{2}}{n_1} + \frac{\sigma_{2}^{2}}{n_2}}} $$</p>
+<ul>
+<li>Where $H_0$ is the value which we want to test our difference against</li>
+<li>The <strong>z</strong> statistic is a measure of how extreme the observed difference is</li>
+<li>With the null hypothesis we ask: &ldquo;how likely is it that we would observe this difference if the true/population difference was actually zero/[insert whatever your null hypothesis is]?&rdquo;</li>
+<li>The z statistic is computed through the data to be standardized to the standard normal distribution; i.e. if the difference were indeed zero we would see z be within two standard deviations of the mean 95% of the time.</li>
+</ul>
+<pre><code class="language-python">z = diff_mu / diff_se
+print(z)
+</code></pre>
+<pre><code>-2.7792810791031064
+</code></pre>
+<pre><code class="language-python">x = np.linspace(-4, 4, 100)
+y = stats.norm.pdf(x, 0, 1)
+
+
+plt.plot(x, y, label=&quot;Standard Normal&quot;)
+plt.vlines(z, ymin=0, ymax= .05, label=&quot;Z statistic&quot;, color=&quot;C1&quot;)
+plt.legend()
+plt.show()
+</code></pre>
+<p><img class="img-zoomable" src="images/Stats%20Review%20-%20The%20Most%20Dangerous%20Equation_37_0.png" alt="png" />
+</p>
+<ul>
+<li>We can see that the Z statistic is a pretty extreme value (more than 2 standard devations away from the mean)</li>
+<li>Interesting point about hypothesis tests: they&rsquo;re less conservative than checking if the 95% CIs from the two groups overlap; i.e. they can overlap but still be a result that&rsquo;s statistically significant</li>
+<li>If we pretend that the face-to-face group has an average score of 74 with a standard error of 7 and the online group has an average score of 71 with a standard error of 1:</li>
+</ul>
+<pre><code class="language-python">ctrl_mu, ctrl_se = (71, 1)
+test_mu, test_se = (74, 7)
+
+diff_mu = test_mu - ctrl_mu
+diff_se = np.sqrt(ctrl_se + test_se)
+
+groups = zip(['Control', 'Test', 'Diff'], [[ctrl_mu, ctrl_se],
+                                           [test_mu, test_se],
+                                           [diff_mu, diff_se]])
+
+for name, stats in groups:
+    print(f&quot;{name} 95% CI:&quot;, (stats[0] - 1.96 * stats[1], stats[0] + 1.96 * stats[1],))
+</code></pre>
+<pre><code>Control 95% CI: (69.04, 72.96)
+Test 95% CI: (60.28, 87.72)
+Diff 95% CI: (-2.5437171645025325, 8.543717164502532)
+</code></pre>
+<ul>
+<li>The CI for the difference between groups contains 0, so maybe the example provided by the author above isn&rsquo;t a great one&hellip; moving on&hellip;</li>
+</ul>
+<h2 id="p-values">P-Values</h2>
+<ul>
+<li>
+<p>From Wikipedia: “the p-value is the probability of obtaining test results at least as extreme as the results actually observed during the test, assuming that the null hypothesis is correct”</p>
+</li>
+<li>
+<p>i.e. the probablity of seeing the results given that the null hypothesis is true</p>
+</li>
+<li>
+<p>It is not equal to the probability of the null hypothesis being true!</p>
+</li>
+<li>
+<p>Not $P(H_{0} \vert data)$, but rather $P(data \vert H_{0})$</p>
+</li>
+<li>
+<p>To obtain, just compute the area under the standard normal distribution before or after the z statistic</p>
+</li>
+<li>
+<p>Simply plug the z statistic into the CDF of the standard normal distribution:</p>
+</li>
+</ul>
+<pre><code class="language-python">print(f'P-value: {norm.cdf(z)}')
+</code></pre>
+<pre><code>P-value: 0.0027239680835564706
+</code></pre>
+<ul>
+<li>Means that there&rsquo;s a 0.2% chance of observing this z statistic given the null hypothesis is true; this falls within the accepted significance level to reject the null hypothesis</li>
+<li>The p-value avoids us having to specify a confidence level</li>
+<li>We can know exactly at which confidence our test will pass or fail though, given the p-value; with a P-value of 0.0027, we will have significance up to the 0.2% level</li>
+<li>A 95% CI and a 99% CI for the difference won&rsquo;t contain zero, but a 99.9% CI will:</li>
+</ul>
+<pre><code class="language-python">diff_mu = online.mean() - face_to_face.mean()
+diff_se = np.sqrt(online.var()/len(online) + face_to_face.var()/len(face_to_face))
+print(&quot;95% CI:&quot;, (diff_mu - norm.ppf(.975)*diff_se, diff_mu + norm.ppf(.975)*diff_se))
+print(&quot;99% CI:&quot;, (diff_mu - norm.ppf(.995)*diff_se, diff_mu + norm.ppf(.995)*diff_se))
+print(&quot;99.9% CI:&quot;, (diff_mu - norm.ppf(.9995)*diff_se, diff_mu + norm.ppf(.9995)*diff_se))
+</code></pre>
+<pre><code>95% CI: (-8.37634655308288, -1.4480964433709733)
+99% CI: (-9.464853535264012, -0.3595894611898425)
+99.9% CI: (-10.72804065824553, 0.9035976617916743)
+</code></pre>
+<h2 id="key-ideas">Key Ideas</h2>
+<ul>
+<li>The standard error enables us to put degrees of certainty around our estimates by enabling us to calculate confidence intervals around our point estimates as well as the statistical significance of a result given hypothesis testing</li>
+<li>Wrapping everything up, we can create an A/B testing function to automate all the work done above:</li>
+</ul>
+<pre><code class="language-python">def AB_test(test: pd.Series, control: pd.Series, confidence=0.95, h0=0):
+    mu1, mu2 = test.mean(), control.mean()
+    se1, se2 = test.std()/np.sqrt(len(test)), control.std()/np.sqrt(len(control))
+    
+    diff = mu1 - mu2
+    se_diff = np.sqrt(test.var()/len(test) + control.var()/len(control))
+    
+    z_stats = (diff - h0)/se_diff
+    p_value = norm.cdf(z_stats)
+    
+    def critical(se): return -se*norm.ppf((1 - confidence)/2)
+    
+    print(f&quot;Test {confidence*100}% CI: {mu1} +- {critical(se1)}&quot;)
+    print(f&quot;Control {confidence*100}% CI: {mu2} +- {critical(se2)}&quot;)
+    print(f&quot;Test - Control {confidence*100}% CI: {diff} +- {critical(se_diff)}&quot;)
+    print(f&quot;Z statistic: {z_stats}&quot;)
+    print(f&quot;P-Value: {p_value}&quot;)
+</code></pre>
+<pre><code class="language-python">AB_test(online, face_to_face)
+</code></pre>
+<pre><code>Test 95.0% CI: 73.63526308510637 +- 3.0127770572134565
+Control 95.0% CI: 78.5474845833333 +- 1.7097768273108005
+Test - Control 95.0% CI: -4.912221498226927 +- 3.4641250548559537
+Z statistic: -2.7792810791031064
+P-Value: 0.0027239680835564706
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+            <li>
+                <a href="/search/">Search</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/causal-inference/">causal-inference</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/experimentation/">experimentation</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
+        </div>
+    </div>
+    
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives/">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about/">About</a>
+            </li>
+            
+            <li>
+                <a href="/search/">Search</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="https://github.com/billwarker" target="_blank"><span>GitHub</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/analytics/">analytics</a>
+            </span>
+            
+            <span>
+                <a href="/tags/causal-inference/">causal-inference</a>
+            </span>
+            
+            <span>
+                <a href="/tags/comp-sci/">comp-sci</a>
+            </span>
+            
+            <span>
+                <a href="/tags/experimentation/">experimentation</a>
+            </span>
+            
+            <span>
+                <a href="/tags/handson-ml/">handson-ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/ml/">ml</a>
+            </span>
+            
+            <span>
+                <a href="/tags/stats/">stats</a>
+            </span>
+            
+            <span>
+                <a href="/tags/strategy/">strategy</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2021
+                <a href="https://billwarker.com">Will Barker</a>
+                 | <a href="https://github.com/billwarker/billwarker">Source code</a> 
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+
+    
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload='renderMathInElement(document.body,
+    {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "$", right: "$", display: false},
+              ]
+          }
+      );'>
+</script>
+
+
+
+</body>
+
+</html>
